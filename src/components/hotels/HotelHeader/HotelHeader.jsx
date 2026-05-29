@@ -1,28 +1,23 @@
-import Container from "@/components/ui/Container";
-import Section from "@/components/ui/Section";
-
-import HotelFilters from "@/components/hotels/HotelFilters";
-import HotelGrid from "@/components/hotels/HotelGrid";
-import HotelHeader from "@/components/hotels/HotelHeader";
-
-import { hotels } from "@/constants/hotels";
-
-const HotelsPage = () => {
+const HotelHeader = ({ total }) => {
   return (
-    <Section className="bg-slate-50">
-      <Container>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
-          <HotelFilters />
+    <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900">Available Hotels</h2>
 
-          <div className="space-y-8">
-            <HotelHeader total={hotels.length} />
+        <p className="text-slate-500">{total} hotels found</p>
+      </div>
 
-            <HotelGrid hotels={hotels} />
-          </div>
-        </div>
-      </Container>
-    </Section>
+      <select className="rounded-xl border border-slate-200 px-4 py-3 outline-none">
+        <option>Recommended</option>
+
+        <option>Price Low to High</option>
+
+        <option>Price High to Low</option>
+
+        <option>Top Rated</option>
+      </select>
+    </div>
   );
 };
 
-export default HotelsPage;
+export default HotelHeader;

@@ -1,4 +1,4 @@
-import HotelCard from "../HotelCard";
+import HotelCard from "@/components/hotels/HotelCard/HotelCard.jsx";
 
 const HotelGrid = ({ hotels }) => {
   return (
