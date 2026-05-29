@@ -1,6 +1,8 @@
 import Button from "@/components/ui/Button";
+import { useNavigate } from "react-router-dom";
 
 const BookingCard = () => {
+  let navigate = useNavigate();
   return (
     <div className="sticky top-28 rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
       <div className="space-y-6">
@@ -32,7 +34,11 @@ const BookingCard = () => {
           </select>
         </div>
 
-        <Button size="lg" className="w-full">
+        <Button
+          size="lg"
+          className="w-full"
+          onClick={() => navigate("/checkout")}
+        >
           Reserve Now
         </Button>
 
