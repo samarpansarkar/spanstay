@@ -3,7 +3,8 @@ import HotelGrid from "@/components/hotels/HotelGrid/HotelGrid";
 import HotelHeader from "@/components/hotels/HotelHeader/HotelHeader";
 import Container from "@/components/ui/Container/Container";
 import Section from "@/components/ui/Section/Section";
-// import { hotels } from "@/constants/hotel";
+
+import PageTransition from "@/components/animations/PageTransition";
 import EmptyState from "@/components/shared/EmptyState/EmptyState";
 import HotelGridSkeleton from "@/components/skeletons/HotelGridSkeleton/HotelGridSkeleton.jsx";
 import { useGetHotelsQuery } from "@/services/api/endpoints/hotelApi";
@@ -46,19 +47,21 @@ const HotelsPage = () => {
     );
   }
   return (
-    <Section className="bg-slate-50">
-      <Container>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
-          <HotelFilters />
+    <PageTransition>
+      <Section className="bg-slate-50">
+        <Container>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
+            <HotelFilters />
 
-          <div className="space-y-8">
-            <HotelHeader total={hotels.length} />
+            <div className="space-y-8">
+              <HotelHeader total={hotels.length} />
 
-            <HotelGrid hotels={hotels} />
+              <HotelGrid hotels={hotels} />
+            </div>
           </div>
-        </div>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </PageTransition>
   );
 };
 

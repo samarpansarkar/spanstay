@@ -1,7 +1,20 @@
+import { containerVariants } from "@/animations/variants";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import NavLinks from "../NavLinks/NavLinks";
 
 const MobileMenu = ({ open, onClose }) => {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
   return (
     <AnimatePresence>
       {open && (
@@ -20,11 +33,18 @@ const MobileMenu = ({ open, onClose }) => {
             exit={{ x: "100%" }}
             transition={{
               type: "spring",
+              stiffness: 260,
               damping: 25,
             }}
-            className="fixed right-0 top-0 z-50 h-full w-70 bg-white p-8 shadow-2xl"
+            className="fixed right-0 top-0 z-50 h-full w-[280px] bg-white p-8 shadow-2xl"
           >
-            <NavLinks mobile onClose={onClose}/>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <NavLinks mobile onClose={onClose} />
+            </motion.div>
           </motion.div>
         </>
       )}

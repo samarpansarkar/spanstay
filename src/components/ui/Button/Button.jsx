@@ -1,18 +1,22 @@
 import { forwardRef } from "react";
 
+import { motion } from "framer-motion";
+
 import { cn } from "@/lib/cn";
 
 const variants = {
   primary: "bg-primary text-white hover:bg-indigo-700",
 
-  secondary: "bg-white border border-slate-200 hover:bg-slate-100",
+  secondary: "border border-slate-200 bg-white hover:bg-slate-100",
 
   ghost: "hover:bg-slate-100",
 };
 
 const sizes = {
   sm: "h-9 px-4 text-sm",
+
   md: "h-11 px-6",
+
   lg: "h-14 px-8 text-lg",
 };
 
@@ -24,24 +28,38 @@ const Button = forwardRef(
       variant = "primary",
       size = "md",
       disabled,
+
       ...props
     },
     ref,
   ) => {
     return (
-      <button
+      <motion.button
+        type="button"
         ref={ref}
         disabled={disabled}
+        whileTap={{
+          scale: 0.96,
+        }}
+        whileHover={{
+          scale: 1.02,
+        }}
+        transition={{
+          duration: 0.15,
+        }}
         className={cn(
-          "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50",
+
           variants[variant],
+
           sizes[size],
+
           className,
         )}
         {...props}
       >
         {children}
-      </button>
+      </motion.button>
     );
   },
 );
