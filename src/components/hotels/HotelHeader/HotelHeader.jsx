@@ -7,6 +7,12 @@ const HotelHeader = ({ total }) => {
         <p className="text-slate-500">{total} hotels found</p>
       </div>
 
+      <input
+        type="text"
+        placeholder="Search hotels..."
+        className="w-full rounded-2xl border border-slate-200 px-5 py-4 outline-none focus:border-primary lg:w-[350px]"
+      />
+
       <select className="rounded-xl border border-slate-200 px-4 py-3 outline-none">
         <option>Recommended</option>
 
