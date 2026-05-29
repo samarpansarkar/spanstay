@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import AdminLayout from "@/layouts/AdminLayout";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import MainLayout from "@/layouts/MainLayout";
+import AdminPage from "@/pages/Admin/AdminPage";
 import CheckoutPage from "@/pages/Checkout/CheckoutPage";
 import DashboardPage from "@/pages/Dashboard/DashboardPage";
 import HomePage from "@/pages/Home/HomePage";
@@ -51,6 +53,16 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignupPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminPage />,
+      },
+    ],
   },
 ]);
 
