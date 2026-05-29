@@ -31,7 +31,7 @@ const GuestDropdown = () => {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-20 z-50 w-[260px] rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+        <div className="absolute right-0 top-20 z-50 w-65 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
           <div className="flex items-center justify-between">
             <div>
               <h4 className="font-semibold">Guests</h4>
