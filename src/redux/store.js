@@ -1,6 +1,6 @@
-import searchReducer from "@/features/search/searchSlice";
-import { baseApi } from "@/services/api/baseApi";
 import { configureStore } from "@reduxjs/toolkit";
+import { baseApi } from "services/api/baseApi";
+import searchReducer from "./search/searchSlice";
 
 export const store = configureStore({
   reducer: {
