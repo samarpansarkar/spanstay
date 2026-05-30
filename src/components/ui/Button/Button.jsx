@@ -1,6 +1,6 @@
-import { cn } from "@/lib/cn";
 import { motion } from "framer-motion";
 import { forwardRef } from "react";
+import { cn } from "../../../lib/cn";
 
 const variants = {
   primary: "bg-primary text-white hover:bg-indigo-700",

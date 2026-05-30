@@ -1,4 +1,6 @@
-import { containerVariants } from "@/animations/variants";
+"use client";
+// import { containerVariants } from "@/animations/variants";
+import { containerVariants } from "animations/variants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import NavLinks from "../NavLinks/NavLinks";

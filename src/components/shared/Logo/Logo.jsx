@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const Logo = () => {
   return (
-    <Link to="/" className="text-2xl font-bold text-primary">
+    <Link href="/" className="text-2xl font-bold text-primary">
       StayFinder
     </Link>
   );
