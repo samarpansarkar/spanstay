@@ -7,10 +7,25 @@ import Section from "@/components/ui/Section/Section";
 import PageTransition from "@/components/animations/PageTransition";
 import EmptyState from "@/components/shared/EmptyState/EmptyState";
 import HotelGridSkeleton from "@/components/skeletons/HotelGridSkeleton/HotelGridSkeleton.jsx";
+import useDebounce from "@/hooks/useDebounce";
 import { useGetHotelsQuery } from "@/services/api/endpoints/hotelApi";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 const HotelsPage = () => {
   const { data, isLoading, error } = useGetHotelsQuery();
+
+  const search = useSelector((state) => state.search.search);
+
+  const debouncedSearch = useDebounce(search, 500);
+
+  const hotels = data || [];
+
+  const filteredHotels = useMemo(() => {
+    return hotels.filter((hotel) =>
+      (hotel.name || "").toLowerCase().includes(debouncedSearch.toLowerCase()),
+    );
+  }, [hotels, debouncedSearch]);
 
   if (isLoading) {
     return (
@@ -32,9 +47,8 @@ const HotelsPage = () => {
       </div>
     );
   }
-  const hotels = data || [];
 
-  if (!hotels.length) {
+  if (!filteredHotels.length) {
     return (
       <Section className="bg-slate-50">
         <Container>
@@ -46,6 +60,7 @@ const HotelsPage = () => {
       </Section>
     );
   }
+
   return (
     <PageTransition>
       <Section className="bg-slate-50">
@@ -54,9 +69,9 @@ const HotelsPage = () => {
             <HotelFilters />
 
             <div className="space-y-8">
-              <HotelHeader total={hotels.length} />
+              <HotelHeader total={filteredHotels.length} />
 
-              <HotelGrid hotels={hotels} />
+              <HotelGrid hotels={filteredHotels} />
             </div>
           </div>
         </Container>
