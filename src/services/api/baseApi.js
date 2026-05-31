@@ -34,7 +34,7 @@ export const baseApi = createApi({
   reducerPath: "api",
 
   baseQuery: axiosBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
   }),
 
   tagTypes: ["Hotels", "Bookings", "Users"],
