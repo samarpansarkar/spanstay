@@ -23,11 +23,11 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: {
-    default: "StayFinder",
-    template: "%s | StayFinder",
+    default: "SpanStay",
+    template: "%s | SpanStay",
   },
   description:
-    "Discover and book hotels, stays, and vacation properties with StayFinder.",
+    "Discover and book hotels, stays, and vacation properties with SpanStay.",
 };
 
 export default function RootLayout({ children }) {
