@@ -4,9 +4,9 @@ import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import { Fragment, useState } from "react";
 
-import Button from "../../ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 
-import Container from "components/ui/Container/Container";
+import Container from "@/components/ui/Container/Container";
 
 import Logo from "../Logo/Logo";
 import MobileMenu from "../MobileMenu/MobileMenu";

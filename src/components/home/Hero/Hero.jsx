@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 
-import Container from "components/ui/Container/Container";
+import Container from "@/components/ui/Container/Container";
 import Image from "next/image";
 import SearchBox from "../SearchBox/SearchBox";
 

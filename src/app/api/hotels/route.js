@@ -1,5 +1,5 @@
-import connectDB from "lib/mongodb";
-import Hotel from "model/Hotel";
+import connectDB from "@/lib/connectDB";
+import Hotel from "@/model/Hotel";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {

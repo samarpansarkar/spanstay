@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "components/ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 import { MapPin, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import DatePicker from "../DatePicker/DatePicker";

@@ -1,9 +1,9 @@
 "use client";
 
-import AppErrorBoundary from "components/errors/AppErrorBoundary";
+import AppErrorBoundary from "@/components/errors/AppErrorBoundary";
+import store from "@/redux/store";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
-import store from "redux/store";
 
 export default function Providers({ children }) {
   return (

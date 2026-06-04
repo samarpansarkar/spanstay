@@ -1,8 +1,8 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import Footer from "components/shared/Footer/Footer";
-import Navbar from "components/shared/Navbar/Navbar";
+import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/shared/Navbar/Navbar";
 
 import Providers from "./providers";
 

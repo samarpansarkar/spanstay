@@ -1,4 +1,4 @@
-import { fadeUpVariant, staggerContainer } from "animations/variants";
+import { fadeUpVariant, staggerContainer } from "@/animations/variants";
 import { motion } from "framer-motion";
 import HotelCard from "../HotelCard/HotelCard";
 

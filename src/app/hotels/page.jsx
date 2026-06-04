@@ -1,16 +1,16 @@
 "use client";
-import PageTransition from "components/animations/PageTransition";
-import HotelFilters from "components/hotels/HotelFilters/HotelFilters";
-import HotelGrid from "components/hotels/HotelGrid/HotelGrid";
-import HotelHeader from "components/hotels/HotelHeader/HotelHeader";
-import EmptyState from "components/shared/EmptyState/EmptyState";
-import HotelGridSkeleton from "components/skeletons/HotelGridSkeleton/HotelGridSkeleton";
-import Container from "components/ui/Container/Container";
-import Section from "components/ui/Section/Section";
-import useDebounce from "hooks/useDebounce";
+import PageTransition from "@/components/animations/PageTransition";
+import HotelFilters from "@/components/hotels/HotelFilters/HotelFilters";
+import HotelGrid from "@/components/hotels/HotelGrid/HotelGrid";
+import HotelHeader from "@/components/hotels/HotelHeader/HotelHeader";
+import EmptyState from "@/components/shared/EmptyState/EmptyState";
+import HotelGridSkeleton from "@/components/skeletons/HotelGridSkeleton/HotelGridSkeleton";
+import Container from "@/components/ui/Container/Container";
+import Section from "@/components/ui/Section/Section";
+import useDebounce from "@/hooks/useDebounce";
+import { useGetHotelsQuery } from "@/services/api/endpoints/hotelApi";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { useGetHotelsQuery } from "services/api/endpoints/hotelApi";
 
 const HotelPage = () => {
   const { data, isLoading, error } = useGetHotelsQuery();
