@@ -24,9 +24,9 @@ const HotelPage = () => {
 
   const filteredHotels = useMemo(() => {
     let result = hotels.filter((hotel) => {
-      const matchesSearch = (hotel.name || "")
-        .toLowerCase()
-        .includes(debouncedSearch.toLowerCase());
+      const matchesSearch =
+        (hotel.name || "").toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        (hotel.location || "").toLowerCase().includes(debouncedSearch.toLowerCase());
 
       const effectiveMax = maxPrice === 99999999 ? Infinity : maxPrice;
       const matchesPrice =
@@ -37,7 +37,6 @@ const HotelPage = () => {
       return matchesSearch && matchesPrice && matchesRating;
     });
 
-    // Sort
     if (sortBy === "price_asc") {
       result = [...result].sort((a, b) => a.price - b.price);
     } else if (sortBy === "price_desc") {
@@ -45,14 +44,14 @@ const HotelPage = () => {
     } else if (sortBy === "rating") {
       result = [...result].sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }
-    // "recommended" keeps the original server order (createdAt desc)
 
     return result;
   }, [hotels, debouncedSearch, minPrice, maxPrice, minRating, sortBy]);
 
+
   if (isLoading) {
     return (
-      <section className="bg-slate-50">
+      <section className="bg-slate-50 pb-20">
         <Container>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
             <HotelFilters />
@@ -63,27 +62,12 @@ const HotelPage = () => {
     );
   }
 
+
   if (error) {
     return (
       <div className="py-20 text-center text-red-500">
         Something went wrong.
       </div>
-    );
-  }
-
-  if (!filteredHotels.length) {
-    return (
-      <Section className="bg-slate-50">
-        <Container>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
-            <HotelFilters />
-            <EmptyState
-              title="No Hotels Found"
-              description="Try adjusting your search or filters."
-            />
-          </div>
-        </Container>
-      </Section>
     );
   }
 
@@ -97,7 +81,14 @@ const HotelPage = () => {
             <div className="space-y-8">
               <HotelHeader total={filteredHotels.length} />
 
-              <HotelGrid hotels={filteredHotels} />
+              {filteredHotels.length > 0 ? (
+                <HotelGrid hotels={filteredHotels} />
+              ) : (
+                <EmptyState
+                  title="No Hotels Found"
+                  description="Try adjusting your search or filters."
+                />
+              )}
             </div>
           </div>
         </Container>
@@ -107,4 +98,3 @@ const HotelPage = () => {
 };
 
 export default HotelPage;
-

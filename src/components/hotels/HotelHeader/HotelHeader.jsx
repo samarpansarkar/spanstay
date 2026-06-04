@@ -17,16 +17,26 @@ const HotelHeader = ({ total }) => {
         </p>
       </div>
 
-      <div className="relative w-full lg:w-[350px]">
+      <div className="relative w-full lg:w-[380px]">
         <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
         <input
           type="text"
-          placeholder="Search hotels..."
+          placeholder="Search by name or location..."
           value={search}
           onChange={(e) => dispatch(setSearch(e.target.value))}
           className="w-full rounded-2xl border border-slate-200 py-4 pl-11 pr-5 outline-none focus:border-primary"
         />
+
+        {search && (
+          <button
+            onClick={() => dispatch(setSearch(""))}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
       </div>
     </div>
   );
