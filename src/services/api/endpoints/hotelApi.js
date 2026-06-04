@@ -27,6 +27,15 @@ export const hotelApi = baseApi.injectEndpoints({
 
       invalidatesTags: ["Bookings"],
     }),
+
+    getBookings: builder.query({
+      query: (userId) => ({
+        url: `/bookings?userId=${userId}`,
+        method: "GET",
+      }),
+
+      providesTags: ["Bookings"],
+    }),
   }),
 });
 
@@ -34,4 +43,5 @@ export const {
   useGetHotelsQuery,
   useGetHotelByIdQuery,
   useAddBookingMutation,
+  useGetBookingsQuery,
 } = hotelApi;

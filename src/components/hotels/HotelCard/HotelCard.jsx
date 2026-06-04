@@ -7,8 +7,9 @@ import Card from "@/components/ui/Card/Card";
 import { motion } from "framer-motion";
 import { Heart, MapPin, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop";
@@ -41,12 +42,6 @@ const HotelCard = ({ hotel }) => {
 
     return hotel.amenities.slice(0, 3);
   }, [hotel.amenities]);
-
-  const handleNavigate = useCallback(() => {
-    if (!_id) return;
-
-    router.push(`/hotels/${_id}`);
-  }, [_id, router]);
 
   return (
     <motion.div
@@ -141,12 +136,9 @@ const HotelCard = ({ hotel }) => {
               </div>
             </div>
 
-            <Button
-              onClick={handleNavigate}
-              className="rounded-xl px-5 py-3 font-medium shadow-lg transition-transform duration-300 hover:scale-[1.02]"
-            >
-              View Details
-            </Button>
+            <Link href={`/hotels/${_id}`}>
+              <Button>View Details</Button>
+            </Link>
           </div>
         </div>
       </Card>
