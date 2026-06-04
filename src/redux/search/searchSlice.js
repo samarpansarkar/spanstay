@@ -5,6 +5,7 @@ let initialState = {
   sortBy: "recommended",
   minPrice: 0,
   maxPrice: 99999999,
+  minRating: 0,
 };
 
 const searchSlice = createSlice({
@@ -21,11 +22,14 @@ const searchSlice = createSlice({
       state.minPrice = action.payload.min;
       state.maxPrice = action.payload.max;
     },
+    setMinRating: (state, action) => {
+      state.minRating = action.payload;
+    },
     resetFilter: () => initialState,
   },
 });
 
-export const { resetFilter, setPriceRange, setSearch, setSortBy } =
+export const { resetFilter, setPriceRange, setSearch, setSortBy, setMinRating } =
   searchSlice.actions;
 
 export default searchSlice.reducer;

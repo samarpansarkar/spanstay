@@ -1,5 +1,5 @@
 "use client";
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton, useAuth } from "@clerk/nextjs";
 
 import { Menu } from "lucide-react";
 import { Fragment, useState } from "react";
@@ -14,6 +14,7 @@ import NavLinks from "../NavLinks/NavLinks";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { isSignedIn } = useAuth();
 
   return (
     <Fragment>
@@ -26,19 +27,19 @@ const Navbar = () => {
               <NavLinks />
 
               <div className="flex items-center gap-4">
-                <Show when="signed-out">
-                  <SignInButton mode="modal">
-                    <button className="text-sm font-medium text-slate-700 transition-colors hover:text-primary">
-                      Sign In
-                    </button>
-                  </SignInButton>
+                {!isSignedIn ? (
+                  <>
+                    <SignInButton mode="modal">
+                      <button className="text-sm font-medium text-slate-700 transition-colors hover:text-primary">
+                        Sign In
+                      </button>
+                    </SignInButton>
 
-                  <SignUpButton mode="modal">
-                    <Button size="sm">Sign Up</Button>
-                  </SignUpButton>
-                </Show>
-
-                <Show when="signed-in">
+                    <SignUpButton mode="modal">
+                      <Button size="sm">Sign Up</Button>
+                    </SignUpButton>
+                  </>
+                ) : (
                   <div className="flex items-center gap-4">
                     <Button size="sm">Book Now</Button>
 
@@ -50,7 +51,7 @@ const Navbar = () => {
                       }}
                     />
                   </div>
-                </Show>
+                )}
               </div>
             </div>
 
@@ -67,3 +68,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

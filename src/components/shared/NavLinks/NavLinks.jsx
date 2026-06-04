@@ -15,6 +15,10 @@ const navItems = [
     path: "/hotels",
   },
   {
+    label: "My Bookings",
+    path: "/bookings",
+  },
+  {
     label: "Dashboard",
     path: "/dashboard",
   },

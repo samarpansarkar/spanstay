@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URI;
 
-console.log("MONGODB URL", MONGODB_URL);
+console.log("Connecting to MongoDB...");
 
 if (!MONGODB_URL) {
-  throw new Error("Please define the MONGODB_URL in rnvironment variable!!");
+  throw new Error("Please define the MONGODB_URI environment variable!!");
 }
 
 let cached = global.mongoose;

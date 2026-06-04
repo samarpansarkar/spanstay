@@ -14,21 +14,41 @@ import { useSelector } from "react-redux";
 
 const HotelPage = () => {
   const { data, isLoading, error } = useGetHotelsQuery();
-  const search = useSelector((state) => state.search.search);
+  const { search, minPrice, maxPrice, minRating, sortBy } = useSelector(
+    (state) => state.search,
+  );
 
   const debouncedSearch = useDebounce(search, 500);
 
   const hotels = data || [];
 
-  const filteredHotels = useMemo(
-    () =>
-      hotels.filter((hotel) =>
-        (hotel.name || "")
-          .toLowerCase()
-          .includes(debouncedSearch.toLowerCase()),
-      ),
-    [hotels, debouncedSearch],
-  );
+  const filteredHotels = useMemo(() => {
+    let result = hotels.filter((hotel) => {
+      const matchesSearch = (hotel.name || "")
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase());
+
+      const effectiveMax = maxPrice === 99999999 ? Infinity : maxPrice;
+      const matchesPrice =
+        hotel.price >= minPrice && hotel.price <= effectiveMax;
+
+      const matchesRating = minRating === 0 || (hotel.rating || 0) >= minRating;
+
+      return matchesSearch && matchesPrice && matchesRating;
+    });
+
+    // Sort
+    if (sortBy === "price_asc") {
+      result = [...result].sort((a, b) => a.price - b.price);
+    } else if (sortBy === "price_desc") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    } else if (sortBy === "rating") {
+      result = [...result].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+    // "recommended" keeps the original server order (createdAt desc)
+
+    return result;
+  }, [hotels, debouncedSearch, minPrice, maxPrice, minRating, sortBy]);
 
   if (isLoading) {
     return (
@@ -55,10 +75,13 @@ const HotelPage = () => {
     return (
       <Section className="bg-slate-50">
         <Container>
-          <EmptyState
-            title="No Hotels Found"
-            description="Try adjusting your search or filters."
-          />
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr]">
+            <HotelFilters />
+            <EmptyState
+              title="No Hotels Found"
+              description="Try adjusting your search or filters."
+            />
+          </div>
         </Container>
       </Section>
     );
@@ -84,3 +107,4 @@ const HotelPage = () => {
 };
 
 export default HotelPage;
+

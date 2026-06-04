@@ -28,6 +28,11 @@ const hotelSchema = new Schema(
       default: 0,
     },
 
+    reviews: {
+      type: Number,
+      default: 0,
+    },
+
     images: {
       type: [String],
       default: [],

@@ -12,7 +12,7 @@ const HotelDetails = ({ hotel }) => {
     <Section className="bg-slate-50">
       <Container>
         <div className="space-y-10">
-          <HotelGallery iamges={hotel.iamges} />
+          <HotelGallery images={hotel.images} />
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_380px]">
             <div className="space-y-10">

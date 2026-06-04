@@ -11,9 +11,8 @@ const Hero = () => {
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop"
-          width={100}
-          height={100}
-          loading="eager"
+          fill
+          priority
           alt="Luxury Hotel"
           className="h-full w-full object-cover"
         />

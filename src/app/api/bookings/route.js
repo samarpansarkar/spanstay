@@ -22,7 +22,7 @@ export const POST = async (req) => {
   }
 };
 
-export const GET = async () => {
+export const GET = async (req, res) => {
   try {
     await connectDB();
 

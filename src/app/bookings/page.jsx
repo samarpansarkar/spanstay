@@ -1,8 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import toast from "react-hot-toast";
 
-import { useGetBookingsQuery } from "@/services/api/endpoints/hotelApi";
+import {
+  useCancelBookingMutation,
+  useGetBookingsQuery,
+} from "@/services/api/endpoints/hotelApi";
 
 const BookingsPage = () => {
   const {
@@ -10,6 +14,20 @@ const BookingsPage = () => {
     isLoading,
     error,
   } = useGetBookingsQuery("demo-user");
+
+  const [cancelBooking, { isLoading: isCancelling }] = useCancelBookingMutation();
+
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      await cancelBooking(bookingId).unwrap();
+
+      toast.success("Booking cancelled successfully");
+    } catch (error) {
+      console.error("CANCEL BOOKING ERROR:", error);
+
+      toast.error("Failed to cancel booking");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -130,8 +148,12 @@ const BookingsPage = () => {
                   </div>
 
                   <div className="mt-8 flex justify-end">
-                    <button className="rounded-xl border border-red-200 px-5 py-3 font-medium text-red-500 transition hover:bg-red-50">
-                      Cancel Booking
+                    <button
+                      onClick={() => handleCancelBooking(booking._id)}
+                      disabled={isCancelling}
+                      className="rounded-xl border border-red-200 px-5 py-3 font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {isCancelling ? "Cancelling..." : "Cancel Booking"}
                     </button>
                   </div>
                 </div>

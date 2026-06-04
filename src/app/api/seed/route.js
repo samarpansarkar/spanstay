@@ -1,5 +1,5 @@
-import connectDB from "lib/mongodb";
-import Hotel from "model/Hotel";
+import connectDB from "@/lib/connectDB";
+import Hotel from "@/model/Hotel";
 import { NextResponse } from "next/server";
 
 const hotels = [
@@ -270,7 +270,15 @@ export const GET = async () => {
 
     await Hotel.deleteMany();
 
-    await Hotel.insertMany(hotels);
+    const hotelsToInsert = hotels.map((hotel) => {
+      const { image, id, ...rest } = hotel;
+      return {
+        ...rest,
+        images: image ? [image] : [],
+      };
+    });
+
+    await Hotel.insertMany(hotelsToInsert);
 
     return NextResponse.json(
       {
