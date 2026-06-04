@@ -3,27 +3,60 @@
 import Button from "@/components/ui/Button/Button";
 
 import { useAddBookingMutation } from "@/services/api/endpoints/hotelApi";
-
+import toast from "react-hot-toast";
 import { useMemo, useState } from "react";
+
+const getTodayString = () => new Date().toISOString().split("T")[0];
+
+
+const getNextDay = (dateStr) => {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().split("T")[0];
+};
 
 const BookingCard = ({ hotel }) => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+  const [checkOutError, setCheckOutError] = useState("");
 
   const [addBooking, { isLoading }] = useAddBookingMutation();
 
-  const totalNights = useMemo(() => {
-    if (!checkIn || !checkOut) {
-      return 0;
+
+  const minCheckOut = checkIn ? getNextDay(checkIn) : getTodayString();
+
+  const handleCheckInChange = (e) => {
+    const newCheckIn = e.target.value;
+    setCheckIn(newCheckIn);
+    setCheckOutError("");
+
+    if (checkOut && checkOut <= newCheckIn) {
+      setCheckOut("");
+      setCheckOutError("Check-out date must be after check-in date.");
     }
+  };
+
+  const handleCheckOutChange = (e) => {
+    const newCheckOut = e.target.value;
+
+    if (checkIn && newCheckOut <= checkIn) {
+      setCheckOutError("Check-out date must be after check-in date.");
+      setCheckOut("");
+      return;
+    }
+
+    setCheckOutError("");
+    setCheckOut(newCheckOut);
+  };
+
+  const totalNights = useMemo(() => {
+    if (!checkIn || !checkOut) return 0;
 
     const start = new Date(checkIn);
     const end = new Date(checkOut);
-
-    const diffTime = end - start;
-
-    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
     return nights > 0 ? nights : 0;
   }, [checkIn, checkOut]);
@@ -33,19 +66,17 @@ const BookingCard = ({ hotel }) => {
   }, [hotel.price, totalNights]);
 
   const handleBooking = async () => {
+    if (!checkIn || !checkOut) {
+      toast.error("Please select both check-in and check-out dates.");
+      return;
+    }
+
+    if (totalNights <= 0) {
+      toast.error("Check-out must be at least 1 night after check-in.");
+      return;
+    }
+
     try {
-      if (!checkIn || !checkOut) {
-        alert("Please select booking dates");
-
-        return;
-      }
-
-      if (totalNights <= 0) {
-        alert("Invalid booking dates");
-
-        return;
-      }
-
       await addBooking({
         hotelId: hotel._id,
         userId: "demo-user",
@@ -55,11 +86,13 @@ const BookingCard = ({ hotel }) => {
         totalPrice,
       }).unwrap();
 
-      alert("Booking request sent successfully!");
+      toast.success("Booking request sent successfully!");
+      setCheckIn("");
+      setCheckOut("");
+      setGuests(1);
     } catch (error) {
       console.error("BOOKING ERROR:", error);
-
-      alert("Failed to create booking");
+      toast.error("Failed to create booking. Please try again.");
     }
   };
 
@@ -73,10 +106,11 @@ const BookingCard = ({ hotel }) => {
             <span className="pb-1 text-slate-500">/night</span>
           </div>
 
-          <p className="mt-2 text-sm text-slate-500">Includes taxes & fees</p>
+          <p className="mt-2 text-sm text-slate-500">Includes taxes &amp; fees</p>
         </div>
 
         <div className="space-y-4">
+          {/* Check In */}
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700">
               Check In
@@ -85,11 +119,13 @@ const BookingCard = ({ hotel }) => {
             <input
               type="date"
               value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
+              min={getTodayString()}
+              onChange={handleCheckInChange}
               className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-primary"
             />
           </div>
 
+          {/* Check Out */}
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700">
               Check Out
@@ -98,11 +134,26 @@ const BookingCard = ({ hotel }) => {
             <input
               type="date"
               value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-primary"
+              min={minCheckOut}
+              onChange={handleCheckOutChange}
+              disabled={!checkIn}
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
             />
+
+            {checkOutError && (
+              <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                <span>⚠</span> {checkOutError}
+              </p>
+            )}
+
+            {!checkIn && (
+              <p className="mt-1.5 text-xs text-slate-400">
+                Select a check-in date first
+              </p>
+            )}
           </div>
 
+          {/* Guests */}
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700">
               Guests
@@ -121,6 +172,7 @@ const BookingCard = ({ hotel }) => {
           </div>
         </div>
 
+        {/* Summary */}
         <div className="rounded-2xl bg-slate-50 p-5">
           <div className="flex items-center justify-between text-sm">
             <span className="text-slate-500">Total Nights</span>
@@ -131,7 +183,9 @@ const BookingCard = ({ hotel }) => {
           <div className="mt-3 flex items-center justify-between">
             <span className="font-medium text-slate-700">Total Price</span>
 
-            <span className="text-2xl font-bold">₹{totalPrice}</span>
+            <span className="text-2xl font-bold">
+              {totalNights > 0 ? `₹${totalPrice}` : "—"}
+            </span>
           </div>
         </div>
 
@@ -139,13 +193,13 @@ const BookingCard = ({ hotel }) => {
           size="lg"
           className="w-full"
           onClick={handleBooking}
-          disabled={isLoading}
+          disabled={isLoading || !checkIn || !checkOut || totalNights <= 0}
         >
           {isLoading ? "Processing..." : "Reserve Now"}
         </Button>
 
         <p className="text-center text-sm text-slate-500">
-          You won’t be charged yet
+          You won&apos;t be charged yet
         </p>
       </div>
     </div>
@@ -153,3 +207,4 @@ const BookingCard = ({ hotel }) => {
 };
 
 export default BookingCard;
+
