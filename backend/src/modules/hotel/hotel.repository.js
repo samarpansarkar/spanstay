@@ -15,3 +15,7 @@ export const getAllHotels = async (filter, skip, limit) => {
 export const getHotelById = async (hotelId) => {
     return await Hotel.findById(hotelId);
 }
+
+export const updateHotel = async (hotelId, updateData) => {
+    return await Hotel.findByIdAndUpdate(hotelId,updateData, {new:true, runValidators:true})
+}
