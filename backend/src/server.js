@@ -1,17 +1,17 @@
 import express from 'express';
-const app = express();
+import dotenv from "dotenv";
 
-app.use(express.json())
+dotenv.config();
+import dbConnect from './config/db.js';
+import app from './app.js';
 
-app.get('/',(req, res)=>{
-    try {
-        res.status(200).json({message:"Home Page!!!"})
-    } catch (error) {
-        console.log("Error"+error.message);
-    }
-})
+const PORT =process.env.PORT ||4001
 
-const PORT = 4000
-app.listen(PORT,()=>{
+const server=async()=>{
+    const PORT = 4000
+    app.listen(PORT,()=>{
     console.log(`Your server is running on ${PORT}`);
-})
+    })
+}
+
+server();
