@@ -21,13 +21,11 @@ export const getAllHotelsController = async (req, res) => {
   try {
     const hotels = await getAllHotelsService(req.query);
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Hotel search successful!!',
-        data: hotels,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Hotel search successful!!',
+      data: hotels,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
