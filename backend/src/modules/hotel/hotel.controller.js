@@ -1,4 +1,4 @@
-import { getAllHotelsService, getHotelByIdService, registerHotelService, updateHotelService } from './hotel.service.js';
+import { deleteHotelService, getAllHotelsService, getHotelByIdService, registerHotelService, updateHotelService } from './hotel.service.js';
 
 export const registerHotelController = async (req, res) => {
   try {
@@ -63,5 +63,22 @@ export const updateHotelController = async (req, res) => {
         })
     } catch (error) {
         res.status(403).json({success:false,message:error.message})
+    }
+}
+
+export const deleteHotelController = async (req, res) => {
+    try {
+        const deleteHotel = await deleteHotelService(req.params.hotelId, req.user);
+
+        res.status(200).json({
+            success:true,
+            message:'Hotel successfully deleted!!!'
+        })
+        
+    } catch (error) {
+        res.status(403).json({
+            success:false,
+            message:error.message
+        })
     }
 }

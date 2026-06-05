@@ -1,4 +1,4 @@
-import { createHotel, getAllHotels, getHotelById, updateHotel } from './hotel.repository.js';
+import { createHotel, deleteHotelById, getAllHotels, getHotelById, updateHotel } from './hotel.repository.js';
 
 export const registerHotelService = async (hotelData, userId) => {
   const hotel = await createHotel({ ...hotelData, owner: userId });
@@ -47,7 +47,27 @@ export const updateHotelService =async (hotelId, updateData, currentUser) => {
         throw new Error("You are not authorized!!!");
     }
 
-    const updateHotelData = updateHotel(hotelId, updateData);
+    const updateHotelData =await updateHotel(hotelId, updateData);
 
     return updateHotelData
+}
+
+export const deleteHotelService = async (hotelId, currentUser) => {
+    const hotel =await getHotelById(hotelId);
+
+    if(!hotel){
+        throw new Error("Hotel not found!!!");
+    }
+    const isOwner = hotel.owner.toString() ===currentUser.id;
+
+    const isAdmin = currentUser.role==='admin';
+
+    if(!isOwner && !isAdmin){
+        throw new Error('You are not authorize!!!');
+    }
+
+    const deleteHotel = await deleteHotelById(hotel.id);
+
+    console.log(deleteHotel);
+    return deleteHotel;
 }
