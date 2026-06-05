@@ -7,7 +7,6 @@ import app from './app.js';
 
 const PORT = process.env.PORT || 4001;
 
-
 dbConnect();
 
 const server = async () => {

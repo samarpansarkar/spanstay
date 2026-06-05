@@ -15,7 +15,10 @@ const userSchema = new Schema(
       required: true,
       lowercase: true,
       trim: true,
-      match:[/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,'Please enter valid email',]
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        'Please enter valid email',
+      ],
     },
     password: {
       type: String,
@@ -39,10 +42,7 @@ userSchema.pre('save', async function () {
     return;
   }
 
-  this.password = await bcrypt.hash(
-    this.password,
-    10
-  );
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 userSchema.methods.comparePassword = async function (enterddPassword) {

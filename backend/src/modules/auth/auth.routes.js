@@ -1,18 +1,15 @@
-
 import { Router } from 'express';
-import { registerUserController } from './auth.controller.js';
-import { registerSchema } from './auth.validation.js';
+import {
+  registerUserController,
+  signinUserController,
+} from './auth.controller.js';
+import { registerSchema, signinSchema } from './auth.validation.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 
 const authRouter = Router();
 
-authRouter.post('/register',(req, res, next) => {
-    console.log('Route hit');
+authRouter.post('/register', validate(registerSchema), registerUserController);
 
-    next();
-  },
-   validate(registerSchema),
-   registerUserController
-);
+authRouter.post('/signin', validate(signinSchema), signinUserController);
 
 export default authRouter;
