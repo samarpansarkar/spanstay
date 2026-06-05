@@ -11,3 +11,7 @@ export const getAllHotels = async (filter, skip, limit) => {
     .limit(limit)
     .sort({ createAt: -1 });
 };
+
+export const getHotelById = async (hotelId) => {
+    return await Hotel.findById(hotelId);
+}

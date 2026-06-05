@@ -1,4 +1,4 @@
-import { getAllHotelsService, registerHotelService } from './hotel.service.js';
+import { getAllHotelsService, getHotelByIdService, registerHotelService } from './hotel.service.js';
 
 export const registerHotelController = async (req, res) => {
   try {
@@ -33,3 +33,21 @@ export const getAllHotelsController = async (req, res) => {
     });
   }
 };
+
+export const getHotelByIdController = async (req, res) => {
+    try {
+        let hotel = await getHotelByIdService(req.params.hotelId);
+
+        res.status(200).json({
+            success:true,
+            message:"Hotel Found",
+            data:hotel
+        })
+        
+    } catch (error) {
+        res.status(404).json({
+            success:false,
+            message:error.message
+        })
+    }
+}

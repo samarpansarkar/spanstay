@@ -1,4 +1,4 @@
-import { createHotel, getAllHotels } from './hotel.repository.js';
+import { createHotel, getAllHotels, getHotelById } from './hotel.repository.js';
 
 export const registerHotelService = async (hotelData, userId) => {
   const hotel = await createHotel({ ...hotelData, owner: userId });
@@ -23,3 +23,11 @@ export const getAllHotelsService = async (query) => {
 
   return hotels;
 };
+
+export const getHotelByIdService = async (hotelId) => {
+
+    const hotel = await getHotelById(hotelId);
+
+    return hotel;
+    
+}
