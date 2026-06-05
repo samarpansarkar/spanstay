@@ -1,12 +1,15 @@
-import { Router } from "express";
+import { Router } from 'express';
+import authRouter from '../modules/auth/auth.routes.js';
 
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   res.status(200).json({
-    success:true,
-    message: "StayFinder API Running",
+    success: true,
+    message: 'StayFinder API Running',
   });
-})
+});
+
+router.use('/auth', authRouter);
 
 export default router;
