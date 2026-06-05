@@ -19,7 +19,7 @@ export const updateHotelSchema =
 
     location: z.string().optional(),
 
-    pricePerNight: z
+    price: z
       .number()
       .optional(),
 
@@ -30,4 +30,12 @@ export const updateHotelSchema =
     images: z
       .array(z.string())
       .optional(),
-  });
+  }).refine(
+      (data) =>
+        Object.keys(data).length > 0,
+
+      {
+        message:
+          'At least one field is required',
+      }
+    );
