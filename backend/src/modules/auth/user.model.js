@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 const userSchema = new Schema(
   {
     name: {
@@ -15,6 +15,7 @@ const userSchema = new Schema(
       required: true,
       lowercase: true,
       trim: true,
+      match:[/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,'Please enter valid email',]
     },
     password: {
       type: String,
@@ -33,16 +34,19 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
-    return next();
+    return;
   }
 
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  this.password = await bcrypt.hash(
+    this.password,
+    10
+  );
 });
-userSchema.methods.comparePassword = async function (enterdPassword) {
-  return await bcrypt.compare(enterdPassword, this.password);
+
+userSchema.methods.comparePassword = async function (enterddPassword) {
+  return bcrypt.compare(enterddPassword, this.password);
 };
 
 const User = mongoose.model('User', userSchema);
