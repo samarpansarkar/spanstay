@@ -51,7 +51,7 @@ export const signinUserController = async (req, res) => {
 export const userProfileController = async (req, res) => {
   try {
     const user = await userProfileService(req.user.id);
-    
+
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res.status(404).json({

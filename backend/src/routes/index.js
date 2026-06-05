@@ -12,6 +12,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/hotels',hotelRouter);
+router.use('/hotels', hotelRouter);
 
 export default router;

@@ -14,6 +14,6 @@ authRouter.post('/register', validate(registerSchema), registerUserController);
 
 authRouter.post('/signin', validate(signinSchema), signinUserController);
 
-authRouter.get('/user-profile',protect, userProfileController);
+authRouter.get('/user-profile', protect, userProfileController);
 
 export default authRouter;
