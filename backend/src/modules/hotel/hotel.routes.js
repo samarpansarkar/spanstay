@@ -23,8 +23,19 @@ hotelRouter.post(
 );
 
 hotelRouter.get('/', getAllHotelsController);
-hotelRouter.get('/:hotelId',getHotelByIdController);
-hotelRouter.patch('/:hotelId',protect,authorize(ROLES.ADMIN,ROLES.HOTEL_ADMIN),validate(updateHotelSchema),updateHotelController)
-hotelRouter.delete('/:hotelId',protect,authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),deleteHotelController)
+hotelRouter.get('/:hotelId', getHotelByIdController);
+hotelRouter.patch(
+  '/:hotelId',
+  protect,
+  authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  validate(updateHotelSchema),
+  updateHotelController
+);
+hotelRouter.delete(
+  '/:hotelId',
+  protect,
+  authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  deleteHotelController
+);
 
 export default hotelRouter;
