@@ -2,6 +2,7 @@ import {
   refreshAccessTokenService,
   registerUserService,
   signinUserService,
+  userProfileService,
 } from './auth.service.js';
 
 export const registerUserController = async (req, res) => {
@@ -23,19 +24,22 @@ export const registerUserController = async (req, res) => {
 
 export const signinUserController = async (req, res) => {
   try {
-    const response= await signinUserService(req.body);
+    const response = await signinUserService(req.body);
 
-    res.cookie('refreshToken',response.refreshToken,{
-      httpOnly:true,
-      secure:true,
-      sameSite:'Strict',
-      maxAge:7*24*60*60*1000,
-    }).status(200).json({
-      success: true,
-      message: 'Signin successfull!!',
-      data: response?.user,
-      accessToken:response?.accessToken,
-    });
+    res
+      .cookie('refreshToken', response.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'Strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json({
+        success: true,
+        message: 'Signin successfull!!',
+        data: response?.user,
+        accessToken: response?.accessToken,
+      });
   } catch (error) {
     res.status(401).json({
       success: false,
@@ -44,7 +48,20 @@ export const signinUserController = async (req, res) => {
   }
 };
 
-export const refreshTokenController = async(req, res) => {
+export const userProfileController = async (req, res) => {
+  try {
+    const user = await userProfileService(req.user.id);
+
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const refreshTokenController = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
 

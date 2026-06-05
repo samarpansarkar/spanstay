@@ -1,4 +1,4 @@
-import  jwt  from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -6,6 +6,7 @@ import {
 import {
   createUser,
   findUserByEmail,
+  findUserById,
   findUserPasswordByEmail,
 } from './auth.repository.js';
 
@@ -41,7 +42,7 @@ export const signinUserService = async (userData) => {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 
-  let response ={
+  let response = {
     user: {
       id: existingUser._id,
       name: existingUser.name,
@@ -51,7 +52,17 @@ export const signinUserService = async (userData) => {
     accessToken,
     refreshToken,
   };
-  return response
+  return response;
+};
+
+export const userProfileService = async (userId) => {
+  let user = await findUserById(userId);
+
+  if (!user) {
+    throw new Error('No data found!!');
+  }
+
+  return user;
 };
 
 export const refreshAccessTokenService = (refreshToken) => {
