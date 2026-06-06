@@ -1,7 +1,8 @@
-import { success } from 'zod';
+import { refreshTokenCookieConfig, refreshTokenCookieOptions } from '../../config/cookieOptions.js';
 import asyncHandler from '../../shared/utils/asyncHandler.js';
 import sendResponse from '../../shared/utils/SendResponse.js';
 import {
+  logoutService,
   refreshAccessTokenService,
   registerUserService,
   signinUserService,
@@ -22,12 +23,7 @@ export const registerUserController = asyncHandler(async (req, res) => {
 export const signinUserController = asyncHandler(async (req, res) => {
   const response = await signinUserService(req.body);
 
-  res.cookie('refreshToken', response.refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'Strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+  res.cookie('refreshToken', response.refreshToken, refreshTokenCookieConfig);
 
   sendResponse(res, {
     statusCode: 200,
@@ -49,7 +45,26 @@ export const userProfileController = asyncHandler(async (req, res) => {
 export const refreshTokenController = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
-  const accessToken = await refreshAccessTokenService(refreshToken);
+  const result = await refreshAccessTokenService(refreshToken);
 
-  sendResponse(res, { statusCode: 200, success: true, data: accessToken });
+  res.cookie('refreshToken', result.refreshToken, refreshTokenCookieConfig);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Access token refreshed successfully',
+    data: { accessToken: result.accessToken },
+  });
+});
+
+export const logoutController = asyncHandler(async (req, res) => {
+  await logoutService(req.user.id);
+
+  res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Logout successful',
+  });
 });

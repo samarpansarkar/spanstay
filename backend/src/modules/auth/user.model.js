@@ -31,6 +31,9 @@ const userSchema = new Schema(
       enum: ['user', 'admin', 'hotelAdmin'],
       default: 'user',
     },
+    refreshToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,

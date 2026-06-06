@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  logoutController,
   registerUserController,
   signinUserController,
   userProfileController,
@@ -24,6 +25,8 @@ authRouter.post(
   validate(signinSchema),
   signinUserController
 );
+
+authRouter.post('/logout', protect, logoutController);
 
 authRouter.get('/user-profile', authLimiter, protect, userProfileController);
 

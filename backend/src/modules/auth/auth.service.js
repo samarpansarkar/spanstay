@@ -47,6 +47,10 @@ export const signinUserService = async (userData) => {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 
+  existingUser.refreshToken=refreshToken;
+
+  await existingUser.save();
+
   let response = {
     user: {
       id: existingUser._id,
@@ -71,21 +75,56 @@ export const userProfileService = async (userId) => {
 };
 
 export const refreshAccessTokenService = (refreshToken) => {
+  
+  if (!refreshToken) {
+    throw new AppError('Refresh token missing!!!',401);
+  }
+
   try {
+
     const decodeTokenData = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET
     );
 
+    const user = await findUserById(decodeTokenData.id);
+
+
+    if (!user) {
+      throw new AppError("User not found",404);
+    }
+
+    if (user.refreshToken !== refreshToken) {
+      throw new AppError("Invalid refresh token",401);
+    }
+
     const payload = {
-      id: decodeTokenData.id,
-      role: decodeTokenData.role,
+      id: user._id,
+      role: user.role,
+      email: user.email,
     };
 
-    const accessToken = generateAccessToken(payload);
+    const newAccessToken = generateAccessToken(payload);
+    const newRefreshToken = generateRefreshToken(payload);
 
-    return accessToken;
+    user.refreshToken = newRefreshToken;
+
+    await user.save();
+
+    return {accessToken:newAccessToken, refreshToken:newRefreshToken};
   } catch (error) {
     throw new AppError('Invalid refresh token signin again!!!', 401);
   }
 };
+
+export const logoutService = async (userId) => {
+  const user = findUserById(userId);
+
+  if(!user){
+    throw new AppError('User not found',404);
+  }
+
+  user.refreshToken=null;
+
+  await user.save();
+}
