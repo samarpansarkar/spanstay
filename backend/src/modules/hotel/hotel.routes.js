@@ -2,6 +2,7 @@ import { Router } from 'express';
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import protect from '../../shared/middleware/auth.middleware.js';
 import {
+  deleteHotelController,
   getAllHotelsController,
   getHotelByIdController,
   registerHotelController,
@@ -22,7 +23,19 @@ hotelRouter.post(
 );
 
 hotelRouter.get('/', getAllHotelsController);
-hotelRouter.get('/:hotelId',getHotelByIdController);
-hotelRouter.patch('/:hotelId',protect,authorize(ROLES.ADMIN,ROLES.HOTEL_ADMIN),validate(updateHotelSchema),updateHotelController)
+hotelRouter.get('/:hotelId', getHotelByIdController);
+hotelRouter.patch(
+  '/:hotelId',
+  protect,
+  authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  validate(updateHotelSchema),
+  updateHotelController
+);
+hotelRouter.delete(
+  '/:hotelId',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  deleteHotelController
+);
 
 export default hotelRouter;

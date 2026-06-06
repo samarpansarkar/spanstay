@@ -6,18 +6,44 @@ import dotenv from 'dotenv';
 
 import Hotel from '../modules/hotel/hotel.model.js';
 
-import User from '../modules/auth/user.model.js';
-
 dotenv.config();
+
+const INDIAN_CITIES = [
+  'Bangalore',
+  'Mumbai',
+  'Delhi',
+  'Kolkata',
+  'Chennai',
+  'Hyderabad',
+  'Pune',
+  'Ahmedabad',
+  'Jaipur',
+  'Goa',
+  'Kochi',
+  'Mysore',
+  'Udaipur',
+  'Shimla',
+  'Manali',
+  'Darjeeling',
+  'Varanasi',
+  'Amritsar',
+  'Chandigarh',
+  'Lucknow',
+];
 
 const seedHotels = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGO_URL}/spanstay`);
+    await mongoose.connect(`${process.env.MONGO_URL}`);
 
     console.log('Database connected');
 
-    //admin
-    const ownerID = '6a231407a5a5ea6ef4825371';
+    // DELETE ALL EXISTING HOTELS
+    await Hotel.deleteMany({});
+
+    console.log('Existing hotels deleted successfully');
+
+    // MANUALLY CHANGE THIS OWNER ID
+    const ownerID = '6a2379d5d8ee49c3f3c0750f';
 
     const hotels = [];
 
@@ -27,7 +53,7 @@ const seedHotels = async () => {
 
         description: faker.lorem.paragraph(),
 
-        location: faker.location.city(),
+        location: faker.helpers.arrayElement(INDIAN_CITIES),
 
         price: faker.number.int({
           min: 1000,
@@ -36,7 +62,22 @@ const seedHotels = async () => {
 
         images: [faker.image.urlPicsumPhotos()],
 
-        amenities: ['wifi', 'pool', 'parking', 'gym'],
+        amenities: faker.helpers.arrayElements(
+          [
+            'wifi',
+            'pool',
+            'parking',
+            'gym',
+            'spa',
+            'restaurant',
+            'bar',
+            'laundry',
+          ],
+          {
+            min: 3,
+            max: 6,
+          }
+        ),
 
         owner: ownerID,
       });
@@ -44,11 +85,11 @@ const seedHotels = async () => {
 
     await Hotel.insertMany(hotels);
 
-    console.log('200 hotels seeded successfully');
+    console.log('200 Indian hotels seeded successfully');
 
     process.exit(0);
   } catch (error) {
-    console.log(error);
+    console.log('Seeder Error:', error.message);
 
     process.exit(1);
   }
