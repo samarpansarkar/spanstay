@@ -1,4 +1,7 @@
-import { refreshTokenCookieConfig, refreshTokenCookieOptions } from '../../config/cookieOptions.js';
+import {
+  refreshTokenCookieConfig,
+  refreshTokenCookieOptions,
+} from '../../config/cookieOptions.js';
 import asyncHandler from '../../shared/utils/asyncHandler.js';
 import sendResponse from '../../shared/utils/SendResponse.js';
 import {
