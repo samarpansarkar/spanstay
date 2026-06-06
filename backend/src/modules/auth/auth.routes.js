@@ -11,10 +11,20 @@ import { authLimiter } from '../../shared/middleware/rateLimit.middleware.js';
 
 const authRouter = Router();
 
-authRouter.post('/register',authLimiter, validate(registerSchema), registerUserController);
+authRouter.post(
+  '/register',
+  authLimiter,
+  validate(registerSchema),
+  registerUserController
+);
 
-authRouter.post('/signin',authLimiter, validate(signinSchema), signinUserController);
+authRouter.post(
+  '/signin',
+  authLimiter,
+  validate(signinSchema),
+  signinUserController
+);
 
-authRouter.get('/user-profile',authLimiter, protect, userProfileController);
+authRouter.get('/user-profile', authLimiter, protect, userProfileController);
 
 export default authRouter;

@@ -1,49 +1,25 @@
 import { z } from 'zod';
 
-export const registerSchema =
-  z.object({
-    body: z.object({
-      name: z
-        .string()
-        .min(
-          3,
-          'Name must be at least 3 characters'
-        )
-        .max(
-          50,
-          'Name cannot exceed 50 characters'
-        ),
+export const registerSchema = z.object({
+  body: z.object({
+    name: z
+      .string()
+      .min(3, 'Name must be at least 3 characters')
+      .max(50, 'Name cannot exceed 50 characters'),
 
-      email: z
-        .email(
-          'Invalid email format'
-        ),
+    email: z.email('Invalid email format'),
 
-      password: z
-        .string()
-        .min(
-          6,
-          'Password must be at least 6 characters'
-        )
-        .max(
-          20,
-          'Password cannot exceed 20 characters'
-        ),
-    }),
-  });
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .max(20, 'Password cannot exceed 20 characters'),
+  }),
+});
 
-export const signinSchema =
-  z.object({
-    body: z.object({
-      email: z.email(
-        'Invalid email format'
-      ),
+export const signinSchema = z.object({
+  body: z.object({
+    email: z.email('Invalid email format'),
 
-      password: z
-        .string()
-        .min(
-          6,
-          'Password is required'
-        ),
-    }),
-  });
+    password: z.string().min(6, 'Password is required'),
+  }),
+});

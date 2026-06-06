@@ -24,7 +24,11 @@ hotelRouter.post(
 );
 
 hotelRouter.get('/', getAllHotelsController);
-hotelRouter.get('/:hotelId',validate(hotelParamSchema), getHotelByIdController);
+hotelRouter.get(
+  '/:hotelId',
+  validate(hotelParamSchema),
+  getHotelByIdController
+);
 hotelRouter.patch(
   '/:hotelId',
   protect,

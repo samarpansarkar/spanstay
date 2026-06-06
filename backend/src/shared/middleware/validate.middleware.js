@@ -14,19 +14,18 @@
 
 // export default validate;
 
-const validate=(schema)=>async (req, res, next) => {
+const validate = (schema) => async (req, res, next) => {
   try {
     await schema.ParseAsync({
-      body:req.body,
+      body: req.body,
       params: req.params,
-      query:req.query
+      query: req.query,
     });
 
     next();
   } catch (error) {
-    next(error)
-    
+    next(error);
   }
-}
+};
 
 export default validate;
