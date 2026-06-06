@@ -38,7 +38,7 @@ export const signinUserService = async (userData) => {
     throw new AppError('Invalid password!!', 401);
   }
 
-  const payload = { id: existingUser._id, role: existingUser.role };
+  const payload = { id: existingUser._id, role: existingUser.role, email:existingUser.email };
 
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);

@@ -10,7 +10,7 @@ import {
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import { createBookingSchema } from './booking.validation.js';
-import { bookingParamSchema } from '../../shared/validators/booking.validation.js';
+import { bookingParamSchema } from './booking.validation.js';
 
 const bookingRouter = Router();
 
