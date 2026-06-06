@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import hpp from 'hpp';
 import AppError from './shared/utils/AppError.js';
 const app = express();
 
@@ -14,7 +17,10 @@ app.use(cors({
     credentials:true,
 }));
 app.use(helmet());
-app.use(cookieParser()); 
+app.use(mongoSanitize()); 
+app.use(xss());
+app.use(hpp());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true})) //form data--file uploads--multipart handling later
 
