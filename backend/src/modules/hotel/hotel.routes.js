@@ -11,6 +11,7 @@ import {
 import { ROLES } from '../../shared/constants/role.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import { createHotelSchema, updateHotelSchema } from './hotel.validation.js';
+import { hotelParamSchema } from '../../shared/validators/hotel.validation.js';
 
 const hotelRouter = Router();
 
@@ -23,7 +24,7 @@ hotelRouter.post(
 );
 
 hotelRouter.get('/', getAllHotelsController);
-hotelRouter.get('/:hotelId', getHotelByIdController);
+hotelRouter.get('/:hotelId',validate(hotelParamSchema), getHotelByIdController);
 hotelRouter.patch(
   '/:hotelId',
   protect,
