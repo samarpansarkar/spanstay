@@ -15,7 +15,7 @@ export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
 
   if (existingUser) {
-    throw new AppError("user already exist!!!",409)
+    throw new AppError('user already exist!!!', 409);
   }
 
   const user = await createUser(userData);
@@ -27,7 +27,7 @@ export const signinUserService = async (userData) => {
   const existingUser = await findUserPasswordByEmail(userData.email);
 
   if (!existingUser) {
-    throw new AppError('User is not register!!!',404);
+    throw new AppError('User is not register!!!', 404);
   }
 
   const isPasswordMatched = await existingUser.comparePassword(
@@ -60,7 +60,7 @@ export const userProfileService = async (userId) => {
   let user = await findUserById(userId);
 
   if (!user) {
-    throw new AppError('No data found!!',404);
+    throw new AppError('No data found!!', 404);
   }
 
   return user;
@@ -82,6 +82,6 @@ export const refreshAccessTokenService = (refreshToken) => {
 
     return accessToken;
   } catch (error) {
-    throw new AppError('Invalid refresh token signin again!!!',401);
+    throw new AppError('Invalid refresh token signin again!!!', 401);
   }
 };

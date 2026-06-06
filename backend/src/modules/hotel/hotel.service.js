@@ -96,11 +96,8 @@ export const getHotelByIdService = async (hotelId) => {
   const hotel = await getHotelById(hotelId);
 
   if (!hotel) {
-      throw new AppError(
-        'Hotel not found',
-        404
-      );
-    }
+    throw new AppError('Hotel not found', 404);
+  }
 
   return hotel;
 };
@@ -109,13 +106,13 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
   const hotel = await getHotelById(hotelId);
 
   if (!hotel) {
-    throw new AppError('Hotel not found!!!',404);
+    throw new AppError('Hotel not found!!!', 404);
   }
 
   const isOwner = hotel.owner.toString() === currentUser.id;
 
   if (!isOwner) {
-    throw new AppError('You are not authorized!!!',403);
+    throw new AppError('You are not authorized!!!', 403);
   }
 
   const updateHotelData = await updateHotel(hotelId, updateData);
@@ -127,14 +124,14 @@ export const deleteHotelService = async (hotelId, currentUser) => {
   const hotel = await getHotelById(hotelId);
 
   if (!hotel) {
-    throw new AppError('Hotel not found!!!',404);
+    throw new AppError('Hotel not found!!!', 404);
   }
   const isOwner = hotel.owner.toString() === currentUser.id;
 
   const isAdmin = currentUser.role === 'admin';
 
   if (!isOwner && !isAdmin) {
-    throw new AppError('You are not authorize!!!',401);
+    throw new AppError('You are not authorize!!!', 401);
   }
 
   const deleteHotel = await deleteHotelById(hotel.id);
