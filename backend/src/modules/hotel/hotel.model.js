@@ -20,17 +20,17 @@ const hotelSchema = new Schema(
       require: true,
     },
     images: [
-       {
-    url: {
-      type: String,
-      required: true,
-    },
+      {
+        url: {
+          type: String,
+          required: true,
+        },
 
-    publicId: {
-      type: String,
-      required: true,
-    },
-  },
+        publicId: {
+          type: String,
+          required: true,
+        },
+      },
     ],
     amenities: [String],
     owner: {

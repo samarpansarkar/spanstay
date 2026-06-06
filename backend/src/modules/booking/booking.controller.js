@@ -1,4 +1,5 @@
 import asyncHandler from '../../shared/utils/asyncHandler.js';
+import sendResponse from '../../shared/utils/SendResponse.js';
 import {
   cancelBookingService,
   confirmedBookingService,
@@ -9,7 +10,8 @@ import {
 export const createBookingController = asyncHandler(async (req, res) => {
   const booking = await createBookingService(req.body, req.user);
 
-  res.status(201).json({
+  sendResponse(res, {
+    statusCode: 201,
     success: true,
     message: 'Booking create successfully!!!',
     data: booking,
@@ -19,7 +21,8 @@ export const createBookingController = asyncHandler(async (req, res) => {
 export const getMyBookingsController = asyncHandler(async (req, res) => {
   const bookings = await getMyBookingsService(req.user.id);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message: 'Fetch all booking!!!',
     data: bookings,
@@ -29,7 +32,8 @@ export const getMyBookingsController = asyncHandler(async (req, res) => {
 export const cancelBookingController = asyncHandler(async (req, res) => {
   const booking = await cancelBookingService(req.params.bookingId, req.user);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message: 'Booking cancelled successfully!!!',
     data: booking,
@@ -39,7 +43,8 @@ export const cancelBookingController = asyncHandler(async (req, res) => {
 export const confirmedBookingController = asyncHandler(async (req, res) => {
   const booking = await confirmedBookingService(req.params.bookingId, req.user);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message: 'Booking confirmed!!!',
     data: booking,

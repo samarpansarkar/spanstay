@@ -35,15 +35,15 @@ const bookingSchema = new Schema(
       enum: ['pending', 'confirmed', 'cancelled'],
       default: 'pending',
     },
-    paymentStatus:{
-      type:String,
+    paymentStatus: {
+      type: String,
 
-      enum:['pending','paid','failed'],
-      default:'pending'
+      enum: ['pending', 'paid', 'failed'],
+      default: 'pending',
     },
-    paymentIntentId:{
-      type:String,
-    }
+    paymentIntentId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

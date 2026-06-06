@@ -1,4 +1,6 @@
+import { success } from 'zod';
 import asyncHandler from '../../shared/utils/asyncHandler.js';
+import sendResponse from '../../shared/utils/SendResponse.js';
 import {
   refreshAccessTokenService,
   registerUserService,
@@ -9,7 +11,8 @@ import {
 export const registerUserController = asyncHandler(async (req, res) => {
   const user = await registerUserService(req.body);
 
-  res.status(201).json({
+  sendResponse(res, {
+    statusCode: 201,
     success: true,
     message: 'Registration successfull!!',
     data: user,
@@ -19,26 +22,28 @@ export const registerUserController = asyncHandler(async (req, res) => {
 export const signinUserController = asyncHandler(async (req, res) => {
   const response = await signinUserService(req.body);
 
-  res
-    .cookie('refreshToken', response.refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'Strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
-    .status(200)
-    .json({
-      success: true,
-      message: 'Signin successfull!!',
-      data: response?.user,
-      accessToken: response?.accessToken,
-    });
+  res.cookie('refreshToken', response.refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'Strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Signin successFul',
+    data: {
+      user: response.user,
+      accessToken: response.accessToken,
+    },
+  });
 });
 
 export const userProfileController = asyncHandler(async (req, res) => {
   const user = await userProfileService(req.user.id);
 
-  res.status(200).json({ success: true, data: user });
+  sendResponse(res, { success: true, data: user });
 });
 
 export const refreshTokenController = asyncHandler(async (req, res) => {
@@ -46,8 +51,5 @@ export const refreshTokenController = asyncHandler(async (req, res) => {
 
   const accessToken = await refreshAccessTokenService(refreshToken);
 
-  res.status(200).json({
-    success: true,
-    accessToken,
-  });
+  sendResponse(res, { statusCode: 200, success: true, data: accessToken });
 });
