@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import protect from '../../shared/middleware/auth.middleware.js';
 import { ROLES } from '../../shared/constants/role.js';
-import { createBookingController } from './booking.controller.js';
+import {
+  createBookingController,
+  getMyBookingsController,
+} from './booking.controller.js';
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import { createBookingSchema } from './booking.validation.js';
@@ -14,6 +17,13 @@ bookingRouter.post(
   authorize(ROLES.USER),
   validate(createBookingSchema),
   createBookingController
+);
+
+bookingRouter.get(
+  '/my-bookings',
+  protect,
+  authorize(ROLES.USER),
+  getMyBookingsController
 );
 
 export default bookingRouter;

@@ -1,5 +1,9 @@
 import { getHotelById } from '../hotel/hotel.repository.js';
-import { createBooking, findConflictingBooking } from './booking.repository.js';
+import {
+  createBooking,
+  findConflictingBooking,
+  getBookingsByUser,
+} from './booking.repository.js';
 
 export const createBookingService = async (bookingData, currentUser) => {
   const hotel = await getHotelById(bookingData.hotelId);
@@ -40,4 +44,8 @@ export const createBookingService = async (bookingData, currentUser) => {
   });
 
   return booking;
+};
+
+export const getMyBookingsService = async (userId) => {
+  return await getBookingsByUser(userId);
 };

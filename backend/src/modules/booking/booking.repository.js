@@ -21,3 +21,9 @@ export const findConflictingBooking = async (hotelId, checkIn, checkOut) => {
     },
   });
 };
+
+export const getBookingsByUser = async (userId) => {
+  return await Booking.find({ user: userId })
+    .populate('hotel', 'title location price images')
+    .sort({ createdAt: -1 });
+};

@@ -1,4 +1,7 @@
-import { createBookingService } from './booking.service.js';
+import {
+  createBookingService,
+  getMyBookingsService,
+} from './booking.service.js';
 
 export const createBookingController = async (req, res) => {
   try {
@@ -8,6 +11,23 @@ export const createBookingController = async (req, res) => {
       success: true,
       message: 'Booking create successfully!!!',
       data: booking,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getMyBookingsController = async (req, res) => {
+  try {
+    const bookings = await getMyBookingsService(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Fetch all booking!!!',
+      data: bookings,
     });
   } catch (error) {
     res.status(400).json({
