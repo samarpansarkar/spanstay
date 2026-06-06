@@ -8,7 +8,10 @@ import {
 } from './hotel.service.js';
 
 export const registerHotelController = asyncHandler(async (req, res) => {
-  const imageUrls = req.files.map((file) => file.path);
+  const imageUrls = req.files.map((file) => ({
+    url:file.path,
+    publicId:file.filename
+  }));
 
   const hotel = await registerHotelService(
     { ...req.body, images: imageUrls },
