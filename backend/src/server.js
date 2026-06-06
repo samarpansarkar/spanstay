@@ -4,24 +4,29 @@ import dotenv from 'dotenv';
 dotenv.config();
 import dbConnect from './config/db.js';
 import app from './app.js';
-import errorHandler from './shared/middleware/error.middleware.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
 
-const PORT = process.env.PORT || 4001;
 
-dbConnect();
+const PORT = process.env.PORT;
 
-app.use(cors());
-app.use(cookieParser());
-app.use(express.json());
-app.use(errorHandler);
+
 
 const server = async () => {
-  const PORT = 4000;
-  app.listen(PORT, () => {
-    console.log(`Your server is running on ${PORT}`);
-  });
+  try {
+    await dbConnect();
+
+    app.listen(PORT, () => {
+      console.log(
+        `Server running on ${PORT}`
+      );
+    });
+  } catch (error) {
+    console.log(
+      'Server startup failed:',
+      error.message
+    );
+
+    process.exit(1);
+  }
 };
 
 server();
