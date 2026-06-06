@@ -23,9 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //form data--file uploads--multipart handling later
 
 app.use('/api/v1', routes);
-app.get('/favicon.ico', (req, res) =>
-  res.status(204).end()
-);
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {
   next(new AppError(`Cannot ${req.method} ${req.originalUrl}`, 404));
 });
