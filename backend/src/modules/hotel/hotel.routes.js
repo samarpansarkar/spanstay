@@ -34,7 +34,7 @@ hotelRouter.patch(
 hotelRouter.delete(
   '/:hotelId',
   protect,
-  authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  authorize(ROLES.HOTEL_ADMIN),
   deleteHotelController
 );
 

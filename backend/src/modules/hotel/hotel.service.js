@@ -106,9 +106,9 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
 
   const isOwner = hotel.owner.toString() === currentUser.id;
 
-  const isAdmin = currentUser.role === 'admin';
 
-  if (!isOwner && !isAdmin) {
+
+  if (!isOwner) {
     throw new Error('You are not authorized!!!');
   }
 
