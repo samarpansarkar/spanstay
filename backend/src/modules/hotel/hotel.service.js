@@ -101,7 +101,7 @@ export const getHotelByIdService = async (hotelId) => {
         404
       );
     }
-    
+
   return hotel;
 };
 
@@ -139,6 +139,5 @@ export const deleteHotelService = async (hotelId, currentUser) => {
 
   const deleteHotel = await deleteHotelById(hotel.id);
 
-  console.log(deleteHotel);
   return deleteHotel;
 };

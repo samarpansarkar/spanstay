@@ -86,10 +86,6 @@ export const confirmedBookingService = async (bookingId, currentUser) => {
 
   const isHotelOwner = booking.hotel?.owner?._id?.toString() === currentUser.id;
 
-  console.log('Hotel Owner:', booking.hotel?.owner);
-
-  console.log('Current User:', currentUser);
-
   if (!isHotelOwner) {
     throw new AppError('Unauthorized!!!',403);
   }
