@@ -2,6 +2,7 @@ import { Router } from 'express';
 import protect from '../../shared/middleware/auth.middleware.js';
 import { ROLES } from '../../shared/constants/role.js';
 import {
+  cancelBookingController,
   createBookingController,
   getMyBookingsController,
 } from './booking.controller.js';
@@ -24,6 +25,13 @@ bookingRouter.get(
   protect,
   authorize(ROLES.USER),
   getMyBookingsController
+);
+
+bookingRouter.patch(
+  '/:bookingId/cancel',
+  protect,
+  authorize(ROLES.USER, ROLES.HOTEL_ADMIN),
+  cancelBookingController
 );
 
 export default bookingRouter;

@@ -2,7 +2,9 @@ import { getHotelById } from '../hotel/hotel.repository.js';
 import {
   createBooking,
   findConflictingBooking,
+  getBookingById,
   getBookingsByUser,
+  updateBookingStatus,
 } from './booking.repository.js';
 
 export const createBookingService = async (bookingData, currentUser) => {
@@ -48,4 +50,28 @@ export const createBookingService = async (bookingData, currentUser) => {
 
 export const getMyBookingsService = async (userId) => {
   return await getBookingsByUser(userId);
+};
+
+export const cancelBookingService = async (bookingId, currentUser) => {
+  const booking = await getBookingById(bookingId);
+
+  if (!booking) {
+    throw new Error('Booking not found!!!');
+  }
+
+  const isBookingOwner = booking.user.toString() === currentUser.id;
+
+  const isHotelOwner = booking.hotel.owner.toString() === currentUser.id;
+
+  if (!isBookingOwner && !isHotelOwner) {
+    throw new Error('Unauthorized!!!');
+  }
+
+  if (booking.status === 'cancelled') {
+    throw new Error('Booking already canceled!!!');
+  }
+
+  const cancelledBooking = await updateBookingStatus(bookingId, 'cancelled');
+
+  return cancelledBooking;
 };

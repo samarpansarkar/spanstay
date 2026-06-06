@@ -27,3 +27,11 @@ export const getBookingsByUser = async (userId) => {
     .populate('hotel', 'title location price images')
     .sort({ createdAt: -1 });
 };
+
+export const getBookingById = async (bookingId) => {
+  return await Booking.findById(bookingId).populate('hotel');
+};
+
+export const updateBookingStatus = async (bookingId, status) => {
+  return await Booking.findByIdAndUpdate(bookingId, { status }, { new: true });
+};
