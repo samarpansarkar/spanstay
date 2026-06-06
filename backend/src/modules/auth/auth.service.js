@@ -9,12 +9,13 @@ import {
   findUserById,
   findUserPasswordByEmail,
 } from './auth.repository.js';
+import AppError from '../../shared/utils/AppError.js';
 
 export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
 
   if (existingUser) {
-    throw new Error('User already exists');
+    throw new AppError("user already exist!!!",409)
   }
 
   const user = await createUser(userData);
@@ -26,7 +27,7 @@ export const signinUserService = async (userData) => {
   const existingUser = await findUserPasswordByEmail(userData.email);
 
   if (!existingUser) {
-    throw new Error('User is not register!!!');
+    throw new AppError('User is not register!!!',404);
   }
 
   const isPasswordMatched = await existingUser.comparePassword(
@@ -34,7 +35,7 @@ export const signinUserService = async (userData) => {
   );
 
   if (!isPasswordMatched) {
-    throw new Error('Invalid password!!');
+    throw new AppError('Invalid password!!', 401);
   }
 
   const payload = { id: existingUser._id, role: existingUser.role };
@@ -59,7 +60,7 @@ export const userProfileService = async (userId) => {
   let user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('No data found!!');
+    throw new AppError('No data found!!',404);
   }
 
   return user;
@@ -81,6 +82,6 @@ export const refreshAccessTokenService = (refreshToken) => {
 
     return accessToken;
   } catch (error) {
-    throw new Error('Invalid refresh token signin again!!!');
+    throw new AppError('Invalid refresh token signin again!!!',401);
   }
 };
