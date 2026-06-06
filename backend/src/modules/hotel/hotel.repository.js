@@ -22,7 +22,7 @@ export const getHotelById = async (hotelId) => {
 
 export const updateHotel = async (hotelId, updateData) => {
   return await Hotel.findByIdAndUpdate(hotelId, updateData, {
-    new: true,
+    returnDocument: 'after',
     runValidators: true,
   });
 };

@@ -3,6 +3,7 @@ import protect from '../../shared/middleware/auth.middleware.js';
 import { ROLES } from '../../shared/constants/role.js';
 import {
   cancelBookingController,
+  confirmedBookingController,
   createBookingController,
   getMyBookingsController,
 } from './booking.controller.js';
@@ -32,6 +33,13 @@ bookingRouter.patch(
   protect,
   authorize(ROLES.USER, ROLES.HOTEL_ADMIN),
   cancelBookingController
+);
+
+bookingRouter.patch(
+  '/:bookingId/confirm',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  confirmedBookingController
 );
 
 export default bookingRouter;

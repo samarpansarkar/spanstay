@@ -1,5 +1,6 @@
 import {
   cancelBookingService,
+  confirmedBookingService,
   createBookingService,
   getMyBookingsService,
 } from './booking.service.js';
@@ -45,6 +46,26 @@ export const cancelBookingController = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Booking cancelled successfully!!!',
+      data: booking,
+    });
+  } catch (error) {
+    res.status(403).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const confirmedBookingController = async (req, res) => {
+  try {
+    const booking = await confirmedBookingService(
+      req.params.bookingId,
+      req.user
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Booking confirmed!!!',
       data: booking,
     });
   } catch (error) {

@@ -29,9 +29,16 @@ export const getBookingsByUser = async (userId) => {
 };
 
 export const getBookingById = async (bookingId) => {
-  return await Booking.findById(bookingId).populate('hotel');
+  return await Booking.findById(bookingId).populate({
+    path: 'hotel',
+    populate: { path: 'owner', select: '_id name email role' },
+  });
 };
 
 export const updateBookingStatus = async (bookingId, status) => {
-  return await Booking.findByIdAndUpdate(bookingId, { status }, { new: true });
+  return await Booking.findByIdAndUpdate(
+    bookingId,
+    { status },
+    { returnDocument: 'after' }
+  );
 };

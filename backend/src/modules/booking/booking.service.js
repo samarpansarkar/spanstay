@@ -75,3 +75,32 @@ export const cancelBookingService = async (bookingId, currentUser) => {
 
   return cancelledBooking;
 };
+
+export const confirmedBookingService = async (bookingId, currentUser) => {
+  const booking = await getBookingById(bookingId);
+
+  if (!booking) {
+    throw new Error('Booking not found!!!');
+  }
+
+  const isHotelOwner = booking.hotel?.owner?._id?.toString() === currentUser.id;
+
+  console.log('Hotel Owner:', booking.hotel?.owner);
+
+  console.log('Current User:', currentUser);
+
+  if (!isHotelOwner) {
+    throw new Error('Unauthorized!!!');
+  }
+
+  if (booking.status === 'cancelled') {
+    throw new Error('Booking already canceled!!!');
+  }
+  if (booking.status === 'confirmed') {
+    throw new Error('Booking already confirmed!!!');
+  }
+
+  const confirmedBooking = await updateBookingStatus(bookingId, 'confirmed');
+
+  return confirmedBooking;
+};
