@@ -1,12 +1,15 @@
-import express from 'express';
-import routes from './routes/index.js';
-import errorHandler from './shared/middleware/error.middleware.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import morgan from 'morgan';
+import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
+import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.js';
+import routes from './routes/index.js';
+import errorHandler from './shared/middleware/error.middleware.js';
 import AppError from './shared/utils/AppError.js';
+
 const app = express();
 
 app.use(morgan('dev'));
@@ -31,6 +34,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', routes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {
   next(new AppError(`Cannot ${req.method} ${req.originalUrl}`, 404));
