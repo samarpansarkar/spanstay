@@ -1,5 +1,6 @@
 import redisClient from '../../config/redis.js';
 import AppError from '../../shared/utils/AppError.js';
+import clearHotelCache from '../../shared/utils/clearHotelCache.js';
 import {
   createHotel,
   deleteHotelById,
@@ -11,21 +12,22 @@ import {
 export const registerHotelService = async (hotelData, userId) => {
   const hotel = await createHotel({ ...hotelData, owner: userId });
 
+  await clearHotelCache();
+
   return hotel;
 };
 
 export const getAllHotelsService = async (query) => {
-
-  const cachekKey = `hotels:${JSON.stringify(query)}`
+  const cachekKey = `hotels:${JSON.stringify(query)}`;
 
   const cachedHotels = await redisClient.get(cachekKey);
 
   if (cachedHotels) {
     console.log('Hotels cache hit');
-    return JSON.parse(cachedHotels)
+    return JSON.parse(cachedHotels);
   }
-  
-  console.log('Cache Miss');  
+
+  console.log('Cache Miss');
 
   const page = Number(query.page) || 1;
 
@@ -90,31 +92,23 @@ export const getAllHotelsService = async (query) => {
 
   const { hotels, total } = await getAllHotels(filter, skip, limit, sort);
 
-   const responseData = {
-      hotels,
+  const responseData = {
+    hotels,
 
-      pagination: {
-        total,
+    pagination: {
+      total,
 
-        page,
+      page,
 
-        limit,
+      limit,
 
-        totalPages:
-          Math.ceil(
-            total / limit
-          ),
-      },
-    };
-
-    await redisClient.set(
-      cachekKey,
-      JSON.stringify(responseData),
-      {EX:60},
-    )
-  return responseData
+      totalPages: Math.ceil(total / limit),
+    },
   };
 
+  await redisClient.set(cachekKey, JSON.stringify(responseData), { EX: 60 });
+  return responseData;
+};
 
 export const getHotelByIdService = async (hotelId) => {
   const hotel = await getHotelById(hotelId);
@@ -141,6 +135,8 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
 
   const updateHotelData = await updateHotel(hotelId, updateData);
 
+  await clearHotelCache();
+
   return updateHotelData;
 };
 
@@ -159,6 +155,8 @@ export const deleteHotelService = async (hotelId, currentUser) => {
   }
 
   const deleteHotel = await deleteHotelById(hotel.id);
+
+  await clearHotelCache();
 
   return deleteHotel;
 };
