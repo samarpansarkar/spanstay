@@ -1,3 +1,4 @@
+import redisClient from '../../config/redis.js';
 import AppError from '../../shared/utils/AppError.js';
 import {
   createHotel,
@@ -14,6 +15,18 @@ export const registerHotelService = async (hotelData, userId) => {
 };
 
 export const getAllHotelsService = async (query) => {
+
+  const cachekKey = `hotels:${JSON.stringify(query)}`
+
+  const cachedHotels = await redisClient.get(cachekKey);
+
+  if (cachedHotels) {
+    console.log('Hotels cache hit');
+    return JSON.parse(cachedHotels)
+  }
+  
+  console.log('Cache Miss');  
+
   const page = Number(query.page) || 1;
 
   const limit = Number(query.limit) || 10;
@@ -77,20 +90,31 @@ export const getAllHotelsService = async (query) => {
 
   const { hotels, total } = await getAllHotels(filter, skip, limit, sort);
 
-  return {
-    hotels,
+   const responseData = {
+      hotels,
 
-    pagination: {
-      total,
+      pagination: {
+        total,
 
-      page,
+        page,
 
-      limit,
+        limit,
 
-      totalPages: Math.ceil(total / limit),
-    },
+        totalPages:
+          Math.ceil(
+            total / limit
+          ),
+      },
+    };
+
+    await redisClient.set(
+      cachekKey,
+      JSON.stringify(responseData),
+      {EX:60},
+    )
+  return responseData
   };
-};
+
 
 export const getHotelByIdService = async (hotelId) => {
   const hotel = await getHotelById(hotelId);

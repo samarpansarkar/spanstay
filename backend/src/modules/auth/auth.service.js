@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import AppError from '../../shared/utils/AppError.js';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -9,7 +10,6 @@ import {
   findUserById,
   findUserPasswordByEmail,
 } from './auth.repository.js';
-import AppError from '../../shared/utils/AppError.js';
 
 export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
@@ -47,7 +47,7 @@ export const signinUserService = async (userData) => {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 
-  existingUser.refreshToken=refreshToken;
+  existingUser.refreshToken = refreshToken;
 
   await existingUser.save();
 
@@ -74,14 +74,12 @@ export const userProfileService = async (userId) => {
   return user;
 };
 
-export const refreshAccessTokenService = (refreshToken) => {
-  
+export const refreshAccessTokenService = async (refreshToken) => {
   if (!refreshToken) {
-    throw new AppError('Refresh token missing!!!',401);
+    throw new AppError('Refresh token missing!!!', 401);
   }
 
   try {
-
     const decodeTokenData = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET
@@ -89,13 +87,12 @@ export const refreshAccessTokenService = (refreshToken) => {
 
     const user = await findUserById(decodeTokenData.id);
 
-
     if (!user) {
-      throw new AppError("User not found",404);
+      throw new AppError('User not found', 404);
     }
 
     if (user.refreshToken !== refreshToken) {
-      throw new AppError("Invalid refresh token",401);
+      throw new AppError('Invalid refresh token', 401);
     }
 
     const payload = {
@@ -111,7 +108,7 @@ export const refreshAccessTokenService = (refreshToken) => {
 
     await user.save();
 
-    return {accessToken:newAccessToken, refreshToken:newRefreshToken};
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   } catch (error) {
     throw new AppError('Invalid refresh token signin again!!!', 401);
   }
@@ -120,11 +117,11 @@ export const refreshAccessTokenService = (refreshToken) => {
 export const logoutService = async (userId) => {
   const user = findUserById(userId);
 
-  if(!user){
-    throw new AppError('User not found',404);
+  if (!user) {
+    throw new AppError('User not found', 404);
   }
 
-  user.refreshToken=null;
+  user.refreshToken = null;
 
   await user.save();
-}
+};
