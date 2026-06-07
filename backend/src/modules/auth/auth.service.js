@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import AppError from '../../shared/utils/AppError.js';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -14,7 +15,7 @@ export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
 
   if (existingUser) {
-    throw new Error('User already exists');
+    throw new AppError('user already exist!!!', 409);
   }
 
   const user = await createUser(userData);
@@ -26,7 +27,7 @@ export const signinUserService = async (userData) => {
   const existingUser = await findUserPasswordByEmail(userData.email);
 
   if (!existingUser) {
-    throw new Error('User is not register!!!');
+    throw new AppError('User is not register!!!', 404);
   }
 
   const isPasswordMatched = await existingUser.comparePassword(
@@ -34,13 +35,21 @@ export const signinUserService = async (userData) => {
   );
 
   if (!isPasswordMatched) {
-    throw new Error('Invalid password!!');
+    throw new AppError('Invalid password!!', 401);
   }
 
-  const payload = { id: existingUser._id, role: existingUser.role };
+  const payload = {
+    id: existingUser._id,
+    role: existingUser.role,
+    email: existingUser.email,
+  };
 
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
+
+  existingUser.refreshToken = refreshToken;
+
+  await existingUser.save();
 
   let response = {
     user: {
@@ -59,28 +68,60 @@ export const userProfileService = async (userId) => {
   let user = await findUserById(userId);
 
   if (!user) {
-    throw new Error('No data found!!');
+    throw new AppError('No data found!!', 404);
   }
 
   return user;
 };
 
-export const refreshAccessTokenService = (refreshToken) => {
+export const refreshAccessTokenService = async (refreshToken) => {
+  if (!refreshToken) {
+    throw new AppError('Refresh token missing!!!', 401);
+  }
+
   try {
     const decodeTokenData = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET
     );
 
+    const user = await findUserById(decodeTokenData.id);
+
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+
+    if (user.refreshToken !== refreshToken) {
+      throw new AppError('Invalid refresh token', 401);
+    }
+
     const payload = {
-      id: decodeTokenData.id,
-      role: decodeTokenData.role,
+      id: user._id,
+      role: user.role,
+      email: user.email,
     };
 
-    const accessToken = generateAccessToken(payload);
+    const newAccessToken = generateAccessToken(payload);
+    const newRefreshToken = generateRefreshToken(payload);
 
-    return accessToken;
+    user.refreshToken = newRefreshToken;
+
+    await user.save();
+
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   } catch (error) {
-    throw new Error('Invalid refresh token signin again!!!');
+    throw new AppError('Invalid refresh token signin again!!!', 401);
   }
+};
+
+export const logoutService = async (userId) => {
+  const user = findUserById(userId);
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  user.refreshToken = null;
+
+  await user.save();
 };

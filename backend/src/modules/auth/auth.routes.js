@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  logoutController,
   registerUserController,
   signinUserController,
   userProfileController,
@@ -7,13 +8,26 @@ import {
 import { registerSchema, signinSchema } from './auth.validation.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import protect from '../../shared/middleware/auth.middleware.js';
+import { authLimiter } from '../../shared/middleware/rateLimit.middleware.js';
 
 const authRouter = Router();
 
-authRouter.post('/register', validate(registerSchema), registerUserController);
+authRouter.post(
+  '/register',
+  authLimiter,
+  validate(registerSchema),
+  registerUserController
+);
 
-authRouter.post('/signin', validate(signinSchema), signinUserController);
+authRouter.post(
+  '/signin',
+  authLimiter,
+  validate(signinSchema),
+  signinUserController
+);
 
-authRouter.get('/user-profile', protect, userProfileController);
+authRouter.post('/logout', protect, logoutController);
+
+authRouter.get('/user-profile', authLimiter, protect, userProfileController);
 
 export default authRouter;

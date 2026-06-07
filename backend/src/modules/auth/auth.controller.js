@@ -1,80 +1,73 @@
 import {
+  refreshTokenCookieConfig,
+  refreshTokenCookieOptions,
+} from '../../config/cookieOptions.js';
+import asyncHandler from '../../shared/utils/asyncHandler.js';
+import sendResponse from '../../shared/utils/SendResponse.js';
+import {
+  logoutService,
   refreshAccessTokenService,
   registerUserService,
   signinUserService,
   userProfileService,
 } from './auth.service.js';
 
-export const registerUserController = async (req, res) => {
-  try {
-    const user = await registerUserService(req.body);
+export const registerUserController = asyncHandler(async (req, res) => {
+  const user = await registerUserService(req.body);
 
-    res.status(201).json({
-      success: true,
-      message: 'Registration successfull!!',
-      data: user,
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: 'Registration successfull!!',
+    data: user,
+  });
+});
 
-export const signinUserController = async (req, res) => {
-  try {
-    const response = await signinUserService(req.body);
+export const signinUserController = asyncHandler(async (req, res) => {
+  const response = await signinUserService(req.body);
 
-    res
-      .cookie('refreshToken', response.refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-      .status(200)
-      .json({
-        success: true,
-        message: 'Signin successfull!!',
-        data: response?.user,
-        accessToken: response?.accessToken,
-      });
-  } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+  res.cookie('refreshToken', response.refreshToken, refreshTokenCookieConfig);
 
-export const userProfileController = async (req, res) => {
-  try {
-    const user = await userProfileService(req.user.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Signin successFul',
+    data: {
+      user: response.user,
+      accessToken: response.accessToken,
+    },
+  });
+});
 
-    res.status(200).json({ success: true, data: user });
-  } catch (error) {
-    res.status(404).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+export const userProfileController = asyncHandler(async (req, res) => {
+  const user = await userProfileService(req.user.id);
 
-export const refreshTokenController = async (req, res) => {
-  try {
-    const refreshToken = req.cookies.refreshToken;
+  sendResponse(res, { success: true, data: user });
+});
 
-    const accessToken = await refreshAccessTokenService(refreshToken);
+export const refreshTokenController = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
 
-    res.status(200).json({
-      success: true,
-      accessToken,
-    });
-  } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+  const result = await refreshAccessTokenService(refreshToken);
+
+  res.cookie('refreshToken', result.refreshToken, refreshTokenCookieConfig);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Access token refreshed successfully',
+    data: { accessToken: result.accessToken },
+  });
+});
+
+export const logoutController = asyncHandler(async (req, res) => {
+  await logoutService(req.user.id);
+
+  res.clearCookie('refreshToken', refreshTokenCookieOptions);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Logout successful',
+  });
+});

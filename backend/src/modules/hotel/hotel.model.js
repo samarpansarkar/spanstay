@@ -19,7 +19,19 @@ const hotelSchema = new Schema(
       type: Number,
       require: true,
     },
-    image: [String],
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+
+        publicId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     amenities: [String],
     owner: {
       type: Schema.Types.ObjectId,

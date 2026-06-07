@@ -1,3 +1,5 @@
+import redisClient from '../../config/redis.js';
+import AppError from '../../shared/utils/AppError.js';
 import {
   createHotel,
   deleteHotelById,
@@ -13,6 +15,18 @@ export const registerHotelService = async (hotelData, userId) => {
 };
 
 export const getAllHotelsService = async (query) => {
+
+  const cachekKey = `hotels:${JSON.stringify(query)}`
+
+  const cachedHotels = await redisClient.get(cachekKey);
+
+  if (cachedHotels) {
+    console.log('Hotels cache hit');
+    return JSON.parse(cachedHotels)
+  }
+  
+  console.log('Cache Miss');  
+
   const page = Number(query.page) || 1;
 
   const limit = Number(query.limit) || 10;
@@ -76,23 +90,38 @@ export const getAllHotelsService = async (query) => {
 
   const { hotels, total } = await getAllHotels(filter, skip, limit, sort);
 
-  return {
-    hotels,
+   const responseData = {
+      hotels,
 
-    pagination: {
-      total,
+      pagination: {
+        total,
 
-      page,
+        page,
 
-      limit,
+        limit,
 
-      totalPages: Math.ceil(total / limit),
-    },
+        totalPages:
+          Math.ceil(
+            total / limit
+          ),
+      },
+    };
+
+    await redisClient.set(
+      cachekKey,
+      JSON.stringify(responseData),
+      {EX:60},
+    )
+  return responseData
   };
-};
+
 
 export const getHotelByIdService = async (hotelId) => {
   const hotel = await getHotelById(hotelId);
+
+  if (!hotel) {
+    throw new AppError('Hotel not found', 404);
+  }
 
   return hotel;
 };
@@ -101,13 +130,13 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
   const hotel = await getHotelById(hotelId);
 
   if (!hotel) {
-    throw new Error('Hotel not found!!!');
+    throw new AppError('Hotel not found!!!', 404);
   }
 
   const isOwner = hotel.owner.toString() === currentUser.id;
 
   if (!isOwner) {
-    throw new Error('You are not authorized!!!');
+    throw new AppError('You are not authorized!!!', 403);
   }
 
   const updateHotelData = await updateHotel(hotelId, updateData);
@@ -119,18 +148,17 @@ export const deleteHotelService = async (hotelId, currentUser) => {
   const hotel = await getHotelById(hotelId);
 
   if (!hotel) {
-    throw new Error('Hotel not found!!!');
+    throw new AppError('Hotel not found!!!', 404);
   }
   const isOwner = hotel.owner.toString() === currentUser.id;
 
   const isAdmin = currentUser.role === 'admin';
 
   if (!isOwner && !isAdmin) {
-    throw new Error('You are not authorize!!!');
+    throw new AppError('You are not authorize!!!', 401);
   }
 
   const deleteHotel = await deleteHotelById(hotel.id);
 
-  console.log(deleteHotel);
   return deleteHotel;
 };

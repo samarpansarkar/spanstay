@@ -1,19 +1,26 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import app from './app.js';
+import dbConnect from './config/db.js';
+import redisClient from './config/redis.js';
 
 dotenv.config();
-import dbConnect from './config/db.js';
-import app from './app.js';
 
-const PORT = process.env.PORT || 4001;
-
-dbConnect();
+const PORT = process.env.PORT;
 
 const server = async () => {
-  const PORT = 4000;
-  app.listen(PORT, () => {
-    console.log(`Your server is running on ${PORT}`);
-  });
+  try {
+    await dbConnect();
+
+    await redisClient.connect();
+
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  } catch (error) {
+    console.log('Server startup failed:', error.message);
+
+    process.exit(1);
+  }
 };
 
 server();

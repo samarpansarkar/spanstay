@@ -10,6 +10,7 @@ import {
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import { createBookingSchema } from './booking.validation.js';
+import { bookingParamSchema } from './booking.validation.js';
 
 const bookingRouter = Router();
 
@@ -30,6 +31,7 @@ bookingRouter.get(
 
 bookingRouter.patch(
   '/:bookingId/cancel',
+  validate(bookingParamSchema),
   protect,
   authorize(ROLES.USER, ROLES.HOTEL_ADMIN),
   cancelBookingController

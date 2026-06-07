@@ -1,3 +1,4 @@
+import AppError from '../../shared/utils/AppError.js';
 import { getHotelById } from '../hotel/hotel.repository.js';
 import {
   createBooking,
@@ -11,7 +12,7 @@ export const createBookingService = async (bookingData, currentUser) => {
   const hotel = await getHotelById(bookingData.hotelId);
 
   if (!hotel) {
-    throw new Error('Hotel not found!!!');
+    throw new AppError('Hotel not found!!!', 404);
   }
 
   const checkIn = new Date(bookingData.checkIn);
@@ -19,7 +20,7 @@ export const createBookingService = async (bookingData, currentUser) => {
   const checkOut = new Date(bookingData.checkOut);
 
   if (checkIn >= checkOut) {
-    throw new Error('Invalid booking dates!!');
+    throw new AppError('Invalid booking dates!!', 401);
   }
 
   const existingBooking = await findConflictingBooking(
@@ -29,7 +30,7 @@ export const createBookingService = async (bookingData, currentUser) => {
   );
 
   if (existingBooking) {
-    throw new Error('Hotel already booked for selected dates!!!');
+    throw new AppError('Hotel already booked for selected dates!!!', 409);
   }
 
   const totalNights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
@@ -56,7 +57,7 @@ export const cancelBookingService = async (bookingId, currentUser) => {
   const booking = await getBookingById(bookingId);
 
   if (!booking) {
-    throw new Error('Booking not found!!!');
+    throw new AppError('Booking not found!!!', 404);
   }
 
   const isBookingOwner = booking.user.toString() === currentUser.id;
@@ -64,11 +65,11 @@ export const cancelBookingService = async (bookingId, currentUser) => {
   const isHotelOwner = booking.hotel.owner.toString() === currentUser.id;
 
   if (!isBookingOwner && !isHotelOwner) {
-    throw new Error('Unauthorized!!!');
+    throw new AppError('Unauthorized!!!', 403);
   }
 
   if (booking.status === 'cancelled') {
-    throw new Error('Booking already canceled!!!');
+    throw new AppError('Booking already canceled!!!', 409);
   }
 
   const cancelledBooking = await updateBookingStatus(bookingId, 'cancelled');
@@ -80,24 +81,20 @@ export const confirmedBookingService = async (bookingId, currentUser) => {
   const booking = await getBookingById(bookingId);
 
   if (!booking) {
-    throw new Error('Booking not found!!!');
+    throw new AppError('Booking not found!!!', 404);
   }
 
   const isHotelOwner = booking.hotel?.owner?._id?.toString() === currentUser.id;
 
-  console.log('Hotel Owner:', booking.hotel?.owner);
-
-  console.log('Current User:', currentUser);
-
   if (!isHotelOwner) {
-    throw new Error('Unauthorized!!!');
+    throw new AppError('Unauthorized!!!', 403);
   }
 
   if (booking.status === 'cancelled') {
-    throw new Error('Booking already canceled!!!');
+    throw new AppError('Booking already canceled!!!', 409);
   }
   if (booking.status === 'confirmed') {
-    throw new Error('Booking already confirmed!!!');
+    throw new AppError('Booking already confirmed!!!', 409);
   }
 
   const confirmedBooking = await updateBookingStatus(bookingId, 'confirmed');
