@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export const loginSchema = z.object({
+export const signupSchema = z.object({
+  name: z.string().min(3, 'To short for a name!!!'),
   email: z
     .string()
     .min(1, 'to short enter valid email')

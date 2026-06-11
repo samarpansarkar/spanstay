@@ -1,17 +1,19 @@
 import { useSigninMutation } from '@/redux/api/authApi';
 import { setCredentials } from '@/redux/features/auth/authSlice';
-import { loginSchema } from '@/schemas/auth/loginSchema';
+import { signinSchema } from '@/schemas/auth/signinSchema';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const SigninPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(loginSchema) });
+  } = useForm({ resolver: zodResolver(signinSchema) });
 
   const navigate = useNavigate();
 
@@ -29,9 +31,12 @@ const SigninPage = () => {
           accessToken: response.data.accessToken,
         })
       );
+      if (response.success) {
+        toast.success(response.message);
+      }
       navigate('/');
     } catch (error) {
-      console.log(error.message);
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -68,7 +73,7 @@ const SigninPage = () => {
         </div>
 
         <button type="submit" disabled={isLoading} className="border px-4 py-2">
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? 'Signing in...' : 'Signin'}
         </button>
       </form>
     </div>
