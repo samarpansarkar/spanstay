@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
 import {
   selectAccessToken,
   selectCurrentUser,
   selectIsAuthenticated,
-} from '../redux/features/auth/authSelectors';
+} from '@/redux/features/auth/authSelectors';
+import { useSelector } from 'react-redux';
 
 const useAuth = () => {
   const user = useSelector(selectCurrentUser);

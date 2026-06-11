@@ -1,10 +1,11 @@
+import { useSigninMutation } from '@/redux/api/authApi';
+import { setCredentials } from '@/redux/features/auth/authSlice';
+import { loginSchema } from '@/schemas/auth/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSigninMutation } from '../../redux/api/authApi';
-import { setCredentials } from '../../redux/features/auth/authSlice';
-import { loginSchema } from '../../schemas/auth/loginSchema';
+
 const SigninPage = () => {
   const {
     register,
@@ -66,8 +67,8 @@ const SigninPage = () => {
           )}
         </div>
 
-        <button type="submit" className="border px-4 py-2">
-          Login
+        <button type="submit" disabled={isLoading} className="border px-4 py-2">
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
     </div>
