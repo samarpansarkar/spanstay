@@ -1,20 +1,18 @@
 import { motion } from 'framer-motion';
 import { fadeUpVariant } from '@/animations/variants';
+import heroBg from '@/assets/hero.png';
 
 const Hero = () => {
   return (
     <section className="relative h-[80vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1542314831-c6a4d2706864?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          src={heroBg}
           alt="Luxury Hotel"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950"></div>
       </div>
-
-      {/* Hero Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto -mt-20">
         <motion.div
           initial="hidden"

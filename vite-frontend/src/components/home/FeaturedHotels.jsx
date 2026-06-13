@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FeaturedHotels = () => {
-  // Fetch latest 4 hotels
+
   const { data, isLoading } = useGetHotelsQuery({
     limit: 4,
     sortBy: 'createdAt',
@@ -22,8 +22,8 @@ const FeaturedHotels = () => {
           <h2 className="text-3xl font-bold text-white mb-2">Featured Stays</h2>
           <p className="text-slate-400">Discover our most popular and newly added properties.</p>
         </div>
-        <Link 
-          to="/hotels" 
+        <Link
+          to="/hotels"
           className="hidden sm:flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
         >
           View all <ArrowRight className="w-4 h-4" />
@@ -49,8 +49,8 @@ const FeaturedHotels = () => {
       )}
 
       <div className="mt-8 sm:hidden">
-        <Link 
-          to="/hotels" 
+        <Link
+          to="/hotels"
           className="flex justify-center items-center gap-2 w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
         >
           View all properties

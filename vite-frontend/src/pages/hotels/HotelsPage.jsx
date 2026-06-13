@@ -64,7 +64,6 @@ const HotelsPage = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white">Explore Hotels</h1>
           <p className="text-slate-400 mt-1">
@@ -72,7 +71,6 @@ const HotelsPage = () => {
           </p>
         </div>
 
-        {/* Search + filter bar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
@@ -86,11 +84,10 @@ const HotelsPage = () => {
 
           <button
             onClick={() => setFiltersOpen((v) => !v)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${
-              filtersOpen || hasFilters
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${filtersOpen || hasFilters
                 ? 'border-indigo-500 bg-indigo-500/10 text-indigo-300'
                 : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
-            }`}
+              }`}
           >
             <SlidersHorizontal className="w-4 h-4" />
             Filters
@@ -114,7 +111,6 @@ const HotelsPage = () => {
           </select>
         </div>
 
-        {/* Expanded filters */}
         {filtersOpen && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
@@ -165,7 +161,6 @@ const HotelsPage = () => {
           </motion.div>
         )}
 
-        {/* Grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {Array.from({ length: 8 }).map((_, i) => <HotelCardSkeleton key={i} />)}
@@ -197,7 +192,6 @@ const HotelsPage = () => {
           </motion.div>
         )}
 
-        {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mt-10">
             <button

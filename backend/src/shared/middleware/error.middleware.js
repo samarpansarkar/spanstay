@@ -5,7 +5,6 @@ const errorHandler = (err, req, res, next) => {
 
   let message = err.message || 'Internal server error.';
 
-  // MONGOOSE VALIDATION ERROR
   if (err.name === 'ValidationError') {
     statusCode = 400;
     message = Object.values(err.errors)
@@ -13,7 +12,6 @@ const errorHandler = (err, req, res, next) => {
       .join(', ');
   }
 
-  // DUPLICATE KEY ERROR
   if (err.code === 11000) {
     statusCode = 400;
 
@@ -22,14 +20,12 @@ const errorHandler = (err, req, res, next) => {
     message = `${field} already exists`;
   }
 
-  // INVALID OBJECT ID
   if (err.name === 'CastError') {
     statusCode = 400;
 
     message = 'Invalid resource ID';
   }
 
-  // JWT EXPIRED
   if (err.name === 'TokenExpiredError') {
     statusCode = 401;
 

@@ -130,7 +130,6 @@ const UsersProfilePage = () => {
 
       <div className="relative max-w-3xl mx-auto px-4 py-10 space-y-6">
 
-        {/* Header card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -182,7 +181,6 @@ const UsersProfilePage = () => {
           )}
         </motion.div>
 
-        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -200,7 +198,6 @@ const UsersProfilePage = () => {
           )}
         </motion.div>
 
-        {/* Account Info */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -226,7 +223,6 @@ const UsersProfilePage = () => {
           </div>
         </motion.div>
 
-        {/* Features */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -35,7 +35,6 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center p-4">
-      {/* Background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />
@@ -47,9 +46,7 @@ const SignupPage = () => {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="relative w-full max-w-md"
       >
-        {/* Card */}
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl mb-4">
               <UserRound className="w-8 h-8 text-indigo-400" />
@@ -57,10 +54,7 @@ const SignupPage = () => {
             <h1 className="text-2xl font-bold text-white">Create account</h1>
             <p className="text-slate-400 mt-1 text-sm">Join SpanStay and start exploring</p>
           </div>
-
-          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Name */}
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-slate-300">Full Name</label>
               <div className="relative">
@@ -77,7 +71,6 @@ const SignupPage = () => {
               )}
             </div>
 
-            {/* Email */}
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-slate-300">Email</label>
               <div className="relative">
@@ -93,8 +86,6 @@ const SignupPage = () => {
                 <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
               )}
             </div>
-
-            {/* Password */}
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-slate-300">Password</label>
               <div className="relative">
@@ -117,8 +108,6 @@ const SignupPage = () => {
                 <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
               )}
             </div>
-
-            {/* Submit */}
             <motion.button
               type="submit"
               disabled={isLoading}
@@ -137,8 +126,6 @@ const SignupPage = () => {
               )}
             </motion.button>
           </form>
-
-          {/* Footer */}
           <p className="text-center text-slate-500 text-sm mt-6">
             Already have an account?{' '}
             <Link
