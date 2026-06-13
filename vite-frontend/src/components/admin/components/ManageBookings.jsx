@@ -66,8 +66,7 @@ const ManageBookings = () => {
               className="bg-white/5 border border-white/10 rounded-2xl p-6 transition-all hover:bg-white/10"
             >
               <div className="flex flex-col xl:flex-row justify-between gap-6">
-                
-                {/* User & Hotel Info */}
+
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -77,11 +76,10 @@ const ManageBookings = () => {
                         {booking.hotel?.location}
                       </div>
                     </div>
-                    <span className={`px-3 py-1 text-xs font-semibold rounded-full capitalize ${
-                      booking.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' :
-                      booking.status === 'cancelled' ? 'bg-rose-500/20 text-rose-400' :
-                      'bg-amber-500/20 text-amber-400'
-                    }`}>
+                    <span className={`px-3 py-1 text-xs font-semibold rounded-full capitalize ${booking.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' :
+                        booking.status === 'cancelled' ? 'bg-rose-500/20 text-rose-400' :
+                          'bg-amber-500/20 text-amber-400'
+                      }`}>
                       {booking.status}
                     </span>
                   </div>
@@ -97,7 +95,6 @@ const ManageBookings = () => {
                   </div>
                 </div>
 
-                {/* Booking Details & Actions */}
                 <div className="flex-1 flex flex-col justify-between">
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div className="bg-slate-900/50 p-3 rounded-xl border border-white/5">
