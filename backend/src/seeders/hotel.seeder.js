@@ -43,7 +43,7 @@ const seedHotels = async () => {
     console.log('Existing hotels deleted successfully');
 
     // MANUALLY CHANGE THIS OWNER ID
-    const ownerID = '6a2379d5d8ee49c3f3c0750f';
+    const ownerID = '6a2ab970d4b9ac4d51e8e947';
 
     const hotels = [];
 
@@ -60,7 +60,7 @@ const seedHotels = async () => {
           max: 15000,
         }),
 
-        images: [faker.image.urlPicsumPhotos()],
+        images: [{ url: faker.image.urlPicsumPhotos({ width: 800, height: 500 }), publicId: 'seed' }],
 
         amenities: faker.helpers.arrayElements(
           [

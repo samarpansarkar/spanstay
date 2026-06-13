@@ -1,23 +1,21 @@
-import { forwardRef } from "react";
-
-import { motion } from "framer-motion";
-
-import { cn } from "@/lib/cn";
+import { cn } from '@/lib/cn';
+import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
 
 const variants = {
-  primary: "bg-primary text-white hover:bg-indigo-700",
+  primary: 'bg-primary text-white hover:bg-indigo-700',
 
-  secondary: "border border-slate-200 bg-white hover:bg-slate-100",
+  secondary: 'border border-slate-200 bg-white hover:bg-slate-100',
 
-  ghost: "hover:bg-slate-100",
+  ghost: 'hover:bg-slate-100',
 };
 
 const sizes = {
-  sm: "h-9 px-4 text-sm",
+  sm: 'h-9 px-4 text-sm',
 
-  md: "h-11 px-6",
+  md: 'h-11 px-6',
 
-  lg: "h-14 px-8 text-lg",
+  lg: 'h-14 px-8 text-lg',
 };
 
 const Button = forwardRef(
@@ -25,13 +23,13 @@ const Button = forwardRef(
     {
       children,
       className,
-      variant = "primary",
-      size = "md",
+      variant = 'primary',
+      size = 'md',
       disabled,
 
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <motion.button
@@ -48,22 +46,22 @@ const Button = forwardRef(
           duration: 0.15,
         }}
         className={cn(
-          "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50",
+          'inline-flex items-center justify-center rounded-xl font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50',
 
           variants[variant],
 
           sizes[size],
 
-          className,
+          className
         )}
         {...props}
       >
         {children}
       </motion.button>
     );
-  },
+  }
 );
 
-Button.displayName = "Button";
+Button.displayName = 'Button';
 
 export default Button;

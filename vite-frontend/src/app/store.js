@@ -1,14 +1,16 @@
-import searchReducer from "@/features/search/searchSlice";
-import { baseApi } from "@/services/api/baseApi";
-import { configureStore } from "@reduxjs/toolkit";
+import api from '@/redux/api/api';
 
-export const store = configureStore({
+import authReducer from '@/redux/features/auth/authSlice';
+import { configureStore } from '@reduxjs/toolkit';
+
+const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
-    search: searchReducer,
+    auth: authReducer,
+    [api.reducerPath]: api.reducer,
   },
+
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export default store;

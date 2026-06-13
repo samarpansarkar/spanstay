@@ -1,29 +1,22 @@
-import { ClerkProvider } from "@clerk/react";
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
-import { Provider } from "react-redux";
-import App from "./App.jsx";
-import store from "./app/store.js";
-import AppErrorBoundary from "./components/errors/AppErrorBoundary.jsx";
-import "./styles/global.css";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'sonner';
+import App from './App.jsx';
+import store from './app/store.js';
+import AuthInitializer from './components/auth/AuthInitializer.jsx';
+import './index.css';
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkPubKey) {
-  throw new Error("Missing Clerk Publishable Key");
-}
-
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <HelmetProvider>
-        <Provider store={store}>
-          <AppErrorBoundary>
-            <App />
-          </AppErrorBoundary>
-        </Provider>
-      </HelmetProvider>
-    </ClerkProvider>
-  </StrictMode>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <AuthInitializer>
+          <Toaster richColors position="bottom-center" />
+          <App />
+        </AuthInitializer>
+      </BrowserRouter>
+    </Provider>
+  </StrictMode>
 );

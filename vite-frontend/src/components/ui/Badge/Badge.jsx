@@ -1,16 +1,13 @@
-import { cn } from "@/lib/cn";
+import { cn } from '@/lib/cn';
 
-const Badge = ({ children, className }) => {
+const Heading = ({ title, subtitle, center }) => {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700",
-        className,
-      )}
-    >
-      {children}
-    </span>
+    <div className={cn('space-y-4', center && 'text-center')}>
+      <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{title}</h2>
+
+      {subtitle && <p className="text-slate-600 max-w-2xl">{subtitle}</p>}
+    </div>
   );
 };
 
-export default Badge;
+export default Heading;

@@ -1,13 +1,48 @@
-import { Suspense } from "react";
-import { RouterProvider } from "react-router-dom";
-import router from "./app/routers/router";
-import Loader from "./components/ui/Loader/Loader";
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/home/HomePage';
+import SigninPage from './pages/auth/SigninPage';
+import SignupPage from './pages/auth/SignupPage';
+import HotelsPage from './pages/hotels/HotelsPage';
+import HotelDetailPage from './pages/hotels/HotelDetailPage';
+import UsersProfilePage from './pages/users/UsersProfilePage';
+import ProtectedRoute from './routes/ProtectedRoute';
+import PublicRoute from './routes/PublicRoute';
+import { Route, Routes } from 'react-router-dom';
 
 const App = () => {
   return (
-    <Suspense fallback={<Loader />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/hotels" element={<HotelsPage />} />
+        <Route path="/hotels/:id" element={<HotelDetailPage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UsersProfilePage />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
+
+      <Route
+        path="/signin"
+        element={
+          <PublicRoute>
+            <SigninPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <PublicRoute>
+            <SignupPage />
+          </PublicRoute>
+        }
+      />
+    </Routes>
   );
 };
 
