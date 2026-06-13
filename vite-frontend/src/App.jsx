@@ -1,4 +1,5 @@
 import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/home/HomePage';
 import SigninPage from './pages/auth/SigninPage';
 import SignupPage from './pages/auth/SignupPage';
 import HotelsPage from './pages/hotels/HotelsPage';
@@ -11,7 +12,7 @@ const App = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<h1 className="text-white text-4xl font-bold p-10">Home Page</h1>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/hotels" element={<HotelsPage />} />
         <Route
           path="/profile"
