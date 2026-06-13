@@ -2,7 +2,7 @@ import { useGetHotelAdminBookingsQuery, useConfirmBookingMutation, useCancelBook
 import { motion } from 'framer-motion';
 import { Loader2, CheckCircle, XCircle, MapPin, Calendar, IndianRupee, User } from 'lucide-react';
 import { toast } from 'sonner';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageBookings = () => {
   const { data, isLoading } = useGetHotelAdminBookingsQuery();

@@ -1,6 +1,6 @@
 import { useGetMyApprovalsQuery } from '@/redux/api/hotelApi';
 import { Clock, Check, X } from 'lucide-react';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageMyApprovals = () => {
   const { data: approvalsData, isLoading } = useGetMyApprovalsQuery();

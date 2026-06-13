@@ -3,7 +3,7 @@ import { useGetHotelReviewsQuery, useCreateReviewMutation } from '@/redux/api/re
 import { useSelector } from 'react-redux';
 import { Star, MessageSquare, User } from 'lucide-react';
 import { toast } from 'sonner';
-import { Skeleton, ReviewSkeleton } from '@/components/ui/Skeleton';
+import { Skeleton, ReviewSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const HotelReviews = ({ hotelId }) => {
   const { user } = useSelector((state) => state.auth);

@@ -1,7 +1,7 @@
 import { useGetApprovalsQuery, useResolveApprovalMutation } from '@/redux/api/adminApi';
 import { Check, X, Building2, MapPin, IndianRupee } from 'lucide-react';
 import { toast } from 'sonner';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageApprovals = () => {
   const { data: approvalsData, isLoading } = useGetApprovalsQuery();

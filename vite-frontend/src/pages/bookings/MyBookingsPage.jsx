@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, MapPin, IndianRupee, Loader2, Home, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const MyBookingsPage = () => {
   const { data, isLoading, error } = useGetMyBookingsQuery();

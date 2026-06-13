@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Edit2, Trash2, Plus, Loader2, MapPin, IndianRupee, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import AddEditHotelForm from './AddEditHotelForm';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageHotels = () => {
   const { data, isLoading } = useGetMyHotelsQuery();

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useGetUsersQuery, useUpdateUserMutation, useDeleteUserMutation } from '@/redux/api/adminApi';
 import { Trash2, UserCog } from 'lucide-react';
 import { toast } from 'sonner';
-import { TableSkeleton } from '@/components/ui/Skeleton';
+import { TableSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageUsers = () => {
   const { data: usersData, isLoading } = useGetUsersQuery();

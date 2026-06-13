@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useGetAllTicketsQuery, useResolveTicketMutation } from '@/redux/api/supportApi';
 import { toast } from 'sonner';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageTickets = () => {
   const { data: ticketsData, isLoading } = useGetAllTicketsQuery();

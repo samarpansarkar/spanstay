@@ -3,7 +3,7 @@ import { useGetMyTicketsQuery, useCreateTicketMutation } from '@/redux/api/suppo
 import { LifeBuoy, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { CardSkeleton } from '@/components/ui/Skeleton';
+import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const UserSupportTickets = () => {
   const { data: ticketsData, isLoading } = useGetMyTicketsQuery();

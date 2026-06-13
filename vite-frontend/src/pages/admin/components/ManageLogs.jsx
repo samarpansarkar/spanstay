@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useGetLogsQuery } from '@/redux/api/adminApi';
 import { format } from 'date-fns';
 import { Server, User, Activity } from 'lucide-react';
-import { TableSkeleton } from '@/components/ui/Skeleton';
+import { TableSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageLogs = () => {
   const [page, setPage] = useState(1);

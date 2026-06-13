@@ -3,7 +3,7 @@ import { clearCredential } from '@/redux/features/auth/authSlice';
 import UserSupportTickets from './components/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
-import { ProfileSkeleton } from '@/components/ui/Skeleton';
+import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
 import {
   Building2,
   CalendarDays,

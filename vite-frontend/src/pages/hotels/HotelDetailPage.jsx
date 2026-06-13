@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetHotelByIdQuery } from '@/redux/api/hotelApi';
 import { ChevronLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { HotelDetailSkeleton } from '@/components/ui/Skeleton';
+import { HotelDetailSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 import HotelGallery from '@/components/hotels/details/HotelGallery';
 import HotelInfo from '@/components/hotels/details/HotelInfo';
