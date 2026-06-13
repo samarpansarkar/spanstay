@@ -5,6 +5,8 @@ import SignupPage from './pages/auth/SignupPage';
 import HotelsPage from './pages/hotels/HotelsPage';
 import HotelDetailPage from './pages/hotels/HotelDetailPage';
 import UsersProfilePage from './pages/users/UsersProfilePage';
+import PaymentSuccessPage from './pages/checkout/PaymentSuccessPage';
+import PaymentCancelPage from './pages/checkout/PaymentCancelPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
 import { Route, Routes } from 'react-router-dom';
@@ -21,6 +23,22 @@ const App = () => {
           element={
             <ProtectedRoute>
               <UsersProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment-success"
+          element={
+            <ProtectedRoute>
+              <PaymentSuccessPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment-cancel"
+          element={
+            <ProtectedRoute>
+              <PaymentCancelPage />
             </ProtectedRoute>
           }
         />

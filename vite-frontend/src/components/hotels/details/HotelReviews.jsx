@@ -29,7 +29,7 @@ const HotelReviews = ({ hotelId }) => {
         hotelId,
         data: { rating, comment },
       }).unwrap();
-      
+
       toast.success('Review submitted successfully!');
       setRating(0);
       setComment('');
@@ -74,11 +74,10 @@ const HotelReviews = ({ hotelId }) => {
                     className="focus:outline-none"
                   >
                     <Star
-                      className={`w-8 h-8 transition-colors ${
-                        star <= (hoverRating || rating)
+                      className={`w-8 h-8 transition-colors ${star <= (hoverRating || rating)
                           ? 'fill-amber-400 text-amber-400'
                           : 'text-slate-600'
-                      }`}
+                        }`}
                     />
                   </button>
                 ))}
@@ -110,7 +109,6 @@ const HotelReviews = ({ hotelId }) => {
         </div>
       )}
 
-      {/* Review List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {reviews.length > 0 ? (
           reviews.map((review) => (

@@ -1,8 +1,18 @@
 import { useState, useMemo } from 'react';
-import { IndianRupee, Calendar, Users, AlertCircle } from 'lucide-react';
+import { IndianRupee, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useCreateBookingMutation } from '@/redux/api/bookingApi';
+import { useCreateCheckoutSessionMutation } from '@/redux/api/paymentApi';
 
 const BookingWidget = ({ pricePerNight }) => {
+  const { id: hotelId } = useParams();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  
+  const [createBooking, { isLoading: isBooking }] = useCreateBookingMutation();
+  const [createCheckout, { isLoading: isCheckingOut }] = useCreateCheckoutSessionMutation();
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(1);
@@ -20,7 +30,12 @@ const BookingWidget = ({ pricePerNight }) => {
   const serviceFee = totalBeforeTaxes > 0 ? Math.floor(totalBeforeTaxes * 0.1) : 0;
   const total = totalBeforeTaxes + serviceFee;
 
-  const handleReserve = () => {
+  const handleReserve = async () => {
+    if (!user) {
+      toast.error('Please sign in to reserve this hotel');
+      navigate('/signin');
+      return;
+    }
     if (!checkIn || !checkOut) {
       toast.error('Please select check-in and check-out dates.');
       return;
@@ -29,8 +44,26 @@ const BookingWidget = ({ pricePerNight }) => {
       toast.error('Check-out date must be after check-in date.');
       return;
     }
+    
+    try {
+      // 1. Create Booking
+      const bookingRes = await createBooking({
+        hotelId,
+        checkIn: new Date(checkIn).toISOString(),
+        checkOut: new Date(checkOut).toISOString(),
+        guests: Number(guests)
+      }).unwrap();
 
-    toast.success('Reservation request sent successfully!');
+      // 2. Create Stripe Checkout Session
+      const sessionRes = await createCheckout(bookingRes.data._id).unwrap();
+
+      // 3. Redirect to Stripe
+      if (sessionRes.data?.url) {
+        window.location.href = sessionRes.data.url;
+      }
+    } catch (error) {
+      toast.error(error.data?.message || 'Failed to initialize checkout');
+    }
   };
 
   return (
@@ -85,11 +118,19 @@ const BookingWidget = ({ pricePerNight }) => {
         </div>
       </div>
 
-      <button
+      <button 
         onClick={handleReserve}
-        className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform active:scale-[0.98]"
+        disabled={isBooking || isCheckingOut}
+        className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"
       >
-        Reserve
+        {isBooking || isCheckingOut ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          'Reserve'
+        )}
       </button>
 
       {nightsCount > 0 && (
