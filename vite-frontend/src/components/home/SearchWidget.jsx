@@ -4,15 +4,20 @@ import { MapPin, Calendar, Users, Search } from 'lucide-react';
 
 const SearchWidget = () => {
   const [location, setLocation] = useState('');
+  const [checkIn, setCheckIn] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+  const [guests, setGuests] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (location.trim()) {
-      navigate(`/hotels?location=${encodeURIComponent(location.trim())}`);
-    } else {
-      navigate('/hotels');
-    }
+    const params = new URLSearchParams();
+    if (location.trim()) params.append('location', location.trim());
+    if (checkIn) params.append('checkIn', checkIn);
+    if (checkOut) params.append('checkOut', checkOut);
+    if (guests) params.append('guests', guests);
+
+    navigate(`/hotels?${params.toString()}`);
   };
 
   return (
@@ -41,7 +46,12 @@ const SearchWidget = () => {
             <Calendar className="w-5 h-5 text-indigo-400" />
             <div className="flex flex-col w-full">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Check in</label>
-              <span className="text-slate-500 text-sm">Add dates</span>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+              />
             </div>
           </div>
 
@@ -50,7 +60,12 @@ const SearchWidget = () => {
             <Calendar className="w-5 h-5 text-indigo-400" />
             <div className="flex flex-col w-full">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Check out</label>
-              <span className="text-slate-500 text-sm">Add dates</span>
+              <input
+                type="date"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+              />
             </div>
           </div>
 
@@ -59,7 +74,14 @@ const SearchWidget = () => {
             <Users className="w-5 h-5 text-indigo-400" />
             <div className="flex flex-col w-full">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guests</label>
-              <span className="text-slate-500 text-sm">Add guests</span>
+              <input
+                type="number"
+                min="1"
+                placeholder="Add guests"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                className="bg-transparent border-none outline-none text-white placeholder-slate-600 text-sm w-full"
+              />
             </div>
           </div>
           <button

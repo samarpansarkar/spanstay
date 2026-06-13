@@ -8,6 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { HotelCard, HotelCardSkeleton } from '@/components/hotels/HotelCard';
 
 const SORT_OPTIONS = [
@@ -19,8 +20,9 @@ const SORT_OPTIONS = [
 
 
 const HotelsPage = () => {
-  const [search, setSearch] = useState('');
-  const [location, setLocation] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [location, setLocation] = useState(searchParams.get('location') || '');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [sortIdx, setSortIdx] = useState(0);
