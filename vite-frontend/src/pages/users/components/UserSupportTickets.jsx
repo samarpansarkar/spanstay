@@ -3,6 +3,7 @@ import { useGetMyTicketsQuery, useCreateTicketMutation } from '@/redux/api/suppo
 import { LifeBuoy, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const UserSupportTickets = () => {
   const { data: ticketsData, isLoading } = useGetMyTicketsQuery();
@@ -27,7 +28,19 @@ const UserSupportTickets = () => {
     }
   };
 
-  if (isLoading) return <div className="text-slate-400 py-4">Loading tickets...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 mt-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-white font-semibold flex items-center gap-2">
+          <LifeBuoy className="w-4 h-4 text-indigo-400" />
+          Support Tickets
+        </h2>
+      </div>
+      <div className="space-y-3">
+        {Array.from({ length: 2 }).map((_, i) => <CardSkeleton key={i} />)}
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 mt-6">

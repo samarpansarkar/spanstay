@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetHotelByIdQuery } from '@/redux/api/hotelApi';
 import { ChevronLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { HotelDetailSkeleton } from '@/components/ui/Skeleton';
 
 import HotelGallery from '@/components/hotels/details/HotelGallery';
 import HotelInfo from '@/components/hotels/details/HotelInfo';
@@ -14,11 +15,7 @@ const HotelDetailPage = () => {
   const { data, isLoading, error } = useGetHotelByIdQuery(id);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
-      </div>
-    );
+    return <HotelDetailSkeleton />;
   }
 
   if (error || !data?.data) {

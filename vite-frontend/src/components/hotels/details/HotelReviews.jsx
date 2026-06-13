@@ -3,6 +3,7 @@ import { useGetHotelReviewsQuery, useCreateReviewMutation } from '@/redux/api/re
 import { useSelector } from 'react-redux';
 import { Star, MessageSquare, User } from 'lucide-react';
 import { toast } from 'sonner';
+import { Skeleton, ReviewSkeleton } from '@/components/ui/Skeleton';
 
 const HotelReviews = ({ hotelId }) => {
   const { user } = useSelector((state) => state.auth);
@@ -39,7 +40,17 @@ const HotelReviews = ({ hotelId }) => {
   };
 
   if (isLoading) {
-    return <div className="text-slate-500 py-8">Loading reviews...</div>;
+    return (
+      <div className="mt-16 pt-10 border-t border-white/10">
+        <div className="flex items-center gap-3 mb-8">
+          <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+          <Skeleton className="h-8 w-40 rounded-lg" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, i) => <ReviewSkeleton key={i} />)}
+        </div>
+      </div>
+    );
   }
 
   const reviewsData = data?.data;

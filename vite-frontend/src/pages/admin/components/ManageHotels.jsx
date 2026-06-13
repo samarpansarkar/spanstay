@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Edit2, Trash2, Plus, Loader2, MapPin, IndianRupee, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import AddEditHotelForm from './AddEditHotelForm';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const ManageHotels = () => {
   const { data, isLoading } = useGetMyHotelsQuery();
@@ -35,8 +36,16 @@ const ManageHotels = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-white">My Hotels</h1>
+            <p className="text-slate-400">Manage your properties and their availability</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)}
+        </div>
       </div>
     );
   }

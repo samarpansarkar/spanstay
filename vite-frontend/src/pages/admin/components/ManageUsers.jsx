@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGetUsersQuery, useUpdateUserMutation, useDeleteUserMutation } from '@/redux/api/adminApi';
 import { Trash2, UserCog } from 'lucide-react';
 import { toast } from 'sonner';
+import { TableSkeleton } from '@/components/ui/Skeleton';
 
 const ManageUsers = () => {
   const { data: usersData, isLoading } = useGetUsersQuery();
@@ -11,7 +12,12 @@ const ManageUsers = () => {
   const [editingId, setEditingId] = useState(null);
   const [newRole, setNewRole] = useState('');
 
-  if (isLoading) return <div className="text-white text-center py-10">Loading users...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">Manage Users</h2>
+      <TableSkeleton rows={5} cols={4} />
+    </div>
+  );
 
   const users = usersData?.data || [];
 

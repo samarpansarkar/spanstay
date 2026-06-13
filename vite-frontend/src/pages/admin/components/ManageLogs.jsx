@@ -1,10 +1,20 @@
+import { useState } from 'react';
 import { useGetLogsQuery } from '@/redux/api/adminApi';
 import { format } from 'date-fns';
+import { Server, User, Activity } from 'lucide-react';
+import { TableSkeleton } from '@/components/ui/Skeleton';
 
 const ManageLogs = () => {
-  const { data: logsData, isLoading } = useGetLogsQuery();
+  const [page, setPage] = useState(1);
+  const [limit] = useState(20);
+  const { data: logsData, isLoading } = useGetLogsQuery({ page, limit });
 
-  if (isLoading) return <div className="text-white text-center py-10">Loading logs...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">System Logs</h2>
+      <TableSkeleton rows={10} cols={5} />
+    </div>
+  );
 
   const logs = logsData?.data || [];
 

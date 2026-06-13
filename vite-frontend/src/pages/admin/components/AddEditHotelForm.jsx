@@ -225,8 +225,8 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
             disabled={isAdding || isUpdating}
             className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 transition-colors flex items-center gap-2"
           >
-            {(isAdding || isUpdating) && <Loader2 className="w-4 h-4 animate-spin" />}
-            {isEditing ? 'Save Changes' : 'Create Hotel'}
+            {(isAdding || isUpdating) && '... '}
+            {hotel ? 'Update Hotel' : 'Create Hotel'}
           </button>
         </div>
       </form>

@@ -32,7 +32,7 @@ const PaymentSuccessPage = () => {
       >
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-6">
-            <Loader2 className="w-12 h-12 text-indigo-500 animate-spin mb-4" />
+            <div className="w-16 h-16 bg-indigo-500/20 rounded-full animate-pulse mb-6 mx-auto" />
             <h2 className="text-xl font-semibold text-white">Verifying Payment...</h2>
             <p className="text-slate-400 mt-2 text-sm">Please wait while we confirm with Stripe.</p>
           </div>

@@ -2,6 +2,7 @@ import { useGetHotelAdminBookingsQuery, useConfirmBookingMutation, useCancelBook
 import { motion } from 'framer-motion';
 import { Loader2, CheckCircle, XCircle, MapPin, Calendar, IndianRupee, User } from 'lucide-react';
 import { toast } from 'sonner';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const ManageBookings = () => {
   const { data, isLoading } = useGetHotelAdminBookingsQuery();
@@ -30,8 +31,14 @@ const ManageBookings = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+      <div className="space-y-6">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-white">Hotel Bookings</h1>
+          <p className="text-slate-400">Manage reservations for your properties</p>
+        </div>
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+        </div>
       </div>
     );
   }

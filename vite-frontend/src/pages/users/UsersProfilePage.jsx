@@ -3,6 +3,7 @@ import { clearCredential } from '@/redux/features/auth/authSlice';
 import UserSupportTickets from './components/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
+import { ProfileSkeleton } from '@/components/ui/Skeleton';
 import {
   Building2,
   CalendarDays,
@@ -93,14 +94,7 @@ const UsersProfilePage = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-400 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading profile…</p>
-        </div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (isError || !user) {
@@ -164,7 +158,7 @@ const UsersProfilePage = () => {
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors text-sm font-medium disabled:opacity-50 disabled:pointer-events-none"
             >
               {isLoggingOut ? (
-                <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full" />
               ) : (
                 <LogOut className="w-4 h-4" />
               )}

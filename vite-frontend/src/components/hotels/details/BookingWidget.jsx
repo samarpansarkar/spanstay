@@ -120,14 +120,7 @@ const BookingWidget = ({ pricePerNight }) => {
         disabled={isBooking || isCheckingOut}
         className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"
       >
-        {isBooking || isCheckingOut ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Processing...
-          </>
-        ) : (
-          'Reserve'
-        )}
+        {isBooking || isCheckingOut ? 'Processing...' : 'Reserve'}
       </button>
 
       {nightsCount > 0 && (

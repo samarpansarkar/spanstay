@@ -1,12 +1,18 @@
 import { useGetApprovalsQuery, useResolveApprovalMutation } from '@/redux/api/adminApi';
-import { Check, X } from 'lucide-react';
+import { Check, X, Building2, MapPin, IndianRupee } from 'lucide-react';
 import { toast } from 'sonner';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const ManageApprovals = () => {
   const { data: approvalsData, isLoading } = useGetApprovalsQuery();
-  const [resolveApproval] = useResolveApprovalMutation();
+  const [resolveApproval, { isLoading: isResolving }] = useResolveApprovalMutation();
 
-  if (isLoading) return <div className="text-white text-center py-10">Loading approvals...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">Pending Approvals</h2>
+      {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+    </div>
+  );
 
   const approvals = approvalsData?.data || [];
 

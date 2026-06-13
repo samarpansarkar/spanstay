@@ -1,10 +1,16 @@
 import { useGetMyApprovalsQuery } from '@/redux/api/hotelApi';
 import { Clock, Check, X } from 'lucide-react';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const ManageMyApprovals = () => {
   const { data: approvalsData, isLoading } = useGetMyApprovalsQuery();
 
-  if (isLoading) return <div className="text-white text-center py-10">Loading requests...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">My Requests</h2>
+      {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+    </div>
+  );
 
   const approvals = approvalsData?.data || [];
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, MapPin, IndianRupee, Loader2, Home, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const MyBookingsPage = () => {
   const { data, isLoading, error } = useGetMyBookingsQuery();
@@ -21,8 +22,16 @@ const MyBookingsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950">
-        <Loader2 className="w-10 h-10 animate-spin text-indigo-500" />
+      <div className="min-h-screen bg-slate-950 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-10">
+            <h1 className="text-4xl font-bold text-white mb-2">My Bookings</h1>
+            <p className="text-slate-400">Manage and view your upcoming and past reservations.</p>
+          </div>
+          <div className="space-y-6">
+            {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        </div>
       </div>
     );
   }

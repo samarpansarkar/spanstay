@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetAllTicketsQuery, useResolveTicketMutation } from '@/redux/api/supportApi';
 import { toast } from 'sonner';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 const ManageTickets = () => {
   const { data: ticketsData, isLoading } = useGetAllTicketsQuery();
@@ -8,7 +9,12 @@ const ManageTickets = () => {
   const [resolvingId, setResolvingId] = useState(null);
   const [adminResponse, setAdminResponse] = useState('');
 
-  if (isLoading) return <div className="text-white text-center py-10">Loading tickets...</div>;
+  if (isLoading) return (
+    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">Support Tickets</h2>
+      {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+    </div>
+  );
 
   const tickets = ticketsData?.data || [];
 
