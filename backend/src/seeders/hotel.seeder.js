@@ -38,14 +38,12 @@ const seedHotels = async () => {
 
     console.log('Database connected');
 
-    // DELETE ALL EXISTING HOTELS AND REVIEWS
     await Hotel.deleteMany({});
     await Review.deleteMany({});
 
     console.log('Existing hotels and reviews deleted successfully');
 
-    // MANUALLY CHANGE THIS OWNER ID
-    const ownerID = '6a2ab970d4b9ac4d51e8e947';
+    const ownerID = '6a2d083a643bacc8fb90efb4';
 
     const hotels = [];
     const allReviews = [];
@@ -54,15 +52,14 @@ const seedHotels = async () => {
       const hotelId = new mongoose.Types.ObjectId();
       const reviewIds = [];
 
-      // Generate 2 to 5 reviews per hotel
       const numReviews = faker.number.int({ min: 2, max: 5 });
       for (let j = 0; j < numReviews; j++) {
         const reviewId = new mongoose.Types.ObjectId();
         allReviews.push({
           _id: reviewId,
           hotel: hotelId,
-          user: ownerID, // Mocking with same user for seeder
-          rating: faker.number.int({ min: 3, max: 5 }), // Mostly positive reviews
+          user: ownerID,
+          rating: faker.number.int({ min: 3, max: 5 }),
           comment: faker.lorem.sentences({ min: 1, max: 3 }),
         });
         reviewIds.push(reviewId);
@@ -102,6 +99,7 @@ const seedHotels = async () => {
 
         owner: ownerID,
         reviews: reviewIds,
+        isAvailable: Math.random() > 0.1,
       });
     }
 

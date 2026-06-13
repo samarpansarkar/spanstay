@@ -90,6 +90,8 @@ export const getAllHotelsService = async (query) => {
     sort.createdAt = -1;
   }
 
+  filter.isAvailable = true;
+
   const { hotels, total } = await getAllHotels(filter, skip, limit, sort);
 
   const responseData = {
@@ -109,6 +111,12 @@ export const getAllHotelsService = async (query) => {
   await redisClient.set(cachekKey, JSON.stringify(responseData), { EX: 60 });
   return responseData;
 };
+
+export const getMyHotelsService = async (userId) => {
+  const { hotels } = await getAllHotels({ owner: userId }, 0, 1000, { createdAt: -1 });
+  return hotels;
+};
+
 
 export const getHotelByIdService = async (hotelId) => {
   const hotel = await getHotelById(hotelId);

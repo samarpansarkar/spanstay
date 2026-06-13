@@ -9,6 +9,7 @@ import {
   deleteHotelController,
   getAllHotelsController,
   getHotelByIdController,
+  getMyHotelsController,
   registerHotelController,
   updateHotelController,
 } from './hotel.controller.js';
@@ -116,6 +117,26 @@ hotelRouter.post(
  *         description: Hotels fetched successfully
  */
 hotelRouter.get('/', getAllHotelsController);
+
+/**
+ * @swagger
+ * /hotels/my-hotels:
+ *   get:
+ *     summary: Get hotels for current hotel admin
+ *     tags:
+ *       - Hotels
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Hotels fetched successfully
+ */
+hotelRouter.get(
+  '/my-hotels',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  getMyHotelsController
+);
 
 /**
  * @swagger

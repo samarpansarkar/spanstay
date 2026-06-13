@@ -4,6 +4,7 @@ import {
   deleteHotelService,
   getAllHotelsService,
   getHotelByIdService,
+  getMyHotelsService,
   registerHotelService,
   updateHotelService,
 } from './hotel.service.js';
@@ -34,6 +35,16 @@ export const getAllHotelsController = asyncHandler(async (req, res) => {
     success: true,
     message: 'Hotel search successful!!',
     data: response,
+  });
+});
+
+export const getMyHotelsController = asyncHandler(async (req, res) => {
+  const hotels = await getMyHotelsService(req.user.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'My hotels fetched successfully!',
+    data: hotels,
   });
 });
 

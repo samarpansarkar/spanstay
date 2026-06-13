@@ -38,6 +38,10 @@ const hotelSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
     reviews: [
       {
         type: Schema.Types.ObjectId,

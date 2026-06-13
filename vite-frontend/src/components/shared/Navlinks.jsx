@@ -17,6 +17,7 @@ const navItems = [
   {
     label: 'Dashboard',
     path: '/dashboard',
+    adminOnly: true,
   },
 ];
 

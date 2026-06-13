@@ -21,6 +21,8 @@ export const updateHotelSchema = z
     amenities: z.array(z.string()).optional(),
 
     images: z.array(z.string()).optional(),
+
+    isAvailable: z.boolean().optional(),
   })
   .refine(
     (data) => Object.keys(data).length > 0,
