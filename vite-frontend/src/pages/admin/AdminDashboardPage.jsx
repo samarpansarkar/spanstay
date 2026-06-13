@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Building2, CalendarDays, Users, CheckSquare, LifeBuoy, Terminal } from 'lucide-react';
-import ManageHotels from '@/components/admin/components/ManageHotels';
-import ManageBookings from '@/components/admin/components/ManageBookings';
-import ManageUsers from '@/components/admin/components/ManageUsers';
-import ManageApprovals from '@/components/admin/components/ManageApprovals';
-import ManageTickets from '@/components/admin/components/ManageTickets';
-import ManageLogs from '@/components/admin/components/ManageLogs';
-import ManageMyApprovals from '@/components/admin/components/ManageMyApprovals';
+import ManageHotels from '@/components/admin/ManageHotels';
+import ManageBookings from '@/components/admin/ManageBookings';
+import ManageUsers from '@/components/admin/ManageUsers';
+import ManageApprovals from '@/components/admin/ManageApprovals';
+import ManageTickets from '@/components/admin/ManageTickets';
+import ManageLogs from '@/components/admin/ManageLogs';
+import ManageMyApprovals from '@/components/admin/ManageMyApprovals';
 
 const HOTEL_ADMIN_TABS = [
   { id: 'hotels', label: 'My Hotels', icon: Building2 },
