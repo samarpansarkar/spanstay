@@ -4,6 +4,7 @@ import UserSupportTickets from '@/components/users/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
 import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
+import SEO from '@/components/shared/SEO';
 import {
   Building2,
   CalendarDays,
@@ -118,6 +119,7 @@ const UsersProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+      <SEO title="My Profile" noindex={true} />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />

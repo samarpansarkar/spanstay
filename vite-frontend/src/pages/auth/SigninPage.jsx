@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import SEO from '@/components/shared/SEO';
 
 const SigninPage = () => {
   const [showPassword, setShowPassword] = useState(false);

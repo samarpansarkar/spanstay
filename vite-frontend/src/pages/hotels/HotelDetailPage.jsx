@@ -3,6 +3,7 @@ import { useGetHotelByIdQuery } from '@/redux/api/hotelApi';
 import { ChevronLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { HotelDetailSkeleton } from '@/components/ui/Skeleton/Skeleton';
+import SEO from '@/components/shared/SEO';
 
 import HotelGallery from '@/components/hotels/details/HotelGallery';
 import HotelInfo from '@/components/hotels/details/HotelInfo';
@@ -37,7 +38,12 @@ const HotelDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <SEO 
+        title={hotel.title} 
+        description={hotel.description} 
+        image={hotel.images?.[0]?.url}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
 
         <button
           onClick={() => navigate(-1)}

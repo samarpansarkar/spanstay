@@ -9,6 +9,7 @@ import ManageApprovals from '@/components/admin/ManageApprovals';
 import ManageTickets from '@/components/admin/ManageTickets';
 import ManageLogs from '@/components/admin/ManageLogs';
 import ManageMyApprovals from '@/components/admin/ManageMyApprovals';
+import SEO from '@/components/shared/SEO';
 
 const HOTEL_ADMIN_TABS = [
   { id: 'hotels', label: 'My Hotels', icon: Building2 },
@@ -33,6 +34,7 @@ const AdminDashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <SEO title="Admin Dashboard" noindex={true} />
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
 
         <div className="w-full md:w-64 shrink-0">

@@ -6,18 +6,21 @@ import {
   Search,
   SlidersHorizontal,
   X,
+  ChevronDown, 
+  ChevronUp
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useGetHotelsQuery } from '@/redux/api/hotelApi';
 import { HotelCard, HotelCardSkeleton } from '@/components/hotels/HotelCard';
+import Pagination from '@/components/shared/Pagination';
+import SEO from '@/components/shared/SEO';
 
 const SORT_OPTIONS = [
   { label: 'Newest', value: 'createdAt', order: 'desc' },
   { label: 'Price: Low to High', value: 'price', order: 'asc' },
   { label: 'Price: High to Low', value: 'price', order: 'desc' },
 ];
-
-
 
 const HotelsPage = () => {
   const [searchParams] = useSearchParams();
