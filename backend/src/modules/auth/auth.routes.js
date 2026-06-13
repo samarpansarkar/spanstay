@@ -4,6 +4,7 @@ import { authLimiter } from '../../shared/middleware/rateLimit.middleware.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import {
   logoutController,
+  refreshTokenController,
   registerUserController,
   signinUserController,
   userProfileController,
@@ -124,5 +125,7 @@ authRouter.post('/logout', protect, logoutController);
  */
 
 authRouter.get('/user-profile', authLimiter, protect, userProfileController);
+
+authRouter.post('/refresh-token', authLimiter, refreshTokenController);
 
 export default authRouter;

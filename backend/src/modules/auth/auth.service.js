@@ -115,7 +115,7 @@ export const refreshAccessTokenService = async (refreshToken) => {
 };
 
 export const logoutService = async (userId) => {
-  const user = findUserById(userId);
+  const user = await findUserById(userId);
 
   if (!user) {
     throw new AppError('User not found', 404);
