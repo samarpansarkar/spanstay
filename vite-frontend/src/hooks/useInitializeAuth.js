@@ -2,7 +2,7 @@ import {
   useLazyGetProfileQuery,
   useRefreshTokenMutation,
 } from '@/redux/api/authApi';
-import { setCredentials } from '@/redux/features/auth/authSlice';
+import { setAccessToken, setCredentials } from '@/redux/features/auth/authSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -23,6 +23,8 @@ const useInitializeAuth = () => {
           return;
         }
 
+        dispatch(setAccessToken(accessToken));
+
         const profileResponse = await getProfile().unwrap();
 
         dispatch(
@@ -32,7 +34,6 @@ const useInitializeAuth = () => {
           })
         );
       } catch {
-        // No active session — silently ignore
       } finally {
         setIsInitializing(false);
       }
