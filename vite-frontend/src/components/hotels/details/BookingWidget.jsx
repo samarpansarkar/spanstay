@@ -10,7 +10,7 @@ const BookingWidget = ({ pricePerNight }) => {
   const { id: hotelId } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  
+
   const [createBooking, { isLoading: isBooking }] = useCreateBookingMutation();
   const [createCheckout, { isLoading: isCheckingOut }] = useCreateCheckoutSessionMutation();
   const [checkIn, setCheckIn] = useState('');
@@ -44,9 +44,8 @@ const BookingWidget = ({ pricePerNight }) => {
       toast.error('Check-out date must be after check-in date.');
       return;
     }
-    
+
     try {
-      // 1. Create Booking
       const bookingRes = await createBooking({
         hotelId,
         checkIn: new Date(checkIn).toISOString(),
@@ -54,10 +53,8 @@ const BookingWidget = ({ pricePerNight }) => {
         guests: Number(guests)
       }).unwrap();
 
-      // 2. Create Stripe Checkout Session
       const sessionRes = await createCheckout(bookingRes.data._id).unwrap();
 
-      // 3. Redirect to Stripe
       if (sessionRes.data?.url) {
         window.location.href = sessionRes.data.url;
       }
@@ -118,7 +115,7 @@ const BookingWidget = ({ pricePerNight }) => {
         </div>
       </div>
 
-      <button 
+      <button
         onClick={handleReserve}
         disabled={isBooking || isCheckingOut}
         className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"

@@ -12,7 +12,7 @@ const navItems = [
   },
   {
     label: 'My Bookings',
-    path: '/bookings',
+    path: '/my-bookings',
   },
   {
     label: 'Dashboard',

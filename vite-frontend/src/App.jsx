@@ -7,6 +7,7 @@ import HotelDetailPage from './pages/hotels/HotelDetailPage';
 import UsersProfilePage from './pages/users/UsersProfilePage';
 import PaymentSuccessPage from './pages/checkout/PaymentSuccessPage';
 import PaymentCancelPage from './pages/checkout/PaymentCancelPage';
+import MyBookingsPage from './pages/bookings/MyBookingsPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
 import { Route, Routes } from 'react-router-dom';
@@ -23,6 +24,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <UsersProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-bookings"
+          element={
+            <ProtectedRoute>
+              <MyBookingsPage />
             </ProtectedRoute>
           }
         />
