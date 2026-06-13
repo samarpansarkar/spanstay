@@ -3,7 +3,6 @@ import { MapPin, Star, Check } from 'lucide-react';
 const HotelInfo = ({ hotel }) => {
   return (
     <div className="flex-1 space-y-8">
-      {/* Header Info */}
       <div>
         <div className="flex items-center gap-2 mb-2">
           <span className="bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold px-2.5 py-1 rounded-lg">
@@ -14,9 +13,9 @@ const HotelInfo = ({ hotel }) => {
             <span className="font-medium text-sm text-slate-300">4.5 (128 reviews)</span>
           </div>
         </div>
-        
+
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">{hotel.title}</h1>
-        
+
         <div className="flex items-center gap-1.5 text-slate-400">
           <MapPin className="w-4 h-4" />
           <span className="text-sm">{hotel.location}</span>
@@ -25,7 +24,6 @@ const HotelInfo = ({ hotel }) => {
 
       <hr className="border-white/10" />
 
-      {/* Description */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">About this space</h2>
         <div className="text-slate-400 leading-relaxed space-y-4">
@@ -37,7 +35,6 @@ const HotelInfo = ({ hotel }) => {
 
       <hr className="border-white/10" />
 
-      {/* Amenities */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">What this place offers</h2>
         {hotel.amenities?.length > 0 ? (

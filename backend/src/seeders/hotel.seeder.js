@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 
 import Hotel from '../modules/hotel/hotel.model.js';
+import Review from '../modules/review/review.model.js';
 
 dotenv.config();
 
@@ -37,18 +38,38 @@ const seedHotels = async () => {
 
     console.log('Database connected');
 
-    // DELETE ALL EXISTING HOTELS
+    // DELETE ALL EXISTING HOTELS AND REVIEWS
     await Hotel.deleteMany({});
+    await Review.deleteMany({});
 
-    console.log('Existing hotels deleted successfully');
+    console.log('Existing hotels and reviews deleted successfully');
 
     // MANUALLY CHANGE THIS OWNER ID
     const ownerID = '6a2ab970d4b9ac4d51e8e947';
 
     const hotels = [];
+    const allReviews = [];
 
     for (let i = 0; i < 200; i++) {
+      const hotelId = new mongoose.Types.ObjectId();
+      const reviewIds = [];
+
+      // Generate 2 to 5 reviews per hotel
+      const numReviews = faker.number.int({ min: 2, max: 5 });
+      for (let j = 0; j < numReviews; j++) {
+        const reviewId = new mongoose.Types.ObjectId();
+        allReviews.push({
+          _id: reviewId,
+          hotel: hotelId,
+          user: ownerID, // Mocking with same user for seeder
+          rating: faker.number.int({ min: 3, max: 5 }), // Mostly positive reviews
+          comment: faker.lorem.sentences({ min: 1, max: 3 }),
+        });
+        reviewIds.push(reviewId);
+      }
+
       hotels.push({
+        _id: hotelId,
         title: faker.company.name() + ' Hotel',
 
         description: faker.lorem.paragraph(),
@@ -80,12 +101,14 @@ const seedHotels = async () => {
         ),
 
         owner: ownerID,
+        reviews: reviewIds,
       });
     }
 
     await Hotel.insertMany(hotels);
+    await Review.insertMany(allReviews);
 
-    console.log('200 Indian hotels seeded successfully');
+    console.log(`200 Indian hotels and ${allReviews.length} reviews seeded successfully`);
 
     process.exit(0);
   } catch (error) {
