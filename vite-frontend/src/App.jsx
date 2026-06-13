@@ -1,84 +1,89 @@
+import { Suspense, lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import HomePage from './pages/home/HomePage';
-import SigninPage from './pages/auth/SigninPage';
-import SignupPage from './pages/auth/SignupPage';
-import HotelsPage from './pages/hotels/HotelsPage';
-import HotelDetailPage from './pages/hotels/HotelDetailPage';
-import UsersProfilePage from './pages/users/UsersProfilePage';
-import PaymentSuccessPage from './pages/checkout/PaymentSuccessPage';
-import PaymentCancelPage from './pages/checkout/PaymentCancelPage';
-import MyBookingsPage from './pages/bookings/MyBookingsPage';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
-import { Route, Routes } from 'react-router-dom';
+import Loader from './components/ui/Loader/Loader';
+
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+const SigninPage = lazy(() => import('./pages/auth/SigninPage'));
+const SignupPage = lazy(() => import('./pages/auth/SignupPage'));
+const HotelsPage = lazy(() => import('./pages/hotels/HotelsPage'));
+const HotelDetailPage = lazy(() => import('./pages/hotels/HotelDetailPage'));
+const UsersProfilePage = lazy(() => import('./pages/users/UsersProfilePage'));
+const PaymentSuccessPage = lazy(() => import('./pages/checkout/PaymentSuccessPage'));
+const PaymentCancelPage = lazy(() => import('./pages/checkout/PaymentCancelPage'));
+const MyBookingsPage = lazy(() => import('./pages/bookings/MyBookingsPage'));
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 
 const App = () => {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/hotels" element={<HotelsPage />} />
-        <Route path="/hotels/:id" element={<HotelDetailPage />} />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <UsersProfilePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/my-bookings"
-          element={
-            <ProtectedRoute>
-              <MyBookingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/payment-success"
-          element={
-            <ProtectedRoute>
-              <PaymentSuccessPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/payment-cancel"
-          element={
-            <ProtectedRoute>
-              <PaymentCancelPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-      </Route>
+    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center"><Loader /></div>}>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/hotels" element={<HotelsPage />} />
+          <Route path="/hotels/:id" element={<HotelDetailPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UsersProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-bookings"
+            element={
+              <ProtectedRoute>
+                <MyBookingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payment-success"
+            element={
+              <ProtectedRoute>
+                <PaymentSuccessPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payment-cancel"
+            element={
+              <ProtectedRoute>
+                <PaymentCancelPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
-      <Route
-        path="/signin"
-        element={
-          <PublicRoute>
-            <SigninPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          <PublicRoute>
-            <SignupPage />
-          </PublicRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="/signin"
+          element={
+            <PublicRoute>
+              <SigninPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <SignupPage />
+            </PublicRoute>
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 };
 

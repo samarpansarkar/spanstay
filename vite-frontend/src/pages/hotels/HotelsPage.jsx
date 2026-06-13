@@ -9,11 +9,9 @@ import {
   ChevronDown, 
   ChevronUp
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useGetHotelsQuery } from '@/redux/api/hotelApi';
 import { HotelCard, HotelCardSkeleton } from '@/components/hotels/HotelCard';
-import Pagination from '@/components/shared/Pagination';
 import SEO from '@/components/shared/SEO';
 
 const SORT_OPTIONS = [
@@ -34,7 +32,7 @@ const HotelsPage = () => {
 
   const sort = SORT_OPTIONS[sortIdx];
 
-  const queryParams = {
+  const queryParams = useMemo(() => ({
     ...(search && { search }),
     ...(location && { location }),
     ...(minPrice && { minPrice }),
@@ -43,21 +41,21 @@ const HotelsPage = () => {
     sortOrder: sort.order,
     page,
     limit: 12,
-  };
+  }), [search, location, minPrice, maxPrice, sort.value, sort.order, page]);
 
   const { data, isLoading, isFetching } = useGetHotelsQuery(queryParams);
 
   const hotels = data?.data?.hotels ?? [];
   const pagination = data?.data?.pagination;
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setSearch('');
     setLocation('');
     setMinPrice('');
     setMaxPrice('');
     setSortIdx(0);
     setPage(1);
-  };
+  }, []);
 
   const hasFilters = search || location || minPrice || maxPrice;
 
@@ -80,10 +78,11 @@ const HotelsPage = () => {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
+              aria-label="Search hotels or locations"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search hotels, locations…"
-              className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
             />
           </div>
 
@@ -104,6 +103,7 @@ const HotelsPage = () => {
           </button>
 
           <select
+            aria-label="Sort options"
             value={sortIdx}
             onChange={(e) => setSortIdx(Number(e.target.value))}
             className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-slate-300 text-sm focus:outline-none focus:border-indigo-500 transition-all"
@@ -123,35 +123,38 @@ const HotelsPage = () => {
             className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3"
           >
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Location</label>
+              <label htmlFor="location-filter" className="text-xs text-slate-400 mb-1.5 block">Location</label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input
+                  id="location-filter"
                   value={location}
                   onChange={(e) => { setLocation(e.target.value); setPage(1); }}
                   placeholder="e.g. Mumbai"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
                 />
               </div>
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Min Price (₹/night)</label>
+              <label htmlFor="min-price-filter" className="text-xs text-slate-400 mb-1.5 block">Min Price (₹/night)</label>
               <input
+                id="min-price-filter"
                 type="number"
                 value={minPrice}
                 onChange={(e) => { setMinPrice(e.target.value); setPage(1); }}
                 placeholder="0"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
               />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Max Price (₹/night)</label>
+              <label htmlFor="max-price-filter" className="text-xs text-slate-400 mb-1.5 block">Max Price (₹/night)</label>
               <input
+                id="max-price-filter"
                 type="number"
                 value={maxPrice}
                 onChange={(e) => { setMaxPrice(e.target.value); setPage(1); }}
                 placeholder="100000"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
               />
             </div>
             {hasFilters && (

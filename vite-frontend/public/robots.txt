@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /profile
+Disallow: /dashboard
+Disallow: /my-bookings
+
+Sitemap: https://spanstay.com/sitemap.xml

@@ -3,7 +3,7 @@ import { Image as ImageIcon } from 'lucide-react';
 const HotelGallery = ({ images }) => {
   if (!images || images.length === 0) {
     return (
-      <div className="w-full h-[400px] md:h-[500px] bg-white/5 border border-white/10 rounded-3xl flex flex-col items-center justify-center text-slate-500">
+      <div className="w-full h-[400px] md:h-[500px] bg-white/5 border border-white/10 rounded-3xl flex flex-col items-center justify-center text-slate-400">
         <ImageIcon className="w-12 h-12 mb-2 opacity-50" />
         <p>No images available for this property.</p>
       </div>
@@ -16,6 +16,7 @@ const HotelGallery = ({ images }) => {
         <img
           src={images[0].url}
           alt="Hotel view"
+          fetchPriority="high"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/80 pointer-events-none" />
@@ -29,6 +30,7 @@ const HotelGallery = ({ images }) => {
         <img
           src={images[0].url}
           alt="Main view"
+          fetchPriority="high"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       </div>
@@ -37,6 +39,7 @@ const HotelGallery = ({ images }) => {
           <img
             src={img.url}
             alt={`View ${idx + 2}`}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
