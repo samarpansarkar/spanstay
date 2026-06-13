@@ -8,7 +8,10 @@ export const paymentApi = api.injectEndpoints({
         method: 'POST',
       }),
     }),
+    verifyCheckoutSession: builder.query({
+      query: (sessionId) => `/payments/verify/${sessionId}`,
+    }),
   }),
 });
 
-export const { useCreateCheckoutSessionMutation } = paymentApi;
+export const { useCreateCheckoutSessionMutation, useVerifyCheckoutSessionQuery } = paymentApi;
