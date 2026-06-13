@@ -33,7 +33,9 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1', routes);
+import systemLogger from './shared/middleware/systemLog.middleware.js';
+
+app.use('/api/v1', systemLogger, routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {

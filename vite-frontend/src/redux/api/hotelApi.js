@@ -20,6 +20,11 @@ export const hotelApi = api.injectEndpoints({
       providesTags: ['Hotel'],
     }),
 
+    getMyApprovals: builder.query({
+      query: () => '/hotels/my-approvals',
+      providesTags: ['Hotel'],
+    }),
+
     addHotel: builder.mutation({
       query: (formData) => ({
         url: '/hotels/register-hotels',
@@ -52,6 +57,7 @@ export const {
   useGetHotelsQuery, 
   useGetHotelByIdQuery,
   useGetMyHotelsQuery,
+  useGetMyApprovalsQuery,
   useAddHotelMutation,
   useUpdateHotelMutation,
   useDeleteHotelMutation

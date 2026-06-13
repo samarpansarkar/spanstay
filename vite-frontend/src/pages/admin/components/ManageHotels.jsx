@@ -136,9 +136,18 @@ const ManageHotels = () => {
                     <IndianRupee className="w-4 h-4 mr-0.5" />
                     {hotel.price.toLocaleString('en-IN')} <span className="text-slate-500 text-xs font-normal ml-1">/ night</span>
                   </div>
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                    {hotel.isAvailable ? 'Active' : 'Out of Service'}
-                  </span>
+                  <div className="flex gap-2">
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                      hotel.approvalStatus === 'PENDING' ? 'bg-amber-500/20 text-amber-400' :
+                      hotel.approvalStatus === 'REJECTED' ? 'bg-rose-500/20 text-rose-400' :
+                      'bg-indigo-500/20 text-indigo-400'
+                    }`}>
+                      Approval: {hotel.approvalStatus}
+                    </span>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'}`}>
+                      {hotel.isAvailable ? 'Active' : 'Out of Service'}
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>

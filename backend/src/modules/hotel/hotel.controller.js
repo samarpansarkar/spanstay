@@ -5,9 +5,20 @@ import {
   getAllHotelsService,
   getHotelByIdService,
   getMyHotelsService,
+  getMyApprovalsService,
   registerHotelService,
   updateHotelService,
 } from './hotel.service.js';
+
+export const getMyApprovalsController = asyncHandler(async (req, res) => {
+  const approvals = await getMyApprovalsService(req.user.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'My approvals fetched successfully!',
+    data: approvals,
+  });
+});
 
 export const registerHotelController = asyncHandler(async (req, res) => {
   const imageUrls = req.files.map((file) => ({
@@ -23,7 +34,7 @@ export const registerHotelController = asyncHandler(async (req, res) => {
   sendResponse(res, {
     statusCode: 201,
     success: true,
-    message: 'Hotel registration successfully!!!',
+    message: 'Hotel creation request submitted for approval',
     data: hotel,
   });
 });
@@ -69,7 +80,7 @@ export const updateHotelController = asyncHandler(async (req, res) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Hotel update successfully !!!',
+    message: 'Hotel update request submitted for approval',
     data: updateHotel,
   });
 });
@@ -80,6 +91,7 @@ export const deleteHotelController = asyncHandler(async (req, res) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Hotel successfully deleted!!!',
+    message: req.user.role === 'admin' ? 'Hotel successfully deleted!!!' : 'Hotel deletion request submitted for approval',
+    data: deleteHotel,
   });
 });

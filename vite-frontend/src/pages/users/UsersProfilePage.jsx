@@ -1,5 +1,6 @@
 import { useGetProfileQuery, useLogoutMutation } from '@/redux/api/authApi';
 import { clearCredential } from '@/redux/features/auth/authSlice';
+import UserSupportTickets from './components/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
 import {
@@ -295,6 +296,14 @@ const UsersProfilePage = () => {
               </>
             )}
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.25 }}
+        >
+          <UserSupportTickets />
         </motion.div>
 
       </div>

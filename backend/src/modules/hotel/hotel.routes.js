@@ -10,6 +10,7 @@ import {
   getAllHotelsController,
   getHotelByIdController,
   getMyHotelsController,
+  getMyApprovalsController,
   registerHotelController,
   updateHotelController,
 } from './hotel.controller.js';
@@ -136,6 +137,26 @@ hotelRouter.get(
   protect,
   authorize(ROLES.HOTEL_ADMIN),
   getMyHotelsController
+);
+
+/**
+ * @swagger
+ * /hotels/my-approvals:
+ *   get:
+ *     summary: Get approval requests for current hotel admin
+ *     tags:
+ *       - Hotels
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Approvals fetched successfully
+ */
+hotelRouter.get(
+  '/my-approvals',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  getMyApprovalsController
 );
 
 /**

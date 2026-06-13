@@ -4,6 +4,8 @@ import bookingRouter from '../modules/booking/booking.routes.js';
 import hotelRouter from '../modules/hotel/hotel.routes.js';
 import paymentRouter from '../modules/payment/payment.routes.js';
 import { reviewRoutes } from '../modules/review/review.routes.js';
+import adminRouter from '../modules/admin/admin.routes.js';
+import supportRouter from '../modules/support/support.routes.js';
 
 const router = Router();
 
@@ -34,6 +36,14 @@ const moduleRoutes = [
   {
     path: '/payments',
     route: paymentRouter,
+  },
+  {
+    path: '/admin',
+    route: adminRouter,
+  },
+  {
+    path: '/support',
+    route: supportRouter,
   },
 ];
 

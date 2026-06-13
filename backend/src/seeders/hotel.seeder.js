@@ -100,6 +100,7 @@ const seedHotels = async () => {
         owner: ownerID,
         reviews: reviewIds,
         isAvailable: Math.random() > 0.1,
+        approvalStatus: 'APPROVED',
       });
     }
 

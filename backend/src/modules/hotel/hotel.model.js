@@ -42,6 +42,11 @@ const hotelSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    approvalStatus: {
+      type: String,
+      enum: ['PENDING', 'APPROVED', 'REJECTED'],
+      default: 'APPROVED',
+    },
     reviews: [
       {
         type: Schema.Types.ObjectId,
