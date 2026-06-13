@@ -65,7 +65,25 @@ const HotelDetailPage = () => {
             </div>
 
             <div className="lg:w-1/3">
-              <BookingWidget pricePerNight={hotel.price} />
+              {hotel.isAvailable ? (
+                <BookingWidget pricePerNight={hotel.price} />
+              ) : (
+                <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl sticky top-24 shadow-2xl flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-2xl">🏨</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">Currently Offline</h3>
+                  <p className="text-slate-400 text-sm">
+                    This property is currently not accepting new reservations. Please check back later or explore other amazing stays.
+                  </p>
+                  <button
+                    onClick={() => navigate('/hotels')}
+                    className="mt-6 w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition-colors"
+                  >
+                    Find Other Hotels
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 

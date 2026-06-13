@@ -67,7 +67,9 @@ export const getAllHotelsService = async (query) => {
     sort.createdAt = -1;
   }
 
-  filter.isAvailable = true;
+  if (!query.search) {
+    filter.isAvailable = true;
+  }
   filter.approvalStatus = 'APPROVED';
 
   const { hotels, total } = await getAllHotels(filter, skip, limit, sort);

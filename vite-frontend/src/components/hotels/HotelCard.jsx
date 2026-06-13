@@ -7,7 +7,7 @@ export const HotelCard = ({ hotel }) => (
   <motion.div variants={fadeUpVariant}>
     <Link
       to={`/hotels/${hotel._id}`}
-      className="group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all duration-300"
+      className={`group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all duration-300 ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
     >
       <div className="relative h-48 overflow-hidden bg-slate-800">
         {hotel.images?.[0]?.url ? (
@@ -62,9 +62,15 @@ export const HotelCard = ({ hotel }) => (
             </span>
             <span className="text-slate-500 text-xs ml-1">/night</span>
           </div>
-          <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">
-            Book Now
-          </span>
+          {hotel.isAvailable ? (
+            <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">
+              Book Now
+            </span>
+          ) : (
+            <span className="text-xs font-medium text-slate-400 bg-slate-500/10 border border-slate-500/20 px-3 py-1 rounded-lg">
+              Unavailable
+            </span>
+          )}
         </div>
       </div>
     </Link>
