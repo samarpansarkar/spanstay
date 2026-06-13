@@ -1,6 +1,6 @@
 import { useGetProfileQuery, useLogoutMutation } from '@/redux/api/authApi';
 import { clearCredential } from '@/redux/features/auth/authSlice';
-import UserSupportTickets from './components/UserSupportTickets';
+import UserSupportTickets from '@/components/users/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
 import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
