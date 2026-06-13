@@ -119,6 +119,16 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
     throw new AppError('You are not authorized!!!', 403);
   }
 
+  const existingRequest = await ApprovalRequest.findOne({
+    hotel: hotel._id,
+    status: 'PENDING',
+    action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] }
+  });
+
+  if (existingRequest) {
+    throw new AppError('You already have a pending request for this hotel. Please wait for admin approval.', 429);
+  }
+
   const approvalRequest = await ApprovalRequest.create({
     hotel: hotel._id,
     requestedBy: currentUser.id,
@@ -144,11 +154,19 @@ export const deleteHotelService = async (hotelId, currentUser) => {
   }
 
   if (isAdmin) {
-
     const deleteHotel = await deleteHotelById(hotel.id);
     await clearHotelCache();
     return deleteHotel;
   } else {
+    const existingRequest = await ApprovalRequest.findOne({
+      hotel: hotel._id,
+      status: 'PENDING',
+      action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] }
+    });
+
+    if (existingRequest) {
+      throw new AppError('You already have a pending request for this hotel. Please wait for admin approval.', 429);
+    }
 
     const approvalRequest = await ApprovalRequest.create({
       hotel: hotel._id,

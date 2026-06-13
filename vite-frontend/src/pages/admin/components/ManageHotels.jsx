@@ -101,24 +101,29 @@ const ManageHotels = () => {
                     <h3 className="text-lg font-semibold text-white line-clamp-1">{hotel.title}</h3>
                     <div className="flex gap-2 shrink-0">
                       <button
+                        disabled={hotel.approvalStatus === 'PENDING'}
                         onClick={() => handleToggleStatus(hotel)}
-                        className={`p-2 rounded-lg transition-colors ${hotel.isAvailable ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'}`}
-                        title={hotel.isAvailable ? "Mark Out of Service" : "Mark Available"}
+                        className={`p-2 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${hotel.isAvailable ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'}`}
+                        title={hotel.approvalStatus === 'PENDING' ? "Pending admin approval" : (hotel.isAvailable ? "Mark Out of Service" : "Mark Available")}
                       >
                         {hotel.isAvailable ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                       </button>
                       <button
+                        disabled={hotel.approvalStatus === 'PENDING'}
                         onClick={() => {
                           setEditingHotel(hotel);
                           setIsFormOpen(true);
                         }}
-                        className="p-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-lg transition-colors"
+                        className="p-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        title={hotel.approvalStatus === 'PENDING' ? "Pending admin approval" : "Edit Hotel"}
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
+                        disabled={hotel.approvalStatus === 'PENDING'}
                         onClick={() => handleDelete(hotel._id)}
-                        className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-colors"
+                        className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        title={hotel.approvalStatus === 'PENDING' ? "Pending admin approval" : "Delete Hotel"}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -131,21 +136,21 @@ const ManageHotels = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-auto">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
                   <div className="flex items-center text-emerald-400 font-semibold">
                     <IndianRupee className="w-4 h-4 mr-0.5" />
                     {hotel.price.toLocaleString('en-IN')} <span className="text-slate-500 text-xs font-normal ml-1">/ night</span>
                   </div>
-                  <div className="flex gap-2">
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                  <div className="flex flex-wrap items-center justify-end gap-2 shrink-0 max-w-[50%]">
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${
                       hotel.approvalStatus === 'PENDING' ? 'bg-amber-500/20 text-amber-400' :
                       hotel.approvalStatus === 'REJECTED' ? 'bg-rose-500/20 text-rose-400' :
                       'bg-indigo-500/20 text-indigo-400'
                     }`}>
-                      Approval: {hotel.approvalStatus}
+                      {hotel.approvalStatus}
                     </span>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'}`}>
-                      {hotel.isAvailable ? 'Active' : 'Out of Service'}
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'}`}>
+                      {hotel.isAvailable ? 'Active' : 'Offline'}
                     </span>
                   </div>
                 </div>
