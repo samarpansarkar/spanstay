@@ -3,6 +3,7 @@ import HomePage from './pages/home/HomePage';
 import SigninPage from './pages/auth/SigninPage';
 import SignupPage from './pages/auth/SignupPage';
 import HotelsPage from './pages/hotels/HotelsPage';
+import HotelDetailPage from './pages/hotels/HotelDetailPage';
 import UsersProfilePage from './pages/users/UsersProfilePage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
@@ -14,6 +15,7 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/hotels" element={<HotelsPage />} />
+        <Route path="/hotels/:id" element={<HotelDetailPage />} />
         <Route
           path="/profile"
           element={
