@@ -64,7 +64,7 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
 
     const amenitiesArray = formData.amenities.split(',').map(item => item.trim()).filter(Boolean);
     amenitiesArray.forEach(amenity => {
-      submitData.append('amenities[]', amenity);
+      submitData.append('amenities', amenity);
     });
 
 

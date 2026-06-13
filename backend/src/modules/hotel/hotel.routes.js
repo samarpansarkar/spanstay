@@ -209,6 +209,7 @@ hotelRouter.patch(
   '/:hotelId',
   protect,
   authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  validate(hotelParamSchema),
   validate(updateHotelSchema),
   updateHotelController
 );
@@ -243,6 +244,7 @@ hotelRouter.delete(
   '/:hotelId',
   protect,
   authorize(ROLES.HOTEL_ADMIN),
+  validate(hotelParamSchema),
   deleteHotelController
 );
 
