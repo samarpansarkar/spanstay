@@ -33,7 +33,7 @@ export const getAllHotelsController = asyncHandler(async (req, res) => {
     statusCode: 200,
     success: true,
     message: 'Hotel search successful!!',
-    ...response,
+    data: response,
   });
 });
 

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 const Logo = () => {
   return (
-    <Link to="/" className="text-2xl font-bold text-primary">
-      SpanStay
+    <Link to="/" className="text-xl font-bold text-white tracking-tight">
+      Span<span className="text-indigo-400">Stay</span>
     </Link>
   );
 };
