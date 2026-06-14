@@ -12,6 +12,7 @@ import {
 export const getNotificationsController = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const result = await getUserNotificationsService(userId, req.query);
+  console.log('Fetching notifications for user:', userId, 'Result:', JSON.stringify(result));
 
   sendResponse(res, {
     statusCode: 200,

@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, CheckCircle2, Circle, X, Info, CreditCard, Star, Calendar } from 'lucide-react';
-import { 
-  useGetNotificationsQuery, 
-  useMarkNotificationReadMutation, 
+import {
+  useGetNotificationsQuery,
+  useMarkNotificationReadMutation,
   useMarkAllNotificationsReadMutation,
-  useDeleteNotificationMutation 
+  useDeleteNotificationMutation
 } from '@/redux/api/notificationApi';
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
@@ -27,8 +27,11 @@ const getIconForType = (type) => {
 
 export const NotificationDropdown = ({ onClose }) => {
   const navigate = useNavigate();
-  const { data: notificationsData, isLoading } = useGetNotificationsQuery({ page: 1, limit: 10 });
-  
+  const { data: notificationsData, isLoading } = useGetNotificationsQuery(
+    { page: 1, limit: 10 },
+    { refetchOnMountOrArgChange: true }
+  );
+
   const [markRead] = useMarkNotificationReadMutation();
   const [markAllRead] = useMarkAllNotificationsReadMutation();
   const [deleteNotification] = useDeleteNotificationMutation();
@@ -54,7 +57,6 @@ export const NotificationDropdown = ({ onClose }) => {
       }
     }
 
-    // Route based on metadata if available
     if (notification.metadata) {
       if (notification.metadata.bookingId) {
         navigate('/my-bookings');
@@ -62,7 +64,7 @@ export const NotificationDropdown = ({ onClose }) => {
         navigate(`/hotels/${notification.metadata.hotelId}`);
       }
     }
-    
+
     onClose();
   };
 
@@ -115,9 +117,8 @@ export const NotificationDropdown = ({ onClose }) => {
               <div
                 key={notification._id}
                 onClick={() => handleNotificationClick(notification)}
-                className={`p-4 hover:bg-white/5 cursor-pointer transition-colors relative group ${
-                  !notification.isRead ? 'bg-indigo-500/5' : ''
-                }`}
+                className={`p-4 hover:bg-white/5 cursor-pointer transition-colors relative group ${!notification.isRead ? 'bg-indigo-500/5' : ''
+                  }`}
               >
                 <div className="flex gap-3 items-start">
                   <div className="mt-1">
@@ -128,7 +129,7 @@ export const NotificationDropdown = ({ onClose }) => {
                       <p className={`text-sm font-medium truncate ${!notification.isRead ? 'text-white' : 'text-slate-300'}`}>
                         {notification.title}
                       </p>
-                      <button 
+                      <button
                         onClick={(e) => handleDelete(e, notification._id)}
                         className="opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded text-slate-400 hover:text-rose-400 transition-all"
                       >
@@ -153,7 +154,7 @@ export const NotificationDropdown = ({ onClose }) => {
           </div>
         )}
       </div>
-      
+
       {notifications.length > 0 && (
         <div className="p-3 border-t border-white/10 bg-slate-950/50 text-center">
           <span className="text-xs text-slate-500">

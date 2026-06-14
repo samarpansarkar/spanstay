@@ -56,7 +56,7 @@ export const getUnreadCountService = async (userId) => {
   }
 
   const count = await countUnreadNotifications(userId);
-  await redisClient.set(cacheKey, count, { EX: 300 }); // Cache for 5 minutes
+  await redisClient.set(cacheKey, count, { EX: 300 });
 
   return { count };
 };
