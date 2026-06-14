@@ -14,7 +14,14 @@ import {
   verifyEmailController,
   resendVerificationController,
 } from './auth.controller.js';
-import { registerSchema, signinSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema } from './auth.validation.js';
+import {
+  registerSchema,
+  signinSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  verifyEmailSchema,
+  resendVerificationSchema,
+} from './auth.validation.js';
 
 const authRouter = Router();
 
@@ -156,7 +163,7 @@ authRouter.post('/refresh-token', authLimiter, refreshTokenController);
  *     responses:
  *       200:
  *         description: Email sent successfully
-*/
+ */
 authRouter.get('/test-email', testEmail);
 
 /**
@@ -184,7 +191,12 @@ authRouter.get('/test-email', testEmail);
  *       404:
  *         description: User not found
  */
-authRouter.post('/forgot-password', authLimiter, validate(forgotPasswordSchema), forgotPasswordController);
+authRouter.post(
+  '/forgot-password',
+  authLimiter,
+  validate(forgotPasswordSchema),
+  forgotPasswordController
+);
 
 /**
  * @swagger
@@ -217,7 +229,12 @@ authRouter.post('/forgot-password', authLimiter, validate(forgotPasswordSchema),
  *       400:
  *         description: Invalid or expired token
  */
-authRouter.patch('/reset-password/:token', authLimiter, validate(resetPasswordSchema), resetPasswordController);
+authRouter.patch(
+  '/reset-password/:token',
+  authLimiter,
+  validate(resetPasswordSchema),
+  resetPasswordController
+);
 
 /**
  * @swagger
@@ -250,7 +267,12 @@ authRouter.patch('/reset-password/:token', authLimiter, validate(resetPasswordSc
  *       404:
  *         description: User not found
  */
-authRouter.post('/verify-email', authLimiter, validate(verifyEmailSchema), verifyEmailController);
+authRouter.post(
+  '/verify-email',
+  authLimiter,
+  validate(verifyEmailSchema),
+  verifyEmailController
+);
 
 /**
  * @swagger
@@ -279,6 +301,11 @@ authRouter.post('/verify-email', authLimiter, validate(verifyEmailSchema), verif
  *       404:
  *         description: User not found
  */
-authRouter.post('/resend-verification', authLimiter, validate(resendVerificationSchema), resendVerificationController);
+authRouter.post(
+  '/resend-verification',
+  authLimiter,
+  validate(resendVerificationSchema),
+  resendVerificationController
+);
 
 export default authRouter;

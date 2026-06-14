@@ -8,7 +8,7 @@ import {
   deleteUserController,
   getPendingApprovalsController,
   resolveApprovalController,
-  getSystemLogsController
+  getSystemLogsController,
 } from './admin.controller.js';
 
 const adminRouter = express.Router();

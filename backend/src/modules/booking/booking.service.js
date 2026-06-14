@@ -9,6 +9,8 @@ import {
   getBookingsByHotelIds,
 } from './booking.repository.js';
 import { getAllHotels } from '../hotel/hotel.repository.js';
+import { createNotificationService } from '../notification/notification.service.js';
+import { NOTIFICATION_TYPES } from '../notification/notification.constants.js';
 
 export const createBookingService = async (bookingData, currentUser) => {
   const hotel = await getHotelById(bookingData.hotelId);
@@ -76,6 +78,14 @@ export const cancelBookingService = async (bookingId, currentUser) => {
 
   const cancelledBooking = await updateBookingStatus(bookingId, 'cancelled');
 
+  await createNotificationService({
+    userId: booking.user,
+    type: NOTIFICATION_TYPES.BOOKING_CANCELLED,
+    title: 'Booking Cancelled',
+    message: `Your booking for ${booking.hotel.title} has been cancelled.`,
+    metadata: { bookingId: booking._id, hotelId: booking.hotel._id },
+  });
+
   return cancelledBooking;
 };
 
@@ -101,14 +111,22 @@ export const confirmedBookingService = async (bookingId, currentUser) => {
 
   const confirmedBooking = await updateBookingStatus(bookingId, 'confirmed');
 
+  await createNotificationService({
+    userId: booking.user,
+    type: NOTIFICATION_TYPES.BOOKING_CONFIRMED,
+    title: 'Booking Confirmed',
+    message: `Great news! Your booking for ${booking.hotel.title} has been confirmed.`,
+    metadata: { bookingId: booking._id, hotelId: booking.hotel._id },
+  });
+
   return confirmedBooking;
 };
 
 export const getHotelAdminBookingsService = async (userId) => {
   const { hotels } = await getAllHotels({ owner: userId }, 0, 1000, {});
   const hotelIds = hotels.map((hotel) => hotel._id);
-  
+
   if (hotelIds.length === 0) return [];
-  
+
   return await getBookingsByHotelIds(hotelIds);
 };

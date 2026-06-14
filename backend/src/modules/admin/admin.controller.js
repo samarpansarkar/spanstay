@@ -8,19 +8,35 @@ import SystemLog from './log.model.js';
 
 export const getAllUsersController = asyncHandler(async (req, res) => {
   const users = await User.find().select('-password').sort({ createdAt: -1 });
-  sendResponse(res, { statusCode: 200, success: true, message: 'Users fetched successfully', data: users });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Users fetched successfully',
+    data: users,
+  });
 });
 
 export const updateUserController = asyncHandler(async (req, res) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password');
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  }).select('-password');
   if (!user) throw new AppError('User not found', 404);
-  sendResponse(res, { statusCode: 200, success: true, message: 'User updated successfully', data: user });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User updated successfully',
+    data: user,
+  });
 });
 
 export const deleteUserController = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.id);
   if (!user) throw new AppError('User not found', 404);
-  sendResponse(res, { statusCode: 200, success: true, message: 'User deleted successfully' });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User deleted successfully',
+  });
 });
 
 export const getPendingApprovalsController = asyncHandler(async (req, res) => {
@@ -28,7 +44,12 @@ export const getPendingApprovalsController = asyncHandler(async (req, res) => {
     .populate('hotel', 'title location')
     .populate('requestedBy', 'name email role')
     .sort({ createdAt: -1 });
-  sendResponse(res, { statusCode: 200, success: true, message: 'Pending approvals fetched', data: approvals });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Pending approvals fetched',
+    data: approvals,
+  });
 });
 
 export const resolveApprovalController = asyncHandler(async (req, res) => {
@@ -36,7 +57,8 @@ export const resolveApprovalController = asyncHandler(async (req, res) => {
   const approval = await ApprovalRequest.findById(req.params.id);
 
   if (!approval) throw new AppError('Approval request not found', 404);
-  if (approval.status !== 'PENDING') throw new AppError('Approval request is already resolved', 400);
+  if (approval.status !== 'PENDING')
+    throw new AppError('Approval request is already resolved', 400);
 
   approval.status = status;
   await approval.save();
@@ -48,7 +70,10 @@ export const resolveApprovalController = asyncHandler(async (req, res) => {
     if (approval.action === 'CREATE') {
       hotel.approvalStatus = 'APPROVED';
       await hotel.save();
-    } else if (approval.action === 'UPDATE' || approval.action === 'STATUS_CHANGE') {
+    } else if (
+      approval.action === 'UPDATE' ||
+      approval.action === 'STATUS_CHANGE'
+    ) {
       Object.assign(hotel, approval.payload);
       await hotel.save();
     } else if (approval.action === 'DELETE') {
@@ -60,10 +85,23 @@ export const resolveApprovalController = asyncHandler(async (req, res) => {
     }
   }
 
-  sendResponse(res, { statusCode: 200, success: true, message: `Approval request ${status.toLowerCase()}`, data: approval });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: `Approval request ${status.toLowerCase()}`,
+    data: approval,
+  });
 });
 
 export const getSystemLogsController = asyncHandler(async (req, res) => {
-  const logs = await SystemLog.find().populate('user', 'name email').sort({ createdAt: -1 }).limit(100);
-  sendResponse(res, { statusCode: 200, success: true, message: 'System logs fetched', data: logs });
+  const logs = await SystemLog.find()
+    .populate('user', 'name email')
+    .sort({ createdAt: -1 })
+    .limit(100);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'System logs fetched',
+    data: logs,
+  });
 });

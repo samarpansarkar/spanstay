@@ -1,13 +1,22 @@
 import express from 'express';
-import { createReviewController, getHotelReviewsController, checkEligibilityController, updateReviewController, deleteReviewController, getReviewByBookingController } from './review.controller.js';
+import {
+  createReviewController,
+  getHotelReviewsController,
+  checkEligibilityController,
+  updateReviewController,
+  deleteReviewController,
+  getReviewByBookingController,
+} from './review.controller.js';
 import validate from '../../shared/middleware/validate.middleware.js';
-import { createReviewValidationSchema, updateReviewValidationSchema } from './review.validation.js';
+import {
+  createReviewValidationSchema,
+  updateReviewValidationSchema,
+} from './review.validation.js';
 import protect from '../../shared/middleware/auth.middleware.js';
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import { ROLES } from '../../shared/constants/role.js';
 
 const router = express.Router();
-
 
 /**
  * @swagger

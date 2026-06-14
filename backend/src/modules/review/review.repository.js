@@ -20,7 +20,10 @@ export const getReviewById = async (reviewId) => {
 };
 
 export const updateReviewById = async (reviewId, updateData) => {
-  return await Review.findByIdAndUpdate(reviewId, updateData, { new: true, runValidators: true });
+  return await Review.findByIdAndUpdate(reviewId, updateData, {
+    new: true,
+    runValidators: true,
+  });
 };
 
 export const deleteReviewById = async (reviewId) => {

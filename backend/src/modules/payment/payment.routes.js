@@ -78,10 +78,6 @@ paymentRouter.post('/webhook', handleStripeWebhookController);
  *       404:
  *         description: Session or Booking not found
  */
-paymentRouter.get(
-  '/verify/:sessionId',
-  protect,
-  verifySessionController
-);
+paymentRouter.get('/verify/:sessionId', protect, verifySessionController);
 
 export default paymentRouter;

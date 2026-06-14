@@ -11,7 +11,11 @@ import {
 } from './hotel.repository.js';
 
 export const registerHotelService = async (hotelData, userId) => {
-  const hotel = await createHotel({ ...hotelData, owner: userId, approvalStatus: 'PENDING' });
+  const hotel = await createHotel({
+    ...hotelData,
+    owner: userId,
+    approvalStatus: 'PENDING',
+  });
 
   await ApprovalRequest.create({
     hotel: hotel._id,
@@ -96,7 +100,9 @@ export const getMyApprovalsService = async (userId) => {
 };
 
 export const getMyHotelsService = async (userId) => {
-  const { hotels } = await getAllHotels({ owner: userId }, 0, 1000, { createdAt: -1 });
+  const { hotels } = await getAllHotels({ owner: userId }, 0, 1000, {
+    createdAt: -1,
+  });
   return hotels;
 };
 
@@ -124,17 +130,24 @@ export const updateHotelService = async (hotelId, updateData, currentUser) => {
   const existingRequest = await ApprovalRequest.findOne({
     hotel: hotel._id,
     status: 'PENDING',
-    action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] }
+    action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] },
   });
 
   if (existingRequest) {
-    throw new AppError('You already have a pending request for this hotel. Please wait for admin approval.', 429);
+    throw new AppError(
+      'You already have a pending request for this hotel. Please wait for admin approval.',
+      429
+    );
   }
 
   const approvalRequest = await ApprovalRequest.create({
     hotel: hotel._id,
     requestedBy: currentUser.id,
-    action: updateData.isAvailable !== undefined && Object.keys(updateData).length === 1 ? 'STATUS_CHANGE' : 'UPDATE',
+    action:
+      updateData.isAvailable !== undefined &&
+      Object.keys(updateData).length === 1
+        ? 'STATUS_CHANGE'
+        : 'UPDATE',
     payload: updateData,
     status: 'PENDING',
   });
@@ -163,11 +176,14 @@ export const deleteHotelService = async (hotelId, currentUser) => {
     const existingRequest = await ApprovalRequest.findOne({
       hotel: hotel._id,
       status: 'PENDING',
-      action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] }
+      action: { $in: ['UPDATE', 'STATUS_CHANGE', 'DELETE'] },
     });
 
     if (existingRequest) {
-      throw new AppError('You already have a pending request for this hotel. Please wait for admin approval.', 429);
+      throw new AppError(
+        'You already have a pending request for this hotel. Please wait for admin approval.',
+        429
+      );
     }
 
     const approvalRequest = await ApprovalRequest.create({

@@ -52,12 +52,14 @@ export const confirmedBookingController = asyncHandler(async (req, res) => {
   });
 });
 
-export const getHotelAdminBookingsController = asyncHandler(async (req, res) => {
-  const bookings = await getHotelAdminBookingsService(req.user.id);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Hotel bookings fetched successfully',
-    data: bookings,
-  });
-});
+export const getHotelAdminBookingsController = asyncHandler(
+  async (req, res) => {
+    const bookings = await getHotelAdminBookingsService(req.user.id);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Hotel bookings fetched successfully',
+      data: bookings,
+    });
+  }
+);

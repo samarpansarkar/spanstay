@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { 
-  useGetReviewByBookingQuery, 
-  useCreateReviewMutation, 
-  useUpdateReviewMutation, 
-  useDeleteReviewMutation 
+import {
+  useGetReviewByBookingQuery,
+  useCreateReviewMutation,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation
 } from '@/redux/api/reviewApi';
 import { Star, MessageSquare, Edit2, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const BookingReviewSection = ({ booking }) => {
   const isEligible = booking.status === 'confirmed' && new Date(booking.checkOut) < new Date();
-  
+
   if (!isEligible) return null;
 
   const { data: reviewData, isLoading: isReviewLoading } = useGetReviewByBookingQuery(booking._id);
@@ -77,21 +77,20 @@ export const BookingReviewSection = ({ booking }) => {
     return <div className="mt-4 pt-4 border-t border-white/10 text-slate-400 text-sm">Loading review data...</div>;
   }
 
-  // View Mode (Existing Review)
   if (review && !isEditing) {
     return (
       <div className="mt-4 pt-4 border-t border-white/10">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-semibold text-white">Your Review</h4>
           <div className="flex gap-2">
-            <button 
+            <button
               onClick={handleEditClick}
               className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-colors"
               title="Edit Review"
             >
               <Edit2 className="w-4 h-4" />
             </button>
-            <button 
+            <button
               onClick={handleDelete}
               disabled={isDeleting}
               className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-md transition-colors"
@@ -116,7 +115,6 @@ export const BookingReviewSection = ({ booking }) => {
     );
   }
 
-  // Edit / Create Mode
   return (
     <div className="mt-4 pt-4 border-t border-white/10">
       <div className="flex items-center justify-between mb-4">
@@ -124,7 +122,7 @@ export const BookingReviewSection = ({ booking }) => {
           {review ? 'Edit Review' : 'Leave a Review'}
         </h4>
         {review && isEditing && (
-          <button 
+          <button
             onClick={handleCancelEdit}
             className="p-1 text-slate-400 hover:text-slate-200 transition-colors"
           >
@@ -132,7 +130,7 @@ export const BookingReviewSection = ({ booking }) => {
           </button>
         )}
       </div>
-      
+
       <form onSubmit={handleSubmit} className="bg-slate-900/50 rounded-xl p-4">
         <div className="mb-4">
           <label className="block text-xs text-slate-400 mb-2">Rating</label>
@@ -147,11 +145,10 @@ export const BookingReviewSection = ({ booking }) => {
                 className="focus:outline-none"
               >
                 <Star
-                  className={`w-6 h-6 transition-colors ${
-                    star <= (hoverRating || rating)
-                      ? 'fill-amber-400 text-amber-400'
-                      : 'text-slate-700 hover:text-amber-400/50'
-                  }`}
+                  className={`w-6 h-6 transition-colors ${star <= (hoverRating || rating)
+                    ? 'fill-amber-400 text-amber-400'
+                    : 'text-slate-700 hover:text-amber-400/50'
+                    }`}
                 />
               </button>
             ))}

@@ -81,11 +81,15 @@ export const testEmail = async (req, res, next) => {
   try {
     await sendTestEmail();
 
-    sendResponse(res, { statusCode: 200, success: true, message: "Email sent" })
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Email sent',
+    });
   } catch (error) {
     next(error);
   }
-}
+};
 
 export const forgotPasswordController = async (req, res, next) => {
   try {
@@ -103,7 +107,10 @@ export const forgotPasswordController = async (req, res, next) => {
 
 export const resetPasswordController = async (req, res, next) => {
   try {
-    const response = await resetPasswordService(req.params.token, req.body.password);
+    const response = await resetPasswordService(
+      req.params.token,
+      req.body.password
+    );
 
     sendResponse(res, {
       statusCode: 200,

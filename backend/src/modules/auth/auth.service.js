@@ -23,7 +23,10 @@ export const registerUserService = async (userData) => {
     if (existingUser.isVerified) {
       throw new AppError('user already exist!!!', 409);
     } else {
-      throw new AppError('Email already registered but not verified. Please verify your email or request a new code.', 409);
+      throw new AppError(
+        'Email already registered but not verified. Please verify your email or request a new code.',
+        409
+      );
     }
   }
 
@@ -33,7 +36,7 @@ export const registerUserService = async (userData) => {
   await user.save({ validateModifiedOnly: true });
 
   const message = otpTemplate(otp, user.name);
-  
+
   try {
     await sendEmail({
       to: user.email,
@@ -44,7 +47,10 @@ export const registerUserService = async (userData) => {
     user.verificationToken = undefined;
     user.verificationTokenExpire = undefined;
     await user.save({ validateModifiedOnly: true });
-    throw new AppError('There was an error sending the verification email. Try again later!', 500);
+    throw new AppError(
+      'There was an error sending the verification email. Try again later!',
+      500
+    );
   }
 
   return { email: user.email, message: 'Verification email sent' };
@@ -58,7 +64,10 @@ export const signinUserService = async (userData) => {
   }
 
   if (!existingUser.isVerified) {
-    throw new AppError('Please verify your email address before signing in.', 403);
+    throw new AppError(
+      'Please verify your email address before signing in.',
+      403
+    );
   }
 
   const isPasswordMatched = await existingUser.comparePassword(
@@ -160,10 +169,10 @@ export const logoutService = async (userId) => {
 export const sendTestEmail = async () => {
   await sendEmail({
     to: 'samarpansarkar209@gmail.com',
-    subject: "SpanStay SMTP Test",
+    subject: 'SpanStay SMTP Test',
     html: `<h1>SpanStay Test Email</h1>`,
-  })
-}
+  });
+};
 
 export const forgotPasswordService = async (email) => {
   const user = await findUserByEmail(email);
@@ -190,7 +199,10 @@ export const forgotPasswordService = async (email) => {
     user.resetPasswordExpire = undefined;
     await user.save({ validateModifiedOnly: true });
 
-    throw new AppError('There was an error sending the email. Try again later!', 500);
+    throw new AppError(
+      'There was an error sending the email. Try again later!',
+      500
+    );
   }
 };
 
@@ -206,7 +218,7 @@ export const resetPasswordService = async (token, newPassword) => {
   user.password = newPassword;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
-  
+
   await user.save();
 
   const payload = {
@@ -246,7 +258,10 @@ export const verifyEmailService = async (email, otp) => {
 
   const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
 
-  if (user.verificationToken !== hashedOtp || user.verificationTokenExpire < Date.now()) {
+  if (
+    user.verificationToken !== hashedOtp ||
+    user.verificationTokenExpire < Date.now()
+  ) {
     throw new AppError('Invalid or expired verification code', 400);
   }
 
@@ -305,7 +320,10 @@ export const resendVerificationService = async (email) => {
     user.verificationToken = undefined;
     user.verificationTokenExpire = undefined;
     await user.save({ validateModifiedOnly: true });
-    throw new AppError('There was an error sending the verification email.', 500);
+    throw new AppError(
+      'There was an error sending the verification email.',
+      500
+    );
   }
 
   return { message: 'Verification email resent successfully' };

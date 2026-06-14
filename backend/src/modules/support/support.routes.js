@@ -6,7 +6,7 @@ import {
   createTicketController,
   getMyTicketsController,
   getAllTicketsController,
-  resolveTicketController
+  resolveTicketController,
 } from './support.controller.js';
 
 const supportRouter = express.Router();
@@ -100,6 +100,10 @@ supportRouter.get('/', authorize(ROLES.ADMIN), getAllTicketsController);
  *       200:
  *         description: Ticket resolved
  */
-supportRouter.patch('/:id/resolve', authorize(ROLES.ADMIN), resolveTicketController);
+supportRouter.patch(
+  '/:id/resolve',
+  authorize(ROLES.ADMIN),
+  resolveTicketController
+);
 
 export default supportRouter;
