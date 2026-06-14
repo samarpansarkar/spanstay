@@ -12,14 +12,14 @@ export const adminApi = api.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Audit'],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/admin/users/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Audit'],
     }),
     getApprovals: builder.query({
       query: () => '/admin/approvals',
@@ -31,7 +31,7 @@ export const adminApi = api.injectEndpoints({
         method: 'PATCH',
         body: { status },
       }),
-      invalidatesTags: ['Approval'],
+      invalidatesTags: ['Approval', 'Audit'],
     }),
     getLogs: builder.query({
       query: () => '/admin/logs',

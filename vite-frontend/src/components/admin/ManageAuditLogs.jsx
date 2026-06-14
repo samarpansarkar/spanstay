@@ -79,7 +79,7 @@ const ManageAuditLogs = () => {
             <h3 className="text-slate-300 font-medium">Weekly Actions</h3>
           </div>
           <p className="text-3xl font-bold text-white">
-            {summaryData?.data ? Object.values(summaryData.data).reduce((acc, curr) => acc + Object.values(curr).reduce((a, b) => a + b, 0), 0) : 0}
+            {summaryData?.data ? Object.values(summaryData.data).reduce((acc, curr) => acc + Object.values(curr || {}).reduce((a, b) => a + b, 0), 0) : 0}
           </p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
