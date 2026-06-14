@@ -30,6 +30,9 @@ const approvalRequestSchema = new Schema(
   }
 );
 
-const ApprovalRequest = mongoose.model('ApprovalRequest', approvalRequestSchema);
+const ApprovalRequest = mongoose.model(
+  'ApprovalRequest',
+  approvalRequestSchema
+);
 
 export default ApprovalRequest;

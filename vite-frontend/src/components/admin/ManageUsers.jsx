@@ -3,7 +3,7 @@ import { useGetUsersQuery, useUpdateUserMutation, useDeleteUserMutation } from '
 import { Trash2, UserCog } from 'lucide-react';
 import { toast } from 'sonner';
 import { TableSkeleton } from '@/components/ui/Skeleton/Skeleton';
-import { List } from 'react-window';
+
 
 const ManageUsers = () => {
   const { data: usersData, isLoading } = useGetUsersQuery();
@@ -43,10 +43,10 @@ const ManageUsers = () => {
     }
   };
 
-  const Row = ({ index, style }) => {
+  const UserRow = ({ index }) => {
     const user = users[index];
     return (
-      <div style={style} className="flex items-center border-b border-white/5 text-slate-300 hover:bg-white/5 px-2">
+      <div className="flex items-center border-b border-white/5 text-slate-300 hover:bg-white/5 px-2 py-4">
         <div className="w-1/4 truncate pr-2">{user.name}</div>
         <div className="w-1/3 truncate pr-2">{user.email}</div>
         <div className="w-1/4 pr-2">
@@ -96,14 +96,11 @@ const ManageUsers = () => {
         </div>
 
         {users.length > 0 ? (
-          <List
-            height={400}
-            rowCount={users.length}
-            rowHeight={60}
-            width="100%"
-            className="custom-scrollbar"
-            rowComponent={Row}
-          />
+          <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+            {users.map((user, index) => (
+              <UserRow key={user._id} index={index} />
+            ))}
+          </div>
         ) : (
           <div className="text-center text-slate-400 py-6">No users found.</div>
         )}

@@ -82,7 +82,15 @@ const SigninPage = () => {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300">Password</label>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-300">Password</label>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <input

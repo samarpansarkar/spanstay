@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGetHotelReviewsQuery, useCreateReviewMutation } from '@/redux/api/reviewApi';
+import { useGetHotelReviewsQuery, useCreateReviewMutation, useCheckEligibilityQuery } from '@/redux/api/reviewApi';
 import { useSelector } from 'react-redux';
 import { Star, MessageSquare, User } from 'lucide-react';
 import { toast } from 'sonner';
@@ -8,6 +8,7 @@ import { Skeleton, ReviewSkeleton } from '@/components/ui/Skeleton/Skeleton';
 const HotelReviews = ({ hotelId }) => {
   const { user } = useSelector((state) => state.auth);
   const { data, isLoading } = useGetHotelReviewsQuery(hotelId);
+  const { data: eligibilityData, isLoading: isEligibilityLoading } = useCheckEligibilityQuery(hotelId, { skip: !user });
   const [createReview, { isLoading: isSubmitting }] = useCreateReviewMutation();
 
   const [rating, setRating] = useState(0);
@@ -69,9 +70,14 @@ const HotelReviews = ({ hotelId }) => {
       </div>
 
       {user ? (
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-10">
-          <h3 className="text-xl font-semibold text-white mb-4">Leave a review</h3>
-          <form onSubmit={handleSubmit}>
+        isEligibilityLoading ? (
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-10">
+            <h3 className="text-xl font-semibold text-white mb-4">Checking eligibility...</h3>
+          </div>
+        ) : eligibilityData?.data?.canReview ? (
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-10">
+            <h3 className="text-xl font-semibold text-white mb-4">Leave a review</h3>
+            <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-sm text-slate-400 mb-2">Rating</label>
               <div className="flex gap-1">
@@ -113,6 +119,14 @@ const HotelReviews = ({ hotelId }) => {
             </button>
           </form>
         </div>
+        ) : (
+          <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-6 mb-10 text-center">
+            <MessageSquare className="w-8 h-8 text-indigo-400 mx-auto mb-3" />
+            <p className="text-indigo-200">
+              {eligibilityData?.data?.message || 'You are not eligible to review this hotel.'}
+            </p>
+          </div>
+        )
       ) : (
         <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-6 mb-10 text-center">
           <MessageSquare className="w-8 h-8 text-indigo-400 mx-auto mb-3" />

@@ -12,6 +12,11 @@ const reviewSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    booking: {
+      type: Schema.Types.ObjectId,
+      ref: 'Booking',
+      required: true,
+    },
     rating: {
       type: Number,
       required: true,
@@ -28,7 +33,6 @@ const reviewSchema = new Schema(
     timestamps: true,
   }
 );
-
 
 const Review = mongoose.model('Review', reviewSchema);
 

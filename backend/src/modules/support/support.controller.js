@@ -10,17 +10,36 @@ export const createTicketController = asyncHandler(async (req, res) => {
     subject,
     message,
   });
-  sendResponse(res, { statusCode: 201, success: true, message: 'Support ticket created successfully', data: ticket });
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: 'Support ticket created successfully',
+    data: ticket,
+  });
 });
 
 export const getMyTicketsController = asyncHandler(async (req, res) => {
-  const tickets = await SupportTicket.find({ user: req.user.id }).sort({ createdAt: -1 });
-  sendResponse(res, { statusCode: 200, success: true, message: 'My support tickets fetched', data: tickets });
+  const tickets = await SupportTicket.find({ user: req.user.id }).sort({
+    createdAt: -1,
+  });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'My support tickets fetched',
+    data: tickets,
+  });
 });
 
 export const getAllTicketsController = asyncHandler(async (req, res) => {
-  const tickets = await SupportTicket.find().populate('user', 'name email role').sort({ createdAt: -1 });
-  sendResponse(res, { statusCode: 200, success: true, message: 'All support tickets fetched', data: tickets });
+  const tickets = await SupportTicket.find()
+    .populate('user', 'name email role')
+    .sort({ createdAt: -1 });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'All support tickets fetched',
+    data: tickets,
+  });
 });
 
 export const resolveTicketController = asyncHandler(async (req, res) => {
@@ -33,5 +52,10 @@ export const resolveTicketController = asyncHandler(async (req, res) => {
   ticket.adminResponse = adminResponse;
   await ticket.save();
 
-  sendResponse(res, { statusCode: 200, success: true, message: 'Support ticket resolved successfully', data: ticket });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Support ticket resolved successfully',
+    data: ticket,
+  });
 });

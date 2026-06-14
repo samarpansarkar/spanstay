@@ -30,7 +30,7 @@ const SignupPage = () => {
       if (response.success) {
         toast.success(response.message);
       }
-      navigate(from, { replace: true });
+      navigate('/verify-email', { state: { email: data.email } });
     } catch (error) {
       toast.error(getErrorMessage(error));
     }

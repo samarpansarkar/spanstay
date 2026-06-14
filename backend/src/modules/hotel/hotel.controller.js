@@ -91,7 +91,10 @@ export const deleteHotelController = asyncHandler(async (req, res) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: req.user.role === 'admin' ? 'Hotel successfully deleted!!!' : 'Hotel deletion request submitted for approval',
+    message:
+      req.user.role === 'admin'
+        ? 'Hotel successfully deleted!!!'
+        : 'Hotel deletion request submitted for approval',
     data: deleteHotel,
   });
 });

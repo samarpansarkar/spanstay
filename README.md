@@ -490,6 +490,20 @@ Fetch all hotels with optional filters, search, and pagination.
 
 ---
 
+#### `GET /hotels/my-hotels`
+Fetch hotels owned by the current hotel admin.
+
+- **Access:** Protected — `hotelAdmin`
+
+---
+
+#### `GET /hotels/my-approvals`
+Fetch approval requests for hotels owned by the current hotel admin.
+
+- **Access:** Protected — `hotelAdmin`
+
+---
+
 #### `GET /hotels/:hotelId`
 Fetch a single hotel by its MongoDB ObjectId.
 
@@ -600,6 +614,13 @@ Retrieve all bookings for the currently authenticated user.
 
 ---
 
+#### `GET /bookings/hotel-bookings`
+Fetch all bookings for hotels owned by the current hotel admin.
+
+- **Access:** Protected — `hotelAdmin` role only
+
+---
+
 #### `PATCH /bookings/:bookingId/cancel`
 Cancel a booking.
 
@@ -671,6 +692,115 @@ Stripe webhook receiver. Handles `checkout.session.completed` events.
 
 ---
 
+#### `GET /payments/verify/:sessionId`
+Verify a Stripe checkout session and check payment status.
+
+- **Access:** Protected (Authenticated users)
+
+---
+
+### 7.5 Reviews (`/api/v1/reviews`)
+
+#### `GET /reviews/:hotelId`
+Fetch all reviews for a specific hotel.
+
+- **Access:** Public
+
+#### `POST /reviews/:hotelId`
+Create a new review for a hotel.
+
+- **Access:** Protected (Authenticated users)
+
+**Request Body:**
+```json
+{
+  "rating": 5,
+  "comment": "Excellent stay!"
+}
+```
+
+---
+
+### 7.6 Admin (`/api/v1/admin`)
+
+#### `GET /admin/users`
+Fetch all users.
+
+- **Access:** Protected — `admin` role only
+
+#### `PATCH /admin/users/:id`
+Update a user's details or role.
+
+- **Access:** Protected — `admin` role only
+
+#### `DELETE /admin/users/:id`
+Delete a user.
+
+- **Access:** Protected — `admin` role only
+
+#### `GET /admin/approvals`
+Fetch all pending hotel approval requests.
+
+- **Access:** Protected — `admin` role only
+
+#### `PATCH /admin/approvals/:id/resolve`
+Approve or reject a hotel request.
+
+- **Access:** Protected — `admin` role only
+
+**Request Body:**
+```json
+{
+  "status": "APPROVED"
+}
+```
+
+#### `GET /admin/logs`
+Fetch system logs.
+
+- **Access:** Protected — `admin` role only
+
+---
+
+### 7.7 Support (`/api/v1/support`)
+
+#### `POST /support`
+Create a new support ticket.
+
+- **Access:** Protected (Authenticated users)
+
+**Request Body:**
+```json
+{
+  "subject": "Payment issue",
+  "message": "I was charged twice."
+}
+```
+
+#### `GET /support/my-tickets`
+Fetch all tickets for the authenticated user.
+
+- **Access:** Protected (Authenticated users)
+
+#### `GET /support`
+Fetch all support tickets.
+
+- **Access:** Protected — `admin` role only
+
+#### `PATCH /support/:id/resolve`
+Resolve a support ticket.
+
+- **Access:** Protected — `admin` role only
+
+**Request Body:**
+```json
+{
+  "adminResponse": "Refund processed."
+}
+```
+
+---
+
 ## 8. Data Models
 
 ### User
@@ -716,6 +846,58 @@ Stripe webhook receiver. Handles `checkout.session.completed` events.
 | `status` | String (enum) | `pending` \| `confirmed` \| `cancelled`, default: `pending` |
 | `paymentStatus` | String (enum) | `pending` \| `paid` \| `failed`, default: `pending` |
 | `paymentIntentId` | String | Set by Stripe webhook |
+| `createdAt` | Date | Auto-managed |
+| `updatedAt` | Date | Auto-managed |
+
+---
+
+### Review
+
+| Field | Type | Constraints |
+|---|---|---|
+| `rating` | Number | Required, 1-5 |
+| `comment` | String | Required |
+| `user` | ObjectId (ref: User) | Required |
+| `hotel` | ObjectId (ref: Hotel) | Required |
+| `createdAt` | Date | Auto-managed |
+| `updatedAt` | Date | Auto-managed |
+
+---
+
+### ApprovalRequest
+
+| Field | Type | Constraints |
+|---|---|---|
+| `payload` | Object | Required |
+| `action` | String | Required |
+| `requestedBy` | ObjectId (ref: User) | Required |
+| `status` | String (enum) | `PENDING` \| `APPROVED` \| `REJECTED`, default: `PENDING` |
+| `hotelId` | ObjectId (ref: Hotel) | Optional |
+| `createdAt` | Date | Auto-managed |
+| `updatedAt` | Date | Auto-managed |
+
+---
+
+### Ticket (Support)
+
+| Field | Type | Constraints |
+|---|---|---|
+| `subject` | String | Required |
+| `message` | String | Required |
+| `user` | ObjectId (ref: User) | Required |
+| `status` | String (enum) | `OPEN` \| `RESOLVED`, default: `OPEN` |
+| `adminResponse` | String | Optional |
+| `createdAt` | Date | Auto-managed |
+| `updatedAt` | Date | Auto-managed |
+
+---
+
+### Log (System Log)
+
+| Field | Type | Constraints |
+|---|---|---|
+| `action` | String | Required |
+| `target` | String | Required |
 | `createdAt` | Date | Auto-managed |
 | `updatedAt` | Date | Auto-managed |
 
@@ -822,7 +1004,13 @@ Forms use **React Hook Form** integrated with **Zod resolvers** (`@hookform/reso
 | `/` | Home Page | Public |
 | `/signin` | `SigninPage` | Public |
 | `/signup` | `SignupPage` | Public |
+| `/hotels` | `HotelsPage` | Public |
+| `/hotels/:id` | `HotelDetailPage` | Public |
 | `/profile` | `UsersProfilePage` | Protected |
+| `/my-bookings` | `MyBookingsPage` | Protected |
+| `/dashboard` | `AdminDashboardPage` | Protected (Admin) |
+| `/payment-success` | `PaymentSuccessPage` | Protected |
+| `/payment-cancel` | `PaymentCancelPage` | Protected |
 
 ---
 

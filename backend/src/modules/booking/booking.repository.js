@@ -49,3 +49,12 @@ export const getBookingsByHotelIds = async (hotelIds) => {
     .populate('user', 'name email avatar')
     .sort({ createdAt: -1 });
 };
+
+export const getCompletedBookingsByUserAndHotel = async (userId, hotelId) => {
+  return await Booking.find({
+    user: userId,
+    hotel: hotelId,
+    status: 'confirmed',
+    checkOut: { $lt: new Date() },
+  });
+};

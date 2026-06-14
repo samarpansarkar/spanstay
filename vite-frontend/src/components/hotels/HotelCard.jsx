@@ -26,7 +26,7 @@ export const HotelCard = memo(({ hotel }) => (
         )}
         <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1 flex items-center gap-1">
           <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-          <span className="text-white text-xs font-medium">4.5</span>
+          <span className="text-white text-xs font-medium">{hotel.averageRating || 'New'}</span>
         </div>
       </div>
 

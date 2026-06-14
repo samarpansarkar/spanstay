@@ -8,8 +8,33 @@ import {
   deleteUserController,
   getPendingApprovalsController,
   resolveApprovalController,
-  getSystemLogsController
+  getSystemLogsController,
 } from './admin.controller.js';
+import {
+  getJobsStatsController,
+  getJobsQueuesController,
+  getFailedJobsController,
+  getCompletedJobsController,
+  getWaitingJobsController,
+} from './jobs.controller.js';
+import { createBullBoard } from '@bull-board/api';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { ExpressAdapter } from '@bull-board/express';
+import { emailQueue } from '../../jobs/queues/email.queue.js';
+import { notificationQueue } from '../../jobs/queues/notification.queue.js';
+import { cleanupQueue } from '../../jobs/queues/cleanup.queue.js';
+
+const serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath('/api/v1/admin/jobs/dashboard');
+
+createBullBoard({
+  queues: [
+    new BullMQAdapter(emailQueue),
+    new BullMQAdapter(notificationQueue),
+    new BullMQAdapter(cleanupQueue),
+  ],
+  serverAdapter,
+});
 
 const adminRouter = express.Router();
 
@@ -144,5 +169,76 @@ adminRouter.patch('/approvals/:id/resolve', resolveApprovalController);
  *         description: System logs fetched
  */
 adminRouter.get('/logs', getSystemLogsController);
+
+adminRouter.use('/jobs/dashboard', serverAdapter.getRouter());
+/**
+ * @swagger
+ * /api/v1/admin/jobs/stats:
+ *   get:
+ *     summary: Get statistics for all job queues
+ *     tags: [Admin, Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Job statistics fetched successfully
+ */
+adminRouter.get('/jobs/stats', getJobsStatsController);
+
+/**
+ * @swagger
+ * /api/v1/admin/jobs/queues:
+ *   get:
+ *     summary: Get all job queue names
+ *     tags: [Admin, Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Job queues fetched successfully
+ */
+adminRouter.get('/jobs/queues', getJobsQueuesController);
+
+/**
+ * @swagger
+ * /api/v1/admin/jobs/failed:
+ *   get:
+ *     summary: Get all failed jobs
+ *     tags: [Admin, Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Failed jobs fetched successfully
+ */
+adminRouter.get('/jobs/failed', getFailedJobsController);
+
+/**
+ * @swagger
+ * /api/v1/admin/jobs/completed:
+ *   get:
+ *     summary: Get all completed jobs
+ *     tags: [Admin, Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Completed jobs fetched successfully
+ */
+adminRouter.get('/jobs/completed', getCompletedJobsController);
+
+/**
+ * @swagger
+ * /api/v1/admin/jobs/waiting:
+ *   get:
+ *     summary: Get all waiting jobs
+ *     tags: [Admin, Jobs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Waiting jobs fetched successfully
+ */
+adminRouter.get('/jobs/waiting', getWaitingJobsController);
 
 export default adminRouter;

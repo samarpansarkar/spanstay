@@ -53,17 +53,25 @@ const seedHotels = async () => {
       const reviewIds = [];
 
       const numReviews = faker.number.int({ min: 2, max: 5 });
+      let totalRating = 0;
+
       for (let j = 0; j < numReviews; j++) {
         const reviewId = new mongoose.Types.ObjectId();
+        const rating = faker.number.int({ min: 3, max: 5 });
+        totalRating += rating;
+
         allReviews.push({
           _id: reviewId,
           hotel: hotelId,
           user: ownerID,
-          rating: faker.number.int({ min: 3, max: 5 }),
+          booking: new mongoose.Types.ObjectId(), // Dummy booking reference
+          rating: rating,
           comment: faker.lorem.sentences({ min: 1, max: 3 }),
         });
         reviewIds.push(reviewId);
       }
+
+      const averageRating = Number((totalRating / numReviews).toFixed(1));
 
       hotels.push({
         _id: hotelId,
@@ -78,7 +86,12 @@ const seedHotels = async () => {
           max: 15000,
         }),
 
-        images: [{ url: faker.image.urlPicsumPhotos({ width: 800, height: 500 }), publicId: 'seed' }],
+        images: [
+          {
+            url: faker.image.urlPicsumPhotos({ width: 800, height: 500 }),
+            publicId: 'seed',
+          },
+        ],
 
         amenities: faker.helpers.arrayElements(
           [
@@ -99,6 +112,8 @@ const seedHotels = async () => {
 
         owner: ownerID,
         reviews: reviewIds,
+        averageRating,
+        totalReviews: numReviews,
         isAvailable: Math.random() > 0.1,
         approvalStatus: 'APPROVED',
       });
@@ -107,7 +122,9 @@ const seedHotels = async () => {
     await Hotel.insertMany(hotels);
     await Review.insertMany(allReviews);
 
-    console.log(`200 Indian hotels and ${allReviews.length} reviews seeded successfully`);
+    console.log(
+      `200 Indian hotels and ${allReviews.length} reviews seeded successfully`
+    );
 
     process.exit(0);
   } catch (error) {

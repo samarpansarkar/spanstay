@@ -12,6 +12,7 @@ import {
   User,
   X,
 } from 'lucide-react';
+import { NotificationBell } from '../notifications/NotificationBell';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -102,11 +103,13 @@ const Navbar = () => {
 
             <div className="flex items-center gap-3">
               {isAuthenticated ? (
-                <div ref={dropdownRef} className="relative hidden md:block">
-                  <button
-                    onClick={() => setDropdownOpen((v) => !v)}
-                    className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10 transition-colors"
-                  >
+                <>
+                  <NotificationBell />
+                  <div ref={dropdownRef} className="relative hidden md:block">
+                    <button
+                      onClick={() => setDropdownOpen((v) => !v)}
+                      className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10 transition-colors"
+                    >
                     <div className="w-7 h-7 rounded-lg bg-indigo-600/40 border border-indigo-500/30 flex items-center justify-center text-xs font-bold text-white">
                       {initials}
                     </div>
@@ -161,7 +164,8 @@ const Navbar = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                  </div>
+                </>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
                   <Link
