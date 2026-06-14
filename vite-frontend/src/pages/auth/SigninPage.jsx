@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import SEO from '@/components/shared/SEO';
 
 const SigninPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -112,7 +113,7 @@ const SigninPage = () => {
             >
               {isLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
                   Signing in...
                 </>
               ) : (

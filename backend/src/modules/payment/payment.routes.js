@@ -3,6 +3,7 @@ import protect from '../../shared/middleware/auth.middleware.js';
 import {
   createCheckoutSessionController,
   handleStripeWebhookController,
+  verifySessionController,
 } from './payment.controller.js';
 
 const paymentRouter = Router();
@@ -52,5 +53,35 @@ paymentRouter.post(
  *         description: Invalid webhook signature
  */
 paymentRouter.post('/webhook', handleStripeWebhookController);
+
+/**
+ * @swagger
+ * /payments/verify/{sessionId}:
+ *   get:
+ *     summary: Verify Stripe checkout session
+ *     tags:
+ *       - Payments
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         example: cs_test_a1b2c3d4e5f6
+ *     responses:
+ *       200:
+ *         description: Payment verified
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Session or Booking not found
+ */
+paymentRouter.get(
+  '/verify/:sessionId',
+  protect,
+  verifySessionController
+);
 
 export default paymentRouter;

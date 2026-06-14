@@ -5,10 +5,15 @@ const AuthInitializer = ({ children }) => {
 
   if (isInitializing) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-400 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading your session…</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+          <div className="h-16 w-full bg-white/5 rounded-2xl animate-pulse" />
+          <div className="h-64 w-full bg-white/5 rounded-3xl animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="h-48 bg-white/5 rounded-2xl animate-pulse" />
+            <div className="h-48 bg-white/5 rounded-2xl animate-pulse" />
+            <div className="h-48 bg-white/5 rounded-2xl animate-pulse" />
+          </div>
         </div>
       </div>
     );

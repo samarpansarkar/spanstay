@@ -6,7 +6,9 @@ import {
   getBookingById,
   getBookingsByUser,
   updateBookingStatus,
+  getBookingsByHotelIds,
 } from './booking.repository.js';
+import { getAllHotels } from '../hotel/hotel.repository.js';
 
 export const createBookingService = async (bookingData, currentUser) => {
   const hotel = await getHotelById(bookingData.hotelId);
@@ -100,4 +102,13 @@ export const confirmedBookingService = async (bookingId, currentUser) => {
   const confirmedBooking = await updateBookingStatus(bookingId, 'confirmed');
 
   return confirmedBooking;
+};
+
+export const getHotelAdminBookingsService = async (userId) => {
+  const { hotels } = await getAllHotels({ owner: userId }, 0, 1000, {});
+  const hotelIds = hotels.map((hotel) => hotel._id);
+  
+  if (hotelIds.length === 0) return [];
+  
+  return await getBookingsByHotelIds(hotelIds);
 };

@@ -3,6 +3,7 @@ import sendResponse from '../../shared/utils/SendResponse.js';
 import {
   createCheckoutSessionService,
   handleStripeWebhookService,
+  verifyCheckoutSessionService,
 } from './payment.service.js';
 
 export const createCheckoutSessionController = asyncHandler(
@@ -29,5 +30,17 @@ export const handleStripeWebhookController = asyncHandler(async (req, res) => {
     statusCode: 200,
     success: true,
     data: result,
+  });
+});
+
+export const verifySessionController = asyncHandler(async (req, res) => {
+  const { sessionId } = req.params;
+  const booking = await verifyCheckoutSessionService(sessionId, req.user);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Payment verified successfully',
+    data: booking,
   });
 });

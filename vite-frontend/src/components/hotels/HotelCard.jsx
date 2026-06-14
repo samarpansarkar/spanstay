@@ -1,24 +1,27 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUpVariant } from '@/animations/variants';
 import { IndianRupee, MapPin, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export const HotelCard = ({ hotel }) => (
+export const HotelCard = memo(({ hotel }) => (
   <motion.div variants={fadeUpVariant}>
     <Link
       to={`/hotels/${hotel._id}`}
-      className="group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all duration-300"
+      aria-label={`View details for ${hotel.title}`}
+      className={`group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all duration-300 ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
     >
       <div className="relative h-48 overflow-hidden bg-slate-800">
         {hotel.images?.[0]?.url ? (
           <img
             src={hotel.images[0].url}
             alt={hotel.title}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-slate-600 text-sm">No image</span>
+            <span className="text-slate-400 text-sm">No image</span>
           </div>
         )}
         <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1 flex items-center gap-1">
@@ -32,8 +35,8 @@ export const HotelCard = ({ hotel }) => (
           {hotel.title}
         </h3>
         <div className="flex items-center gap-1.5 mt-1">
-          <MapPin className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
-          <span className="text-slate-400 text-sm truncate">{hotel.location}</span>
+          <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+          <span className="text-slate-300 text-sm truncate">{hotel.location}</span>
         </div>
 
         {hotel.amenities?.length > 0 && (
@@ -47,7 +50,7 @@ export const HotelCard = ({ hotel }) => (
               </span>
             ))}
             {hotel.amenities.length > 3 && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-500">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-400">
                 +{hotel.amenities.length - 3}
               </span>
             )}
@@ -60,18 +63,26 @@ export const HotelCard = ({ hotel }) => (
             <span className="text-emerald-400 font-bold text-lg">
               {hotel.price?.toLocaleString('en-IN')}
             </span>
-            <span className="text-slate-500 text-xs ml-1">/night</span>
+            <span className="text-slate-400 text-xs ml-1">/night</span>
           </div>
-          <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">
-            Book Now
-          </span>
+          {hotel.isAvailable ? (
+            <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">
+              Book Now
+            </span>
+          ) : (
+            <span className="text-xs font-medium text-slate-300 bg-slate-500/10 border border-slate-500/20 px-3 py-1 rounded-lg">
+              Unavailable
+            </span>
+          )}
         </div>
       </div>
     </Link>
   </motion.div>
-);
+));
 
-export const HotelCardSkeleton = () => (
+HotelCard.displayName = 'HotelCard';
+
+export const HotelCardSkeleton = memo(() => (
   <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden animate-pulse">
     <div className="h-48 bg-white/10" />
     <div className="p-4 space-y-3">
@@ -88,4 +99,6 @@ export const HotelCardSkeleton = () => (
       </div>
     </div>
   </div>
-);
+));
+
+HotelCardSkeleton.displayName = 'HotelCardSkeleton';

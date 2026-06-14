@@ -8,6 +8,7 @@ import {
   confirmedBookingController,
   createBookingController,
   getMyBookingsController,
+  getHotelAdminBookingsController,
 } from './booking.controller.js';
 import {
   bookingParamSchema,
@@ -87,6 +88,28 @@ bookingRouter.get(
   protect,
   authorize(ROLES.USER),
   getMyBookingsController
+);
+
+/**
+ * @swagger
+ * /bookings/hotel-bookings:
+ *   get:
+ *     summary: Get all bookings for hotel admin's hotels
+ *     tags:
+ *       - Bookings
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Bookings fetched successfully
+ *       401:
+ *         description: Unauthorized
+ */
+bookingRouter.get(
+  '/hotel-bookings',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  getHotelAdminBookingsController
 );
 
 /**

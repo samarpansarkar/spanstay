@@ -24,7 +24,7 @@ export const createCheckoutSessionService = async (bookingId, currentUser) => {
 
     mode: 'payment',
 
-    success_url: process.env.PAYMENT_SUCCESS_URL,
+    success_url: `${process.env.PAYMENT_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
 
     cancel_url: process.env.PAYMENT_CANCEL_URL,
 
@@ -96,4 +96,32 @@ export const handleStripeWebhookService = async (rawBody, signature) => {
   }
 
   return { received: true };
+};
+
+export const verifyCheckoutSessionService = async (sessionId, currentUser) => {
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (!session) {
+    throw new AppError('Session not found', 404);
+  }
+
+  const bookingId = session.metadata?.bookingId;
+  const booking = await Booking.findById(bookingId);
+
+  if (!booking) {
+    throw new AppError('Booking not found', 404);
+  }
+
+  if (booking.user.toString() !== currentUser.id.toString()) {
+    throw new AppError('Unauthorized', 403);
+  }
+
+  if (session.payment_status === 'paid' && booking.paymentStatus !== 'paid') {
+    booking.paymentStatus = 'paid';
+    booking.status = 'confirmed';
+    booking.paymentIntentId = session.payment_intent;
+    await booking.save();
+  }
+
+  return booking;
 };

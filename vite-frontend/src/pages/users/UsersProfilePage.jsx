@@ -1,7 +1,10 @@
 import { useGetProfileQuery, useLogoutMutation } from '@/redux/api/authApi';
 import { clearCredential } from '@/redux/features/auth/authSlice';
+import UserSupportTickets from '@/components/users/UserSupportTickets';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
+import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
+import SEO from '@/components/shared/SEO';
 import {
   Building2,
   CalendarDays,
@@ -92,14 +95,7 @@ const UsersProfilePage = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-400 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading profile…</p>
-        </div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (isError || !user) {
@@ -123,6 +119,7 @@ const UsersProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+      <SEO title="My Profile" noindex={true} />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />
@@ -163,7 +160,7 @@ const UsersProfilePage = () => {
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors text-sm font-medium disabled:opacity-50 disabled:pointer-events-none"
             >
               {isLoggingOut ? (
-                <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full" />
               ) : (
                 <LogOut className="w-4 h-4" />
               )}
@@ -295,6 +292,14 @@ const UsersProfilePage = () => {
               </>
             )}
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.25 }}
+        >
+          <UserSupportTickets />
         </motion.div>
 
       </div>

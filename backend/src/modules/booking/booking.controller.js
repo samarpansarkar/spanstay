@@ -5,6 +5,7 @@ import {
   confirmedBookingService,
   createBookingService,
   getMyBookingsService,
+  getHotelAdminBookingsService,
 } from './booking.service.js';
 
 export const createBookingController = asyncHandler(async (req, res) => {
@@ -48,5 +49,15 @@ export const confirmedBookingController = asyncHandler(async (req, res) => {
     success: true,
     message: 'Booking confirmed!!!',
     data: booking,
+  });
+});
+
+export const getHotelAdminBookingsController = asyncHandler(async (req, res) => {
+  const bookings = await getHotelAdminBookingsService(req.user.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Hotel bookings fetched successfully',
+    data: bookings,
   });
 });

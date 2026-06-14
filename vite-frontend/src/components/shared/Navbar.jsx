@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 
 const NAV_ITEMS = [
   { label: 'Hotels', path: '/hotels', icon: Hotel },
-  { label: 'My Bookings', path: '/bookings', icon: CalendarDays },
+  { label: 'My Bookings', path: '/my-bookings', icon: CalendarDays },
 ];
 
 const ADMIN_ITEMS = [
@@ -31,8 +31,7 @@ const NavItem = ({ path, label, icon: Icon, onClose }) => (
     to={path}
     onClick={onClose}
     className={({ isActive }) =>
-      `flex items-center gap-2 text-sm font-medium transition-colors ${
-        isActive ? 'text-indigo-400' : 'text-slate-400 hover:text-white'
+      `flex items-center gap-2 text-sm font-medium transition-colors ${isActive ? 'text-indigo-400' : 'text-slate-400 hover:text-white'
       }`
     }
   >
@@ -138,13 +137,21 @@ const Navbar = () => {
                             <User className="w-4 h-4" />
                             My Profile
                           </Link>
+                          <Link
+                            to="/my-bookings"
+                            onClick={() => setDropdownOpen(false)}
+                            className="flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
+                          >
+                            <CalendarDays className="w-4 h-4" />
+                            My Bookings
+                          </Link>
                           <button
                             onClick={handleLogout}
                             disabled={isLoading}
                             className="flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-sm text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
                           >
                             {isLoading ? (
-                              <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
+                              <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full" />
                             ) : (
                               <LogOut className="w-4 h-4" />
                             )}
@@ -224,6 +231,14 @@ const Navbar = () => {
                   >
                     <User className="w-4 h-4" />
                     My Profile
+                  </Link>
+                  <Link
+                    to="/my-bookings"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-slate-300 hover:bg-white/10 transition-colors"
+                  >
+                    <CalendarDays className="w-4 h-4" />
+                    My Bookings
                   </Link>
                   <button
                     onClick={handleLogout}

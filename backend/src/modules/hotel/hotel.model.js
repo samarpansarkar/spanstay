@@ -38,6 +38,21 @@ const hotelSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
+    approvalStatus: {
+      type: String,
+      enum: ['PENDING', 'APPROVED', 'REJECTED'],
+      default: 'APPROVED',
+    },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
   },
   {
     timestamps: true,

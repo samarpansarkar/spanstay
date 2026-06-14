@@ -14,7 +14,51 @@ export const hotelApi = api.injectEndpoints({
       query: (id) => `/hotels/${id}`,
       providesTags: (result, error, id) => [{ type: 'Hotel', id }],
     }),
+    
+    getMyHotels: builder.query({
+      query: () => '/hotels/my-hotels',
+      providesTags: ['Hotel'],
+    }),
+
+    getMyApprovals: builder.query({
+      query: () => '/hotels/my-approvals',
+      providesTags: ['Hotel'],
+    }),
+
+    addHotel: builder.mutation({
+      query: (formData) => ({
+        url: '/hotels/register-hotels',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: ['Hotel'],
+    }),
+
+    updateHotel: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/hotels/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Hotel', { type: 'Hotel', id: 'LIST' }],
+    }),
+
+    deleteHotel: builder.mutation({
+      query: (id) => ({
+        url: `/hotels/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Hotel'],
+    }),
   }),
 });
 
-export const { useGetHotelsQuery, useGetHotelByIdQuery } = hotelApi;
+export const { 
+  useGetHotelsQuery, 
+  useGetHotelByIdQuery,
+  useGetMyHotelsQuery,
+  useGetMyApprovalsQuery,
+  useAddHotelMutation,
+  useUpdateHotelMutation,
+  useDeleteHotelMutation
+} = hotelApi;

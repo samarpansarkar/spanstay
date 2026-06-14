@@ -42,3 +42,10 @@ export const updateBookingStatus = async (bookingId, status) => {
     { returnDocument: 'after' }
   );
 };
+
+export const getBookingsByHotelIds = async (hotelIds) => {
+  return await Booking.find({ hotel: { $in: hotelIds } })
+    .populate('hotel', 'title location price images')
+    .populate('user', 'name email avatar')
+    .sort({ createdAt: -1 });
+};

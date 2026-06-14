@@ -9,6 +9,8 @@ import {
   deleteHotelController,
   getAllHotelsController,
   getHotelByIdController,
+  getMyHotelsController,
+  getMyApprovalsController,
   registerHotelController,
   updateHotelController,
 } from './hotel.controller.js';
@@ -119,6 +121,46 @@ hotelRouter.get('/', getAllHotelsController);
 
 /**
  * @swagger
+ * /hotels/my-hotels:
+ *   get:
+ *     summary: Get hotels for current hotel admin
+ *     tags:
+ *       - Hotels
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Hotels fetched successfully
+ */
+hotelRouter.get(
+  '/my-hotels',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  getMyHotelsController
+);
+
+/**
+ * @swagger
+ * /hotels/my-approvals:
+ *   get:
+ *     summary: Get approval requests for current hotel admin
+ *     tags:
+ *       - Hotels
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Approvals fetched successfully
+ */
+hotelRouter.get(
+  '/my-approvals',
+  protect,
+  authorize(ROLES.HOTEL_ADMIN),
+  getMyApprovalsController
+);
+
+/**
+ * @swagger
  * /hotels/{hotelId}:
  *   get:
  *     summary: Get hotel details by ID
@@ -188,6 +230,7 @@ hotelRouter.patch(
   '/:hotelId',
   protect,
   authorize(ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  validate(hotelParamSchema),
   validate(updateHotelSchema),
   updateHotelController
 );
@@ -222,6 +265,7 @@ hotelRouter.delete(
   '/:hotelId',
   protect,
   authorize(ROLES.HOTEL_ADMIN),
+  validate(hotelParamSchema),
   deleteHotelController
 );
 

@@ -26,6 +26,9 @@
 14. [Payment Flow](#14-payment-flow)
 15. [Docker Setup](#15-docker-setup)
 16. [Middleware Reference](#16-middleware-reference)
+17. [Admin and Approval Workflow](#17-admin-and-approval-workflow)
+18. [User Support System](#18-user-support-system)
+19. [UI Skeleton Loading System](#19-ui-skeleton-loading-system)
 
 ---
 
@@ -945,6 +948,47 @@ docker-compose down -v
 | `helmet()` | (inline in app.js) | Security headers |
 | `hpp()` | (inline in app.js) | HTTP Parameter Pollution protection |
 | `cors()` | (inline in app.js) | Cross-Origin Resource Sharing configuration |
+| `systemLogger` | `systemLog.middleware.js`| Automatically intercepts and logs all mutating API calls (POST, PATCH, DELETE) to the database. |
+
+---
+
+## 17. Admin and Approval Workflow
+
+SpanStay implements a robust moderation system for hotel management to ensure data quality.
+
+### The Approval Lifecycle
+1. **Initiation**: When a `hotelAdmin` attempts to Create, Update, Delete, or toggle the status of a hotel, the action is intercepted.
+2. **Pending State**: Instead of mutating the live database immediately (except for Creates, which are stored in a `PENDING` state), an `ApprovalRequest` document is created storing the `payload`, `action` type, and `requestedBy` user ID.
+3. **Admin Review**: Super Admins (`admin` role) have access to a dashboard to view all `PENDING` requests, alongside nicely formatted payload details (including image previews and amenity lists).
+4. **Resolution**: 
+   - If **Approved**, the requested mutation is applied to the `Hotel` model, and the request status becomes `APPROVED`.
+   - If **Rejected**, the request is marked `REJECTED`, and the hotel remains unchanged (or is deleted if it was a rejected creation).
+
+### Rate Limiting & Protections
+- Hotel Admins cannot submit multiple conflicting requests for the same hotel. If a request is already `PENDING`, subsequent mutations are blocked with a `429` error.
+- Offline/Disabled hotels are completely hidden from public browsing but can still be discovered if explicitly searched for, rendering in a visually disabled state to prevent booking.
+
+---
+
+## 18. User Support System
+
+A built-in support ticketing system is provided to bridge communication between users and platform administrators.
+
+- **Ticket Creation**: Users can create support tickets detailing their issues.
+- **Admin Dashboard**: Super Admins view a consolidated list of all support tickets.
+- **Resolution**: Admins can respond to tickets and mark them as `RESOLVED`.
+- **Visibility**: Users can track the status of their own tickets and read admin responses directly from their profile dashboard.
+
+---
+
+## 19. UI Skeleton Loading System
+
+SpanStay uses a modern, skeleton-based loading system to ensure smooth transitions and reduce perceived loading times.
+
+- **Unified Primitive (`Skeleton.jsx`)**: A core pulse-animated block styled perfectly for the application's dark mode (`bg-white/10 animate-pulse`).
+- **Page-Specific Skeletons**: Tailored components such as `ProfileSkeleton`, `HotelDetailSkeleton`, and `ReviewSkeleton` precisely mirror the layout of arriving data.
+- **Generic Skeletons**: Flexible `CardSkeleton` and `TableSkeleton` are used universally across admin dashboards (Manage Users, Manage Approvals, etc.) and lists (Bookings, Tickets).
+- **Spinner Replacement**: All full-page and component-level legacy spinners (e.g., `Loader2` from Lucide) have been entirely removed in favor of these layout-accurate skeleton blocks.
 
 ---
 
