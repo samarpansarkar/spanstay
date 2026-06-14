@@ -12,7 +12,8 @@ import {
   findUserPasswordByEmail,
   findUserByResetToken,
 } from './auth.repository.js';
-import { sendEmail } from '../email/email.service.js';
+import { addEmailJob } from '../../jobs/services/email-job.service.js';
+import { EMAIL_JOB_TYPES } from '../../jobs/constants/job.constants.js';
 import { resetPasswordTemplate } from '../email/templetes/resetPassword.templete.js';
 import { otpTemplate } from '../email/templetes/otp.templete.js';
 import { auditLogger } from '../audit/audit.service.js';
@@ -40,10 +41,10 @@ export const registerUserService = async (userData) => {
   const message = otpTemplate(otp, user.name);
 
   try {
-    await sendEmail({
-      to: user.email,
-      subject: 'Verify your SpanStay Account',
-      html: message,
+    await addEmailJob(EMAIL_JOB_TYPES.EMAIL_VERIFICATION, {
+      email: user.email,
+      name: user.name,
+      otp: otp,
     });
   } catch (error) {
     user.verificationToken = undefined;
@@ -169,7 +170,7 @@ export const logoutService = async (userId) => {
 };
 
 export const sendTestEmail = async () => {
-  await sendEmail({
+  await addEmailJob(EMAIL_JOB_TYPES.TEST_EMAIL, {
     to: 'samarpansarkar209@gmail.com',
     subject: 'SpanStay SMTP Test',
     html: `<h1>SpanStay Test Email</h1>`,
@@ -191,10 +192,10 @@ export const forgotPasswordService = async (email) => {
   const message = resetPasswordTemplate(resetUrl, user.name);
 
   try {
-    await sendEmail({
-      to: user.email,
-      subject: 'Your Password Reset Token (valid for 15 min)',
-      html: message,
+    await addEmailJob(EMAIL_JOB_TYPES.FORGOT_PASSWORD, {
+      email: user.email,
+      name: user.name,
+      resetUrl: resetUrl,
     });
   } catch (error) {
     user.resetPasswordToken = undefined;
@@ -335,10 +336,10 @@ export const resendVerificationService = async (email) => {
   const message = otpTemplate(otp, user.name);
 
   try {
-    await sendEmail({
-      to: user.email,
-      subject: 'Verify your SpanStay Account (Resend)',
-      html: message,
+    await addEmailJob(EMAIL_JOB_TYPES.EMAIL_VERIFICATION, {
+      email: user.email,
+      name: user.name,
+      otp: otp,
     });
   } catch (error) {
     user.verificationToken = undefined;
