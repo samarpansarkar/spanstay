@@ -10,6 +10,7 @@ const SigninPage = lazy(() => import('./pages/auth/SigninPage'));
 const SignupPage = lazy(() => import('./pages/auth/SignupPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
 const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'));
+const VerifyEmailPage = lazy(() => import('./pages/auth/VerifyEmailPage'));
 const HotelsPage = lazy(() => import('./pages/hotels/HotelsPage'));
 const HotelDetailPage = lazy(() => import('./pages/hotels/HotelDetailPage'));
 const UsersProfilePage = lazy(() => import('./pages/users/UsersProfilePage'));
@@ -83,6 +84,10 @@ const App = () => {
               <SignupPage />
             </PublicRoute>
           }
+        />
+        <Route
+          path="/verify-email"
+          element={<VerifyEmailPage />}
         />
         <Route
           path="/forgot-password"

@@ -14,17 +14,40 @@ import {
 } from './auth.repository.js';
 import { sendEmail } from '../email/email.service.js';
 import { resetPasswordTemplate } from '../email/templetes/resetPassword.templete.js';
+import { otpTemplate } from '../email/templetes/otp.templete.js';
 
 export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
 
   if (existingUser) {
-    throw new AppError('user already exist!!!', 409);
+    if (existingUser.isVerified) {
+      throw new AppError('user already exist!!!', 409);
+    } else {
+      throw new AppError('Email already registered but not verified. Please verify your email or request a new code.', 409);
+    }
   }
 
   const user = await createUser(userData);
 
-  return user;
+  const otp = user.createVerificationToken();
+  await user.save({ validateModifiedOnly: true });
+
+  const message = otpTemplate(otp, user.name);
+  
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: 'Verify your SpanStay Account',
+      html: message,
+    });
+  } catch (error) {
+    user.verificationToken = undefined;
+    user.verificationTokenExpire = undefined;
+    await user.save({ validateModifiedOnly: true });
+    throw new AppError('There was an error sending the verification email. Try again later!', 500);
+  }
+
+  return { email: user.email, message: 'Verification email sent' };
 };
 
 export const signinUserService = async (userData) => {
@@ -32,6 +55,10 @@ export const signinUserService = async (userData) => {
 
   if (!existingUser) {
     throw new AppError('User is not register!!!', 404);
+  }
+
+  if (!existingUser.isVerified) {
+    throw new AppError('Please verify your email address before signing in.', 403);
   }
 
   const isPasswordMatched = await existingUser.comparePassword(
@@ -204,4 +231,82 @@ export const resetPasswordService = async (token, newPassword) => {
     accessToken,
     refreshToken,
   };
+};
+
+export const verifyEmailService = async (email, otp) => {
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  if (user.isVerified) {
+    throw new AppError('User is already verified', 400);
+  }
+
+  const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
+
+  if (user.verificationToken !== hashedOtp || user.verificationTokenExpire < Date.now()) {
+    throw new AppError('Invalid or expired verification code', 400);
+  }
+
+  user.isVerified = true;
+  user.verificationToken = undefined;
+  user.verificationTokenExpire = undefined;
+  await user.save({ validateModifiedOnly: true });
+
+  const payload = {
+    id: user._id,
+    role: user.role,
+    email: user.email,
+  };
+
+  const accessToken = generateAccessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+
+  user.refreshToken = refreshToken;
+  await user.save({ validateModifiedOnly: true });
+
+  return {
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const resendVerificationService = async (email) => {
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  if (user.isVerified) {
+    throw new AppError('User is already verified', 400);
+  }
+
+  const otp = user.createVerificationToken();
+  await user.save({ validateModifiedOnly: true });
+
+  const message = otpTemplate(otp, user.name);
+
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: 'Verify your SpanStay Account (Resend)',
+      html: message,
+    });
+  } catch (error) {
+    user.verificationToken = undefined;
+    user.verificationTokenExpire = undefined;
+    await user.save({ validateModifiedOnly: true });
+    throw new AppError('There was an error sending the verification email.', 500);
+  }
+
+  return { message: 'Verification email resent successfully' };
 };

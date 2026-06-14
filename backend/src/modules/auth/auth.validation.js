@@ -38,3 +38,16 @@ export const resetPasswordSchema = z.object({
       .max(20, 'Password cannot exceed 20 characters'),
   }),
 });
+
+export const verifyEmailSchema = z.object({
+  body: z.object({
+    email: z.string().email('Invalid email format'),
+    otp: z.string().length(6, 'Verification code must be exactly 6 characters'),
+  }),
+});
+
+export const resendVerificationSchema = z.object({
+  body: z.object({
+    email: z.string().email('Invalid email format'),
+  }),
+});

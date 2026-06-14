@@ -11,8 +11,10 @@ import {
   userProfileController,
   forgotPasswordController,
   resetPasswordController,
+  verifyEmailController,
+  resendVerificationController,
 } from './auth.controller.js';
-import { registerSchema, signinSchema, forgotPasswordSchema, resetPasswordSchema } from './auth.validation.js';
+import { registerSchema, signinSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendVerificationSchema } from './auth.validation.js';
 
 const authRouter = Router();
 
@@ -216,5 +218,67 @@ authRouter.post('/forgot-password', authLimiter, validate(forgotPasswordSchema),
  *         description: Invalid or expired token
  */
 authRouter.patch('/reset-password/:token', authLimiter, validate(resetPasswordSchema), resetPasswordController);
+
+/**
+ * @swagger
+ * /auth/verify-email:
+ *   post:
+ *     summary: Verify user email with OTP
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               otp:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid or expired OTP
+ *       404:
+ *         description: User not found
+ */
+authRouter.post('/verify-email', authLimiter, validate(verifyEmailSchema), verifyEmailController);
+
+/**
+ * @swagger
+ * /auth/resend-verification:
+ *   post:
+ *     summary: Resend email verification OTP
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Verification email resent successfully
+ *       400:
+ *         description: User is already verified
+ *       404:
+ *         description: User not found
+ */
+authRouter.post('/resend-verification', authLimiter, validate(resendVerificationSchema), resendVerificationController);
 
 export default authRouter;
