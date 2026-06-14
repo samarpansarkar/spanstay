@@ -15,6 +15,8 @@ import {
 import { sendEmail } from '../email/email.service.js';
 import { resetPasswordTemplate } from '../email/templetes/resetPassword.templete.js';
 import { otpTemplate } from '../email/templetes/otp.templete.js';
+import { auditLogger } from '../audit/audit.service.js';
+import { AUDIT_ACTIONS, ENTITY_TYPES, ACTOR_ROLES } from '../audit/audit.constants.js';
 
 export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
@@ -233,6 +235,17 @@ export const resetPasswordService = async (token, newPassword) => {
   user.refreshToken = refreshToken;
   await user.save({ validateModifiedOnly: true });
 
+  // Audit Logging
+  auditLogger({
+    actorId: user._id,
+    actorRole: ACTOR_ROLES.SYSTEM,
+    action: AUDIT_ACTIONS.PASSWORD_CHANGED,
+    entityType: ENTITY_TYPES.USER,
+    entityId: user._id,
+    targetUserId: user._id,
+    description: `User reset their password`,
+  });
+
   return {
     user: {
       id: user._id,
@@ -281,6 +294,17 @@ export const verifyEmailService = async (email, otp) => {
 
   user.refreshToken = refreshToken;
   await user.save({ validateModifiedOnly: true });
+
+  // Audit Logging
+  auditLogger({
+    actorId: user._id,
+    actorRole: ACTOR_ROLES.SYSTEM,
+    action: AUDIT_ACTIONS.EMAIL_VERIFIED,
+    entityType: ENTITY_TYPES.USER,
+    entityId: user._id,
+    targetUserId: user._id,
+    description: `User verified their email address`,
+  });
 
   return {
     user: {

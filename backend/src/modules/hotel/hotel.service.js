@@ -9,6 +9,8 @@ import {
   getHotelById,
   updateHotel,
 } from './hotel.repository.js';
+import { auditLogger } from '../audit/audit.service.js';
+import { AUDIT_ACTIONS, ENTITY_TYPES, ACTOR_ROLES } from '../audit/audit.constants.js';
 
 export const registerHotelService = async (hotelData, userId) => {
   const hotel = await createHotel({
@@ -171,6 +173,18 @@ export const deleteHotelService = async (hotelId, currentUser) => {
   if (isAdmin) {
     const deleteHotel = await deleteHotelById(hotel.id);
     await clearHotelCache();
+
+    // Audit Logging
+    auditLogger({
+      actorId: currentUser.id,
+      actorRole: ACTOR_ROLES.PLATFORM_ADMIN,
+      action: AUDIT_ACTIONS.HOTEL_DELETED || 'HOTEL_DELETED',
+      entityType: ENTITY_TYPES.HOTEL,
+      entityId: hotel._id,
+      targetUserId: hotel.owner,
+      description: `Admin deleted hotel ${hotel.title}`,
+    });
+
     return deleteHotel;
   } else {
     const existingRequest = await ApprovalRequest.findOne({

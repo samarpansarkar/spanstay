@@ -7,6 +7,7 @@ import { reviewRoutes } from '../modules/review/review.routes.js';
 import adminRouter from '../modules/admin/admin.routes.js';
 import supportRouter from '../modules/support/support.routes.js';
 import { notificationRoutes } from '../modules/notification/notification.routes.js';
+import { auditRoutes } from '../modules/audit/audit.routes.js';
 
 const router = Router();
 
@@ -49,6 +50,10 @@ const moduleRoutes = [
   {
     path: '/notifications',
     route: notificationRoutes,
+  },
+  {
+    path: '/audit-logs',
+    route: auditRoutes,
   },
 ];
 

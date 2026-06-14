@@ -12,6 +12,8 @@ import { getHotelById } from '../hotel/hotel.repository.js';
 import { getCompletedBookingsByUserAndHotel } from '../booking/booking.repository.js';
 import { createNotificationService } from '../notification/notification.service.js';
 import { NOTIFICATION_TYPES } from '../notification/notification.constants.js';
+import { auditLogger } from '../audit/audit.service.js';
+import { AUDIT_ACTIONS, ENTITY_TYPES, ACTOR_ROLES } from '../audit/audit.constants.js';
 
 export const createReviewService = async (hotelId, userId, reviewData) => {
   const hotel = await getHotelById(hotelId);
@@ -182,6 +184,17 @@ export const deleteReviewService = async (reviewId, userId) => {
     (id) => id.toString() !== reviewId.toString()
   );
   await hotel.save();
+
+  // Audit Logging
+  auditLogger({
+    actorId: userId,
+    actorRole: ACTOR_ROLES.SYSTEM, // A regular user deleting their review
+    action: AUDIT_ACTIONS.REVIEW_DELETED,
+    entityType: ENTITY_TYPES.REVIEW,
+    entityId: reviewId,
+    targetUserId: userId,
+    description: `User deleted their review for hotel ${hotel.title}`,
+  });
 
   return true;
 };

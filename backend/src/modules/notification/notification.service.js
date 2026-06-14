@@ -10,6 +10,8 @@ import {
 } from './notification.repository.js';
 import redisClient from '../../config/redis.js';
 import AppError from '../../shared/utils/AppError.js';
+import { auditLogger } from '../audit/audit.service.js';
+import { AUDIT_ACTIONS, ENTITY_TYPES, ACTOR_ROLES } from '../audit/audit.constants.js';
 
 const getCacheKey = (userId) => `notifications:unread:${userId}`;
 
@@ -106,6 +108,17 @@ export const deleteNotificationService = async (notificationId, userId) => {
 
   await deleteNotification(notificationId, userId);
   await redisClient.del(getCacheKey(userId));
+
+  // Audit Logging
+  auditLogger({
+    actorId: userId,
+    actorRole: ACTOR_ROLES.SYSTEM, // Assume regular user action
+    action: AUDIT_ACTIONS.NOTIFICATION_DELETED,
+    entityType: ENTITY_TYPES.NOTIFICATION,
+    entityId: notificationId,
+    targetUserId: userId,
+    description: `User deleted a notification`,
+  });
 
   return true;
 };
