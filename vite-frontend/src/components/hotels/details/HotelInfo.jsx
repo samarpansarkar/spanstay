@@ -10,7 +10,9 @@ const HotelInfo = ({ hotel }) => {
           </span>
           <div className="flex items-center gap-1 text-amber-400">
             <Star className="w-4 h-4 fill-amber-400" />
-            <span className="font-medium text-sm text-slate-300">4.5 (128 reviews)</span>
+            <span className="font-medium text-sm text-slate-300">
+              {hotel.averageRating ? `${hotel.averageRating} (${hotel.totalReviews} review${hotel.totalReviews === 1 ? '' : 's'})` : 'No reviews'}
+            </span>
           </div>
         </div>
 
