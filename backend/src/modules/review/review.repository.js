@@ -11,6 +11,6 @@ export const getReviewsByHotel = async (hotelId) => {
     .sort({ createdAt: -1 });
 };
 
-export const getReviewByUserAndHotel = async (userId, hotelId) => {
-  return await Review.findOne({ user: userId, hotel: hotelId });
+export const getReviewsByUserAndHotel = async (userId, hotelId) => {
+  return await Review.find({ user: userId, hotel: hotelId });
 };

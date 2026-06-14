@@ -1,5 +1,5 @@
 import express from 'express';
-import { createReviewController, getHotelReviewsController } from './review.controller.js';
+import { createReviewController, getHotelReviewsController, checkEligibilityController } from './review.controller.js';
 import validate from '../../shared/middleware/validate.middleware.js';
 import { createReviewValidationSchema } from './review.validation.js';
 import protect from '../../shared/middleware/auth.middleware.js';
@@ -69,6 +69,31 @@ router.post(
   authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
   validate(createReviewValidationSchema),
   createReviewController
+);
+
+/**
+ * @swagger
+ * /api/v1/reviews/{hotelId}/eligibility:
+ *   get:
+ *     summary: Check if a user is eligible to review a hotel
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: hotelId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Eligibility checked
+ */
+router.get(
+  '/:hotelId/eligibility',
+  protect,
+  authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  checkEligibilityController
 );
 
 export const reviewRoutes = router;

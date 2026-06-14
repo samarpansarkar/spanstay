@@ -1,6 +1,7 @@
 import AppError from '../../shared/utils/AppError.js';
-import { createReview, getReviewsByHotel, getReviewByUserAndHotel } from './review.repository.js';
+import { createReview, getReviewsByHotel, getReviewsByUserAndHotel } from './review.repository.js';
 import { getHotelById } from '../hotel/hotel.repository.js';
+import { getCompletedBookingsByUserAndHotel } from '../booking/booking.repository.js';
 
 export const createReviewService = async (hotelId, userId, reviewData) => {
 
@@ -9,14 +10,28 @@ export const createReviewService = async (hotelId, userId, reviewData) => {
     throw new AppError('Hotel not found', 404);
   }
 
-  const existingReview = await getReviewByUserAndHotel(userId, hotelId);
-  if (existingReview) {
-    throw new AppError('You have already reviewed this hotel', 400);
+  const completedBookings = await getCompletedBookingsByUserAndHotel(userId, hotelId);
+  
+  if (completedBookings.length === 0) {
+    throw new AppError('You can only review hotels after you have completed a stay', 403);
   }
+
+  const existingReviews = await getReviewsByUserAndHotel(userId, hotelId);
+  
+  if (existingReviews.length >= completedBookings.length) {
+    throw new AppError('You have already reviewed all your stays at this hotel', 400);
+  }
+
+  const reviewedBookingIds = existingReviews.map((review) => review.booking.toString());
+  
+  const unreviewedBooking = completedBookings.find(
+    (booking) => !reviewedBookingIds.includes(booking._id.toString())
+  );
 
   const review = await createReview({
     hotel: hotelId,
     user: userId,
+    booking: unreviewedBooking._id,
     rating: reviewData.rating,
     comment: reviewData.comment,
   });
@@ -38,4 +53,20 @@ export const getHotelReviewsService = async (hotelId) => {
     averageRating,
     totalReviews: reviews.length,
   };
+};
+
+export const checkEligibilityService = async (hotelId, userId) => {
+  const completedBookings = await getCompletedBookingsByUserAndHotel(userId, hotelId);
+  
+  if (completedBookings.length === 0) {
+    return { canReview: false, message: 'You must complete a stay at this hotel to leave a review.' };
+  }
+
+  const existingReviews = await getReviewsByUserAndHotel(userId, hotelId);
+  
+  if (existingReviews.length >= completedBookings.length) {
+    return { canReview: false, message: 'You have already reviewed all your stays at this hotel.' };
+  }
+
+  return { canReview: true, message: '' };
 };
