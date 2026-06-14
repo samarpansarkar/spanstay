@@ -1,33 +1,33 @@
-import { useSigninMutation } from '@/redux/api/authApi';
+import { useResetPasswordMutation } from '@/redux/api/authApi';
 import { setCredentials } from '@/redux/features/auth/authSlice';
-import { signinSchema } from '@/schemas/auth/signinSchema';
+import { resetPasswordSchema } from '@/schemas/auth/resetPasswordSchema';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, Lock, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import SEO from '@/components/shared/SEO';
 
-const SigninPage = () => {
+const ResetPasswordPage = () => {
+  const { token } = useParams();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(signinSchema) });
+  } = useForm({ resolver: zodResolver(resetPasswordSchema) });
 
   const navigate = useNavigate();
-  const [signin, { isLoading }] = useSigninMutation();
   const dispatch = useDispatch();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const onSubmit = async (data) => {
     try {
-      const response = await signin(data).unwrap();
+      const response = await resetPassword({ token, password: data.password }).unwrap();
       dispatch(
         setCredentials({
           user: response.data.user,
@@ -59,38 +59,14 @@ const SigninPage = () => {
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl mb-4">
-              <Lock className="w-8 h-8 text-indigo-400" />
+              <CheckCircle2 className="w-8 h-8 text-indigo-400" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-            <p className="text-slate-400 mt-1 text-sm">Sign in to your SpanStay account</p>
+            <h1 className="text-2xl font-bold text-white">Reset Password</h1>
+            <p className="text-slate-400 mt-1 text-sm">Please choose your new password</p>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                <input
-                  {...register('email')}
-                  type="email"
-                  placeholder="you@example.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
-                />
-              </div>
-              {errors.email && (
-                <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-slate-300">Password</label>
-                <Link
-                  to="/forgot-password"
-                  className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              <label className="text-sm font-medium text-slate-300">New Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <input
@@ -111,6 +87,7 @@ const SigninPage = () => {
                 <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
               )}
             </div>
+
             <motion.button
               type="submit"
               disabled={isLoading}
@@ -121,27 +98,18 @@ const SigninPage = () => {
             >
               {isLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
-                  Signing in...
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Resetting...
                 </>
               ) : (
-                'Sign in'
+                'Reset Password'
               )}
             </motion.button>
           </form>
-          <p className="text-center text-slate-500 text-sm mt-6">
-            Don&apos;t have an account?{' '}
-            <Link
-              to="/signup"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-            >
-              Sign up
-            </Link>
-          </p>
         </div>
       </motion.div>
     </div>
   );
 };
 
-export default SigninPage;
+export default ResetPasswordPage;

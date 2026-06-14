@@ -1,43 +1,30 @@
-import { useSigninMutation } from '@/redux/api/authApi';
-import { setCredentials } from '@/redux/features/auth/authSlice';
-import { signinSchema } from '@/schemas/auth/signinSchema';
+import { useForgotPasswordMutation } from '@/redux/api/authApi';
+import { forgotPasswordSchema } from '@/schemas/auth/forgotPasswordSchema';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
-import { useState } from 'react';
+import { Mail, KeyRound } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import SEO from '@/components/shared/SEO';
 
-const SigninPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
+const ForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(signinSchema) });
+    reset,
+  } = useForm({ resolver: zodResolver(forgotPasswordSchema) });
 
-  const navigate = useNavigate();
-  const [signin, { isLoading }] = useSigninMutation();
-  const dispatch = useDispatch();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const onSubmit = async (data) => {
     try {
-      const response = await signin(data).unwrap();
-      dispatch(
-        setCredentials({
-          user: response.data.user,
-          accessToken: response.data.accessToken,
-        })
-      );
+      const response = await forgotPassword(data).unwrap();
       if (response.success) {
         toast.success(response.message);
+        reset();
       }
-      navigate('/');
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -59,10 +46,10 @@ const SigninPage = () => {
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl mb-4">
-              <Lock className="w-8 h-8 text-indigo-400" />
+              <KeyRound className="w-8 h-8 text-indigo-400" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-            <p className="text-slate-400 mt-1 text-sm">Sign in to your SpanStay account</p>
+            <h1 className="text-2xl font-bold text-white">Forgot Password</h1>
+            <p className="text-slate-400 mt-1 text-sm">Enter your email to receive a reset link</p>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
@@ -81,36 +68,6 @@ const SigninPage = () => {
               )}
             </div>
 
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-slate-300">Password</label>
-                <Link
-                  to="/forgot-password"
-                  className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                <input
-                  {...register('password')}
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-11 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
-              )}
-            </div>
             <motion.button
               type="submit"
               disabled={isLoading}
@@ -121,21 +78,21 @@ const SigninPage = () => {
             >
               {isLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
-                  Signing in...
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Sending...
                 </>
               ) : (
-                'Sign in'
+                'Send Reset Link'
               )}
             </motion.button>
           </form>
           <p className="text-center text-slate-500 text-sm mt-6">
-            Don&apos;t have an account?{' '}
+            Remember your password?{' '}
             <Link
-              to="/signup"
+              to="/signin"
               className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
             >
-              Sign up
+              Sign in
             </Link>
           </p>
         </div>
@@ -144,4 +101,4 @@ const SigninPage = () => {
   );
 };
 
-export default SigninPage;
+export default ForgotPasswordPage;

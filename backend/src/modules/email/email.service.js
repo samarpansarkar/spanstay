@@ -3,7 +3,7 @@ import { mailTransporter } from '../../config/email.js';
 export const sendEmail = async ({ to, subject, text, html }) => {
   try {
     const info = await mailTransporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to,
       subject,
       text,

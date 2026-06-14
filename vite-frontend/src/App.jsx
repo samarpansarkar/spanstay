@@ -8,6 +8,8 @@ import Loader from './components/ui/Loader/Loader';
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const SigninPage = lazy(() => import('./pages/auth/SigninPage'));
 const SignupPage = lazy(() => import('./pages/auth/SignupPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'));
 const HotelsPage = lazy(() => import('./pages/hotels/HotelsPage'));
 const HotelDetailPage = lazy(() => import('./pages/hotels/HotelDetailPage'));
 const UsersProfilePage = lazy(() => import('./pages/users/UsersProfilePage'));
@@ -81,6 +83,14 @@ const App = () => {
               <SignupPage />
             </PublicRoute>
           }
+        />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
+        />
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPasswordPage />}
         />
       </Routes>
     </Suspense>
