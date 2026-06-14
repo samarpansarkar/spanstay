@@ -18,7 +18,33 @@ export const reviewApi = api.injectEndpoints({
       query: (hotelId) => `/reviews/${hotelId}/eligibility`,
       providesTags: (result, error, id) => [{ type: 'Review', id: `${id}-eligibility` }],
     }),
+    getReviewByBooking: builder.query({
+      query: (bookingId) => `/reviews/booking/${bookingId}`,
+      providesTags: (result, error, id) => [{ type: 'Review', id: `booking-${id}` }],
+    }),
+    updateReview: builder.mutation({
+      query: ({ reviewId, data }) => ({
+        url: `/reviews/${reviewId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Review', 'Hotel', 'Booking'],
+    }),
+    deleteReview: builder.mutation({
+      query: (reviewId) => ({
+        url: `/reviews/${reviewId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Review', 'Hotel', 'Booking'],
+    }),
   }),
 });
 
-export const { useGetHotelReviewsQuery, useCreateReviewMutation, useCheckEligibilityQuery } = reviewApi;
+export const { 
+  useGetHotelReviewsQuery, 
+  useCreateReviewMutation, 
+  useCheckEligibilityQuery,
+  useGetReviewByBookingQuery,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation
+} = reviewApi;

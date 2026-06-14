@@ -1,7 +1,7 @@
 import express from 'express';
-import { createReviewController, getHotelReviewsController, checkEligibilityController } from './review.controller.js';
+import { createReviewController, getHotelReviewsController, checkEligibilityController, updateReviewController, deleteReviewController, getReviewByBookingController } from './review.controller.js';
 import validate from '../../shared/middleware/validate.middleware.js';
-import { createReviewValidationSchema } from './review.validation.js';
+import { createReviewValidationSchema, updateReviewValidationSchema } from './review.validation.js';
 import protect from '../../shared/middleware/auth.middleware.js';
 import authorize from '../../shared/middleware/authorize.middleware.js';
 import { ROLES } from '../../shared/constants/role.js';
@@ -94,6 +94,93 @@ router.get(
   protect,
   authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
   checkEligibilityController
+);
+
+/**
+ * @swagger
+ * /api/v1/reviews/booking/{bookingId}:
+ *   get:
+ *     summary: Get a review by booking ID
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Review fetched successfully
+ */
+router.get(
+  '/booking/:bookingId',
+  protect,
+  authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  getReviewByBookingController
+);
+
+/**
+ * @swagger
+ * /api/v1/reviews/{reviewId}:
+ *   put:
+ *     summary: Update a review
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: reviewId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               rating:
+ *                 type: number
+ *               comment:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Review updated successfully
+ */
+router.put(
+  '/:reviewId',
+  protect,
+  authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  validate(updateReviewValidationSchema),
+  updateReviewController
+);
+
+/**
+ * @swagger
+ * /api/v1/reviews/{reviewId}:
+ *   delete:
+ *     summary: Delete a review
+ *     tags: [Reviews]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: reviewId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Review deleted successfully
+ */
+router.delete(
+  '/:reviewId',
+  protect,
+  authorize(ROLES.USER, ROLES.ADMIN, ROLES.HOTEL_ADMIN),
+  deleteReviewController
 );
 
 export const reviewRoutes = router;

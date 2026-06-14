@@ -1,5 +1,5 @@
 import AppError from '../../shared/utils/AppError.js';
-import { createReview, getReviewsByHotel, getReviewsByUserAndHotel } from './review.repository.js';
+import { createReview, getReviewsByHotel, getReviewsByUserAndHotel, getReviewById, updateReviewById, deleteReviewById, getReviewByBooking } from './review.repository.js';
 import { getHotelById } from '../hotel/hotel.repository.js';
 import { getCompletedBookingsByUserAndHotel } from '../booking/booking.repository.js';
 
@@ -80,4 +80,75 @@ export const checkEligibilityService = async (hotelId, userId) => {
   }
 
   return { canReview: true, message: '' };
+};
+
+export const updateReviewService = async (reviewId, userId, updateData) => {
+  const review = await getReviewById(reviewId);
+  if (!review) {
+    throw new AppError('Review not found', 404);
+  }
+
+  if (review.user.toString() !== userId) {
+    throw new AppError('You can only update your own reviews', 403);
+  }
+
+  const oldRating = review.rating;
+  const hotel = await getHotelById(review.hotel);
+
+  const updatedReview = await updateReviewById(reviewId, {
+    rating: updateData.rating || review.rating,
+    comment: updateData.comment || review.comment,
+  });
+
+  if (updateData.rating && updateData.rating !== oldRating) {
+    const currentTotal = hotel.totalReviews || 0;
+    const currentAverage = hotel.averageRating || 0;
+    const sum = (currentAverage * currentTotal) - oldRating + updateData.rating;
+    const newAverage = Number((sum / currentTotal).toFixed(1));
+
+    hotel.averageRating = newAverage;
+    await hotel.save();
+  }
+
+  return updatedReview;
+};
+
+export const deleteReviewService = async (reviewId, userId) => {
+  const review = await getReviewById(reviewId);
+  if (!review) {
+    throw new AppError('Review not found', 404);
+  }
+
+  if (review.user.toString() !== userId) {
+    throw new AppError('You can only delete your own reviews', 403);
+  }
+
+  const hotel = await getHotelById(review.hotel);
+  await deleteReviewById(reviewId);
+
+  const currentTotal = hotel.totalReviews || 0;
+  const currentAverage = hotel.averageRating || 0;
+
+  if (currentTotal > 1) {
+    const sum = (currentAverage * currentTotal) - review.rating;
+    const newAverage = Number((sum / (currentTotal - 1)).toFixed(1));
+    hotel.averageRating = newAverage;
+    hotel.totalReviews = currentTotal - 1;
+  } else {
+    hotel.averageRating = 0;
+    hotel.totalReviews = 0;
+  }
+
+  hotel.reviews = hotel.reviews.filter((id) => id.toString() !== reviewId.toString());
+  await hotel.save();
+
+  return true;
+};
+
+export const getReviewByBookingService = async (bookingId, userId) => {
+  const review = await getReviewByBooking(bookingId);
+  if (review && review.user.toString() !== userId) {
+    throw new AppError('You are not authorized to view this review', 403);
+  }
+  return review;
 };

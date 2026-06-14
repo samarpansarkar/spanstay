@@ -4,6 +4,7 @@ import { Calendar, MapPin, IndianRupee, Loader2, Home, XCircle } from 'lucide-re
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
+import { BookingReviewSection } from '@/components/bookings/BookingReviewSection';
 
 const MyBookingsPage = () => {
   const { data, isLoading, error } = useGetMyBookingsQuery();
@@ -162,6 +163,9 @@ const MyBookingsPage = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Review Section */}
+                  <BookingReviewSection booking={booking} />
                 </div>
               </motion.div>
             ))}
