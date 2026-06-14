@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import AppError from '../../shared/utils/AppError.js';
 import {
   generateAccessToken,
@@ -9,7 +10,10 @@ import {
   findUserByEmail,
   findUserById,
   findUserPasswordByEmail,
+  findUserByResetToken,
 } from './auth.repository.js';
+import { sendEmail } from '../email/email.service.js';
+import { resetPasswordTemplate } from '../email/templetes/resetPassword.templete.js';
 
 export const registerUserService = async (userData) => {
   const existingUser = await findUserByEmail(userData.email);
@@ -124,4 +128,80 @@ export const logoutService = async (userId) => {
   user.refreshToken = null;
 
   await user.save();
+};
+
+export const sendTestEmail = async () => {
+  await sendEmail({
+    to: 'samarpansarkar209@gmail.com',
+    subject: "SpanStay SMTP Test",
+    html: `<h1>SpanStay Test Email</h1>`,
+  })
+}
+
+export const forgotPasswordService = async (email) => {
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    throw new AppError('There is no user with this email address.', 404);
+  }
+
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateModifiedOnly: true });
+
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+  const message = resetPasswordTemplate(resetUrl, user.name);
+
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: 'Your Password Reset Token (valid for 15 min)',
+      html: message,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateModifiedOnly: true });
+
+    throw new AppError('There was an error sending the email. Try again later!', 500);
+  }
+};
+
+export const resetPasswordService = async (token, newPassword) => {
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  const user = await findUserByResetToken(hashedToken);
+
+  if (!user) {
+    throw new AppError('Token is invalid or has expired', 400);
+  }
+
+  user.password = newPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  
+  await user.save();
+
+  const payload = {
+    id: user._id,
+    role: user.role,
+    email: user.email,
+  };
+
+  const accessToken = generateAccessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+
+  user.refreshToken = refreshToken;
+  await user.save({ validateModifiedOnly: true });
+
+  return {
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+    accessToken,
+    refreshToken,
+  };
 };

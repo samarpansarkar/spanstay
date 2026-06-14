@@ -8,8 +8,11 @@ import {
   logoutService,
   refreshAccessTokenService,
   registerUserService,
+  sendTestEmail,
   signinUserService,
   userProfileService,
+  forgotPasswordService,
+  resetPasswordService,
 } from './auth.service.js';
 
 export const registerUserController = asyncHandler(async (req, res) => {
@@ -71,3 +74,42 @@ export const logoutController = asyncHandler(async (req, res) => {
     message: 'Logout successful',
   });
 });
+
+export const testEmail = async (req, res, next) => {
+  try {
+    await sendTestEmail();
+
+    sendResponse(res, { statusCode: 200, success: true, message: "Email sent" })
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const forgotPasswordController = async (req, res, next) => {
+  try {
+    await forgotPasswordService(req.body.email);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Password reset link sent to email',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPasswordController = async (req, res, next) => {
+  try {
+    const response = await resetPasswordService(req.params.token, req.body.password);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Password reset successfully',
+      data: response,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

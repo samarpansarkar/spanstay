@@ -7,9 +7,12 @@ import {
   refreshTokenController,
   registerUserController,
   signinUserController,
+  testEmail,
   userProfileController,
+  forgotPasswordController,
+  resetPasswordController,
 } from './auth.controller.js';
-import { registerSchema, signinSchema } from './auth.validation.js';
+import { registerSchema, signinSchema, forgotPasswordSchema, resetPasswordSchema } from './auth.validation.js';
 
 const authRouter = Router();
 
@@ -126,6 +129,92 @@ authRouter.post('/logout', protect, logoutController);
 
 authRouter.get('/user-profile', authLimiter, protect, userProfileController);
 
+/**
+ * @swagger
+ * /auth/refresh-token:
+ *   post:
+ *     summary: Refresh access token
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       200:
+ *         description: Token refreshed successfully
+ *       401:
+ *         description: Unauthorized
+ */
 authRouter.post('/refresh-token', authLimiter, refreshTokenController);
+
+/**
+ * @swagger
+ * /auth/test-email:
+ *   get:
+ *     summary: Test email configuration
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       200:
+ *         description: Email sent successfully
+*/
+authRouter.get('/test-email', testEmail);
+
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   post:
+ *     summary: Request password reset link
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Reset link sent to email
+ *       404:
+ *         description: User not found
+ */
+authRouter.post('/forgot-password', authLimiter, validate(forgotPasswordSchema), forgotPasswordController);
+
+/**
+ * @swagger
+ * /auth/reset-password/{token}:
+ *   patch:
+ *     summary: Reset user password
+ *     tags:
+ *       - Auth
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: NewPassword@123
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Invalid or expired token
+ */
+authRouter.patch('/reset-password/:token', authLimiter, validate(resetPasswordSchema), resetPasswordController);
 
 export default authRouter;

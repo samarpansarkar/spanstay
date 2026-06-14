@@ -15,3 +15,10 @@ export const findUserPasswordByEmail = async (email) => {
 export const findUserById = async (id) => {
   return await User.findById(id);
 };
+
+export const findUserByResetToken = async (hashedToken) => {
+  return await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+};
