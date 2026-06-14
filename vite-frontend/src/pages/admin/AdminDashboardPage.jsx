@@ -7,7 +7,7 @@ import ManageBookings from '@/components/admin/ManageBookings';
 import ManageUsers from '@/components/admin/ManageUsers';
 import ManageApprovals from '@/components/admin/ManageApprovals';
 import ManageTickets from '@/components/admin/ManageTickets';
-import ManageLogs from '@/components/admin/ManageLogs';
+import ManageAuditLogs from '@/components/admin/ManageAuditLogs';
 import ManageMyApprovals from '@/components/admin/ManageMyApprovals';
 import SEO from '@/components/shared/SEO';
 
@@ -21,7 +21,7 @@ const SUPER_ADMIN_TABS = [
   { id: 'approvals', label: 'Hotel Approvals', icon: CheckSquare },
   { id: 'users', label: 'Manage Users', icon: Users },
   { id: 'tickets', label: 'Support Tickets', icon: LifeBuoy },
-  { id: 'logs', label: 'System Logs', icon: Terminal },
+  { id: 'logs', label: 'Audit Logs', icon: Terminal },
 ];
 
 const AdminDashboardPage = () => {
@@ -72,7 +72,7 @@ const AdminDashboardPage = () => {
               {activeTab === 'users' && <ManageUsers />}
               {activeTab === 'approvals' && <ManageApprovals />}
               {activeTab === 'tickets' && <ManageTickets />}
-              {activeTab === 'logs' && <ManageLogs />}
+              {activeTab === 'logs' && <ManageAuditLogs />}
               {activeTab === 'my-approvals' && <ManageMyApprovals />}
             </motion.div>
           </AnimatePresence>

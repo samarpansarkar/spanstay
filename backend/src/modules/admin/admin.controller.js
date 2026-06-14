@@ -96,19 +96,20 @@ export const resolveApprovalController = asyncHandler(async (req, res) => {
 
   if (status === 'APPROVED') {
     const hotel = await Hotel.findById(approval.hotel);
-    if (!hotel) throw new AppError('Hotel not found', 404);
-
-    if (approval.action === 'CREATE') {
-      hotel.approvalStatus = 'APPROVED';
-      await hotel.save();
-    } else if (
-      approval.action === 'UPDATE' ||
-      approval.action === 'STATUS_CHANGE'
-    ) {
-      Object.assign(hotel, approval.payload);
-      await hotel.save();
-    } else if (approval.action === 'DELETE') {
-      await Hotel.findByIdAndDelete(hotel._id);
+    
+    if (hotel) {
+      if (approval.action === 'CREATE') {
+        hotel.approvalStatus = 'APPROVED';
+        await hotel.save();
+      } else if (
+        approval.action === 'UPDATE' ||
+        approval.action === 'STATUS_CHANGE'
+      ) {
+        Object.assign(hotel, approval.payload);
+        await hotel.save();
+      } else if (approval.action === 'DELETE') {
+        await Hotel.findByIdAndDelete(hotel._id);
+      }
     }
   } else if (status === 'REJECTED') {
     if (approval.action === 'CREATE') {
