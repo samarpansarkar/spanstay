@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useGetMyHotelsQuery, useUpdateHotelMutation, useDeleteHotelMutation } from '@/redux/api/hotelApi';
 import { motion } from 'framer-motion';
-import { Edit2, Trash2, Plus, Loader2, MapPin, IndianRupee, Eye, EyeOff } from 'lucide-react';
+import { Edit2, Trash2, Plus, MapPin, IndianRupee, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import AddEditHotelForm from './AddEditHotelForm';
 import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
@@ -18,7 +18,7 @@ const ManageHotels = () => {
     try {
       await updateHotel({ id: hotel._id, isAvailable: !hotel.isAvailable }).unwrap();
       toast.success(`Hotel marked as ${!hotel.isAvailable ? 'available' : 'out of service'}`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to update hotel status');
     }
   };
@@ -28,7 +28,7 @@ const ManageHotels = () => {
       try {
         await deleteHotel(id).unwrap();
         toast.success('Hotel deleted successfully');
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete hotel');
       }
     }

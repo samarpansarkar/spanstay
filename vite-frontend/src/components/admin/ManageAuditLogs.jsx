@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useGetAuditLogsQuery, useGetAuditSummaryQuery } from '@/redux/api/auditApi';
 import { format } from 'date-fns';
-import { Download, Filter, ShieldAlert, Activity, UserCog, Building2 } from 'lucide-react';
+import { Download, ShieldAlert, Activity } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/Skeleton/Skeleton';
 import { useSelector } from 'react-redux';
 
 const ManageAuditLogs = () => {
   const { user } = useSelector((state) => state.auth);
-  
+
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({
     action: '',
@@ -29,15 +29,15 @@ const ManageAuditLogs = () => {
       if (filters.action) params.append('action', filters.action);
       if (filters.entityType) params.append('entityType', filters.entityType);
       if (filters.actorRole) params.append('actorRole', filters.actorRole);
-      
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/audit-logs/export?${params.toString()}`, {
         headers: {
           'Authorization': `Bearer ${user.accessToken || localStorage.getItem('token')}`,
         }
       });
-      
+
       if (!response.ok) throw new Error('Export failed');
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -54,7 +54,7 @@ const ManageAuditLogs = () => {
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
-    setPage(1); // Reset to first page on filter change
+    setPage(1);
   };
 
   const getActionBadge = (action) => {
@@ -64,12 +64,11 @@ const ManageAuditLogs = () => {
     if (action.includes('REJECTED') || action.includes('DELETED') || action.includes('SUSPENDED') || action.includes('CANCELLED')) {
       return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
     }
-    return 'bg-blue-500/10 text-blue-400 border-blue-500/20'; // Updates, changes
+    return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
   };
 
   return (
     <div className="space-y-6">
-      {/* Metrics Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-surface-container border border-glass-border rounded-2xl p-4">
           <div className="flex items-center gap-3 mb-2">
@@ -96,7 +95,7 @@ const ManageAuditLogs = () => {
       <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h2 className="text-2xl font-bold text-on-surface">Audit Logs</h2>
-          
+
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
             <select
               name="actorRole"
@@ -191,8 +190,7 @@ const ManageAuditLogs = () => {
                 )}
               </tbody>
             </table>
-            
-            {/* Pagination Controls */}
+
             {logsData?.data?.pagination?.totalPages > 1 && (
               <div className="flex justify-between items-center mt-6 px-4">
                 <span className="text-sm text-on-surface-variant">

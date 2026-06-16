@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { IndianRupee, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
+import { IndianRupee, Calendar, Users, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';

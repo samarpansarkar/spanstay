@@ -1,7 +1,6 @@
 import { useGetProfileQuery } from '@/redux/api/authApi';
 import { useGetMyBookingsQuery } from '@/redux/api/bookingApi';
-import { getErrorMessage } from '@/utils/getErrorMessage';
-import { motion } from 'framer-motion';
+
 import SEO from '@/components/shared/SEO';
 import { toast } from 'sonner';
 import DashboardSidebar from '@/components/shared/DashboardSidebar';
@@ -25,11 +24,10 @@ const UsersProfilePage = () => {
   return (
     <div className="flex min-h-screen bg-surface-container-lowest">
       <SEO title="Elite Dashboard" noindex={true} />
-      
-      <DashboardSidebar activeTab="profile" onTabChange={() => {}} />
+
+      <DashboardSidebar activeTab="profile" onTabChange={() => { }} />
 
       <main className="flex-1 px-6 md:px-margin-desktop pt-2 pb-12 max-w-container-max mx-auto overflow-x-hidden">
-        {/* Hero Section Dashboard */}
         <section className="mb-8 transition-all duration-700 ease-out opacity-100 translate-y-0">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -46,15 +44,13 @@ const UsersProfilePage = () => {
             </div>
           </div>
         </section>
-
-        {/* Upcoming Trip Focus Card */}
         {upcomingBooking ? (
           <section className="mb-16 transition-all duration-700 ease-out opacity-100 translate-y-0">
             <div className="relative group overflow-hidden rounded-xl h-[450px] flex items-end">
               <div className="absolute inset-0 z-0">
-                <img 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                  alt={upcomingBooking.hotel?.title} 
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  alt={upcomingBooking.hotel?.title}
                   src={upcomingBooking.hotel?.images?.[0]?.url || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
@@ -77,26 +73,21 @@ const UsersProfilePage = () => {
           </section>
         ) : (
           <section className="mb-16 transition-all duration-700 ease-out opacity-100 translate-y-0">
-             <div className="bg-surface-container/40 border border-glass-border rounded-xl p-12 text-center flex flex-col items-center justify-center">
-                <span className="material-symbols-outlined text-warm-gold text-4xl mb-4">luggage</span>
-                <h3 className="font-display-lg text-headline-md mb-2">No Upcoming Journeys</h3>
-                <p className="text-on-surface-variant mb-6">Discover your next luxury escape.</p>
-                <button onClick={() => navigate('/hotels')} className="bg-primary text-on-primary px-8 py-3 font-bold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all rounded-sm">Explore Villas</button>
-             </div>
+            <div className="bg-surface-container/40 border border-glass-border rounded-xl p-12 text-center flex flex-col items-center justify-center">
+              <span className="material-symbols-outlined text-warm-gold text-4xl mb-4">luggage</span>
+              <h3 className="font-display-lg text-headline-md mb-2">No Upcoming Journeys</h3>
+              <p className="text-on-surface-variant mb-6">Discover your next luxury escape.</p>
+              <button onClick={() => navigate('/hotels')} className="bg-primary text-on-primary px-8 py-3 font-bold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all rounded-sm">Explore Villas</button>
+            </div>
           </section>
         )}
-
-        {/* Grid: Saved & Quick Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
-          {/* User Support Tickets (mapped to Concierge Services layout) */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-             <h3 className="font-display-lg text-headline-md">Concierge Services</h3>
-             <UserSupportTickets />
+            <h3 className="font-display-lg text-headline-md">Concierge Services</h3>
+            <UserSupportTickets />
           </div>
 
           <div className="flex flex-col gap-6">
-            {/* Quick Contacts */}
             <div className="bg-surface-container-high p-8 flex flex-col gap-6 border-t-2 border-warm-gold shadow-sm">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 flex items-center justify-center">
@@ -108,7 +99,7 @@ const UsersProfilePage = () => {
                 </div>
               </div>
               <div className="space-y-4">
-                <button 
+                <button
                   onClick={() => toast.info('Private Jet Booking feature is coming soon!')}
                   className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm"
                 >
@@ -118,7 +109,7 @@ const UsersProfilePage = () => {
                   </span>
                   <span className="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </button>
-                <button 
+                <button
                   onClick={() => toast.info('Michelin Reservations feature is coming soon!')}
                   className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm"
                 >
@@ -135,8 +126,6 @@ const UsersProfilePage = () => {
                 </p>
               </div>
             </div>
-
-            {/* Rewards Card */}
             <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border p-6 overflow-hidden relative shadow-sm rounded-sm">
               <div className="relative z-10">
                 <h4 className="font-label-caps text-warm-gold mb-2">ELITE REWARDS</h4>

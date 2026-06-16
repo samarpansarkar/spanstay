@@ -12,15 +12,14 @@ const ConciergePage = () => {
   return (
     <div className="min-h-screen bg-surface-container-lowest overflow-x-hidden">
       <SEO title="Concierge Services" />
-      
+
       <main className="pb-32">
-        {/* Hero Section */}
         <section className="relative min-h-[50vh] flex items-end justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
-              alt="Luxury Private Jet" 
-              className="w-full h-full object-cover" 
-              src="https://images.unsplash.com/photo-1540962220668-3e42106a782e?q=80&w=2000&auto=format&fit=crop"
+            <img
+              alt="Luxury Private Jet"
+              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
           </div>
@@ -32,15 +31,14 @@ const ConciergePage = () => {
         </section>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          {/* Pillars of Curation Section */}
           <section className="py-20">
             <div className="text-center mb-16">
               <h3 className="font-display text-3xl md:text-4xl text-on-surface mb-4">Pillars of Curation</h3>
               <p className="text-on-surface-variant font-body text-lg max-w-2xl mx-auto opacity-80">Experience the world without boundaries, curated by masters of the craft.</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
+
               <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border p-8 rounded-sm group hover:border-warm-gold/30 transition-colors">
                 <div className="flex justify-between items-start mb-6">
                   <Plane className="w-8 h-8 text-warm-gold opacity-80 group-hover:opacity-100 transition-opacity" />
@@ -81,15 +79,13 @@ const ConciergePage = () => {
           </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mt-16">
-            
-            {/* Profile Section */}
             <section className="lg:col-span-2 bg-surface-container/20 border border-glass-border rounded-sm py-16 px-8 relative overflow-hidden flex flex-col items-center justify-center text-center shadow-sm">
               <div className="absolute top-0 right-0 w-64 h-64 bg-warm-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
-              
+
               <div className="w-32 h-32 rounded-full border-2 border-warm-gold p-1 mb-8">
-                <img 
-                  alt="Julian Vance" 
-                  className="w-full h-full object-cover rounded-full" 
+                <img
+                  alt="Julian Vance"
+                  className="w-full h-full object-cover rounded-full"
                   src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
                 />
               </div>
@@ -100,15 +96,14 @@ const ConciergePage = () => {
               </blockquote>
             </section>
 
-            {/* Request Curation Form */}
             <section className="lg:col-span-3 bg-surface-container rounded-sm border border-glass-border p-8 md:p-12 shadow-sm">
               <div className="mb-10">
                 <h3 className="font-display text-3xl text-warm-gold mb-3">Request Curation</h3>
                 <p className="text-on-surface-variant font-body text-lg opacity-80">Submit your requirements and a curator will contact you within 15 minutes.</p>
               </div>
-              
+
               <form className="space-y-8" onSubmit={handleSubmit}>
-                
+
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Request Category</label>
                   <div className="relative">
@@ -143,16 +138,16 @@ const ConciergePage = () => {
 
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Description of Requirement</label>
-                  <textarea 
+                  <textarea
                     required
-                    className="w-full bg-deep-charcoal border border-glass-border text-on-surface p-4 focus:border-warm-gold focus:ring-1 focus:ring-warm-gold transition-colors rounded-sm placeholder:opacity-30 font-body" 
-                    placeholder="Detail your specific requests or preferences..." 
+                    className="w-full bg-deep-charcoal border border-glass-border text-on-surface p-4 focus:border-warm-gold focus:ring-1 focus:ring-warm-gold transition-colors rounded-sm placeholder:opacity-30 font-body"
+                    placeholder="Detail your specific requests or preferences..."
                     rows="5"
                   ></textarea>
                 </div>
 
-                <button 
-                  className="w-full bg-primary text-on-primary py-4 px-8 font-bold text-xs tracking-widest uppercase hover:brightness-110 transition-all rounded-sm shadow-sm" 
+                <button
+                  className="w-full bg-primary text-on-primary py-4 px-8 font-bold text-xs tracking-widest uppercase hover:brightness-110 transition-all rounded-sm shadow-sm"
                   type="submit"
                 >
                   Initialize Request

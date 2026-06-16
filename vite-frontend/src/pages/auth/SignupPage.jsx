@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, UserRound } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import SEO from '@/components/shared/SEO';
 
@@ -21,8 +21,8 @@ const SignupPage = () => {
 
   const [signup, { isLoading }] = useSignupMutation();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
+
+
 
   const onSubmit = async (data) => {
     try {

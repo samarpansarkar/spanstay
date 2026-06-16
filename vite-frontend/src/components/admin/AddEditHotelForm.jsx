@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAddHotelMutation, useUpdateHotelMutation } from '@/redux/api/hotelApi';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Loader2, Upload, X } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AddEditHotelForm = ({ hotel, onClose }) => {
@@ -10,31 +10,15 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
   const [updateHotel, { isLoading: isUpdating }] = useUpdateHotelMutation();
 
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    location: '',
-    price: '',
-    amenities: '',
+    title: hotel?.title || '',
+    description: hotel?.description || '',
+    location: hotel?.location || '',
+    price: hotel?.price || '',
+    amenities: hotel?.amenities?.join(', ') || '',
   });
 
   const [images, setImages] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
-
-  useEffect(() => {
-    if (hotel) {
-      setFormData({
-        title: hotel.title || '',
-        description: hotel.description || '',
-        location: hotel.location || '',
-        price: hotel.price || '',
-        amenities: hotel.amenities?.join(', ') || '',
-      });
-
-      if (hotel.images) {
-        setImagePreviews(hotel.images.map(img => img.url));
-      }
-    }
-  }, [hotel]);
+  const [imagePreviews, setImagePreviews] = useState(hotel?.images?.map(img => img.url) || []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

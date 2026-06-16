@@ -1,6 +1,6 @@
 import { useGetMyBookingsQuery, useCancelBookingMutation } from '@/redux/api/bookingApi';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, IndianRupee, Loader2, Home, XCircle } from 'lucide-react';
+import { Calendar, MapPin, IndianRupee, Home, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
@@ -106,8 +106,8 @@ const MyBookingsPage = () => {
                       </h3>
                       <div className="flex flex-col items-end gap-3">
                         <span className={`px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest ${booking.status === 'confirmed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                            booking.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
-                              'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                          booking.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                            'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                           }`}>
                           {booking.status}
                         </span>
@@ -164,7 +164,6 @@ const MyBookingsPage = () => {
                     </div>
                   </div>
 
-                  {/* Review Section */}
                   <BookingReviewSection booking={booking} />
                 </div>
               </motion.div>

@@ -43,7 +43,7 @@ export const NotificationDropdown = ({ onClose }) => {
     try {
       await markAllRead().unwrap();
       toast.success('All notifications marked as read');
-    } catch (error) {
+    } catch {
       toast.error('Failed to mark all as read');
     }
   };
@@ -72,7 +72,7 @@ export const NotificationDropdown = ({ onClose }) => {
     e.stopPropagation();
     try {
       await deleteNotification(id).unwrap();
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete notification');
     }
   };

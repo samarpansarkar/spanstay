@@ -6,10 +6,8 @@ import {
   Search,
   SlidersHorizontal,
   X,
-  ChevronDown, 
-  ChevronUp
 } from 'lucide-react';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HotelCard, HotelCardSkeleton } from '@/components/hotels/HotelCard';
 import SEO from '@/components/shared/SEO';

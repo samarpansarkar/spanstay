@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useVerifyCheckoutSessionQuery } from '@/redux/api/paymentApi';
 
@@ -9,7 +9,7 @@ const PaymentSuccessPage = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
 
-  const { data, isLoading, isError } = useVerifyCheckoutSessionQuery(sessionId, {
+  const { data, isLoading } = useVerifyCheckoutSessionQuery(sessionId, {
     skip: !sessionId,
   });
 

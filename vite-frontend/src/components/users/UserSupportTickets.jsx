@@ -23,8 +23,8 @@ const UserSupportTickets = () => {
       setSubject('');
       setMessage('');
       setIsCreatingTicket(false);
-    } catch (err) {
-      toast.error('Failed to create ticket');
+    } catch {
+      toast.error('Failed to submit ticket');
     }
   };
 

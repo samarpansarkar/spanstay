@@ -1,6 +1,6 @@
 import { useGetHotelAdminBookingsQuery, useConfirmBookingMutation, useCancelBookingMutation } from '@/redux/api/bookingApi';
 import { motion } from 'framer-motion';
-import { Loader2, CheckCircle, XCircle, MapPin, Calendar, IndianRupee, User } from 'lucide-react';
+import { CheckCircle, XCircle, MapPin, Calendar, IndianRupee, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
@@ -13,7 +13,7 @@ const ManageBookings = () => {
     try {
       await confirmBooking(id).unwrap();
       toast.success('Booking confirmed');
-    } catch (err) {
+    } catch {
       toast.error('Failed to confirm booking');
     }
   };
@@ -23,7 +23,7 @@ const ManageBookings = () => {
       try {
         await cancelBooking(id).unwrap();
         toast.success('Booking cancelled');
-      } catch (err) {
+      } catch {
         toast.error('Failed to cancel booking');
       }
     }

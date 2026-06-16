@@ -1,11 +1,11 @@
 import { useGetApprovalsQuery, useResolveApprovalMutation } from '@/redux/api/adminApi';
-import { Check, X, Building2, MapPin, IndianRupee } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { CardSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const ManageApprovals = () => {
   const { data: approvalsData, isLoading } = useGetApprovalsQuery();
-  const [resolveApproval, { isLoading: isResolving }] = useResolveApprovalMutation();
+  const [resolveApproval] = useResolveApprovalMutation();
 
   if (isLoading) return (
     <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
@@ -20,7 +20,7 @@ const ManageApprovals = () => {
     try {
       await resolveApproval({ id, status }).unwrap();
       toast.success(`Request ${status.toLowerCase()}`);
-    } catch (err) {
+    } catch {
       toast.error('Failed to resolve request');
     }
   };

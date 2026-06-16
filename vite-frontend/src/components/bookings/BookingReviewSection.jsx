@@ -5,25 +5,25 @@ import {
   useUpdateReviewMutation,
   useDeleteReviewMutation
 } from '@/redux/api/reviewApi';
-import { Star, MessageSquare, Edit2, Trash2, X } from 'lucide-react';
+import { Star, Edit2, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const BookingReviewSection = ({ booking }) => {
   const isEligible = booking.status === 'confirmed' && new Date(booking.checkOut) < new Date();
 
-  if (!isEligible) return null;
-
-  const { data: reviewData, isLoading: isReviewLoading } = useGetReviewByBookingQuery(booking._id);
+  const { data: reviewData, isLoading: isReviewLoading } = useGetReviewByBookingQuery(booking._id, { skip: !isEligible });
   const [createReview, { isLoading: isCreating }] = useCreateReviewMutation();
   const [updateReview, { isLoading: isUpdating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: isDeleting }] = useDeleteReviewMutation();
-
-  const review = reviewData?.data;
 
   const [isEditing, setIsEditing] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
+
+  if (!isEligible) return null;
+
+  const review = reviewData?.data;
 
   const handleEditClick = () => {
     setRating(review.rating);

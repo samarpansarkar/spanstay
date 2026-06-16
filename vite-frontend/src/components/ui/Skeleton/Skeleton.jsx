@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 
 export const Skeleton = ({ className = '' }) => {
   return (

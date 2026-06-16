@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,11 +20,6 @@ const AdminDashboardPage = () => {
   const defaultTab = isSuperAdmin ? 'approvals' : 'hotels';
   const [activeTab, setActiveTab] = useState(location.state?.tab || defaultTab);
 
-  useEffect(() => {
-    if (location.state?.tab) {
-      setActiveTab(location.state.tab);
-    }
-  }, [location.state?.tab]);
 
   return (
     <div className="flex min-h-screen bg-surface-container-lowest">

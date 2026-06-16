@@ -19,7 +19,7 @@ import { clearCredential } from '@/redux/features/auth/authSlice';
 import { useLogoutMutation } from '@/redux/api/authApi';
 import { toast } from 'sonner';
 
-export const USER_LINKS = [
+const USER_LINKS = [
   { id: 'profile', label: 'My Profile', icon: UserCog },
   { id: 'trips', label: 'My Trips', icon: Luggage, href: '/my-bookings' },
   { id: 'saved', label: 'Saved Villas', icon: Heart, href: '/hotels' },
@@ -27,14 +27,14 @@ export const USER_LINKS = [
   { id: 'payment', label: 'Payment Methods', icon: CreditCard, isComingSoon: true },
 ];
 
-export const HOTEL_ADMIN_LINKS = [
+const HOTEL_ADMIN_LINKS = [
   { id: 'profile', label: 'Concierge Desk', icon: UserCog },
   { id: 'hotels', label: 'Manage Properties', icon: Building2 },
   { id: 'bookings', label: 'Reservations', icon: CalendarDays },
   { id: 'my-approvals', label: 'My Requests', icon: CheckSquare },
 ];
 
-export const SUPER_ADMIN_LINKS = [
+const SUPER_ADMIN_LINKS = [
   { id: 'profile', label: 'Platform Stats', icon: UserCog },
   { id: 'approvals', label: 'Property Approvals', icon: CheckSquare },
   { id: 'users', label: 'Manage Users', icon: Users },
@@ -69,7 +69,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
       dispatch(clearCredential());
       toast.success('Logged out successfully');
       navigate('/');
-    } catch (error) {
+    } catch {
       toast.error('Failed to logout');
     }
   };

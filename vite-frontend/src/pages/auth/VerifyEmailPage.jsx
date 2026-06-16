@@ -17,12 +17,11 @@ const VerifyEmailPage = () => {
   const dispatch = useDispatch();
 
   const [countdown, setCountdown] = useState(60);
-  const [canResend, setCanResend] = useState(false);
+  const canResend = countdown === 0;
 
   useEffect(() => {
     if (!state?.email) {
       navigate('/signup');
-      return;
     }
   }, [state, navigate]);
 
@@ -30,8 +29,6 @@ const VerifyEmailPage = () => {
     let timer;
     if (countdown > 0) {
       timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
-    } else {
-      setCanResend(true);
     }
     return () => clearInterval(timer);
   }, [countdown]);
@@ -69,7 +66,6 @@ const VerifyEmailPage = () => {
       if (response.success) {
         toast.success(response.message);
         setCountdown(60);
-        setCanResend(false);
       }
     } catch (error) {
       toast.error(getErrorMessage(error));

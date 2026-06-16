@@ -27,7 +27,7 @@ const ManageUsers = () => {
       await updateUser({ id, role: newRole }).unwrap();
       toast.success('User role updated');
       setEditingId(null);
-    } catch (err) {
+    } catch {
       toast.error('Failed to update role');
     }
   };
@@ -37,7 +37,7 @@ const ManageUsers = () => {
       try {
         await deleteUser(id).unwrap();
         toast.success('User deleted');
-      } catch (err) {
+      } catch {
         toast.error('Failed to delete user');
       }
     }
