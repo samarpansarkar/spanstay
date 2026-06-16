@@ -9,6 +9,7 @@ import swaggerSpec from './config/swagger.js';
 import routes from './routes/index.js';
 import errorHandler from './shared/middleware/error.middleware.js';
 import AppError from './shared/utils/AppError.js';
+import path from 'path';
 
 const app = express();
 
@@ -37,6 +38,8 @@ import systemLogger from './shared/middleware/systemLog.middleware.js';
 
 app.use('/api/v1', systemLogger, routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/tests/results', express.static(path.resolve('tests/results')));
+app.use('/tests/coverage', express.static(path.resolve('coverage/lcov-report')));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {
   next(new AppError(`Cannot ${req.method} ${req.originalUrl}`, 404));

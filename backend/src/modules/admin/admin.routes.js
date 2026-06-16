@@ -171,6 +171,7 @@ adminRouter.patch('/approvals/:id/resolve', resolveApprovalController);
 adminRouter.get('/logs', getSystemLogsController);
 
 adminRouter.use('/jobs/dashboard', serverAdapter.getRouter());
+
 /**
  * @swagger
  * /api/v1/admin/jobs/stats:
