@@ -22,14 +22,14 @@ const UsersProfilePage = () => {
   if (isError || !user) return <div className="min-h-screen flex items-center justify-center text-on-surface-variant">Failed to load profile.</div>;
 
   return (
-    <div className="flex min-h-screen pt-[72px] bg-surface-container-lowest">
+    <div className="flex min-h-screen bg-surface-container-lowest">
       <SEO title="Elite Dashboard" noindex={true} />
       
       <DashboardSidebar activeTab="profile" onTabChange={() => {}} />
 
-      <main className="flex-1 px-6 md:px-margin-desktop py-12 max-w-container-max mx-auto overflow-x-hidden">
+      <main className="flex-1 px-6 md:px-margin-desktop pt-2 pb-12 max-w-container-max mx-auto overflow-x-hidden">
         {/* Hero Section Dashboard */}
-        <section className="mb-12 transition-all duration-700 ease-out opacity-100 translate-y-0">
+        <section className="mb-8 transition-all duration-700 ease-out opacity-100 translate-y-0">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="font-label-caps text-warm-gold mb-2 block tracking-[0.2em] uppercase">WELCOME BACK, {user.name.split(' ')[0]}</span>

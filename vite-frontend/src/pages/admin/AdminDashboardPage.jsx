@@ -19,7 +19,7 @@ const AdminDashboardPage = () => {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   return (
-    <div className="flex min-h-screen pt-[72px] bg-surface-container-lowest">
+    <div className="flex min-h-screen bg-surface-container-lowest">
       <SEO title="Admin Dashboard" noindex={true} />
       
       <DashboardSidebar activeTab={activeTab} onTabChange={setActiveTab} />
