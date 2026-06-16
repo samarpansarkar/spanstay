@@ -1,45 +1,53 @@
 services:
-  backend:
-    build: .
+  frontend:
+    build:
+      context: ./vite-frontend
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./vite-frontend:/app
+      - /app/node_modules
+    env_file:
+      - ./vite-frontend/.env
+    depends_on:
+      - backend
 
+  backend:
+    build:
+      context: ./backend
     ports:
       - '4000:4000'
-
     volumes:
-      - .:/app
-
+      - ./backend:/app
       - /app/node_modules
-
     env_file:
-      - .env
-
+      - ./backend/.env
     depends_on:
       - redis
+      - mongodb
 
   worker:
-    build: .
+    build:
+      context: ./backend
     command: npm run worker
     volumes:
-      - .:/app
+      - ./backend:/app
       - /app/node_modules
     env_file:
-      - .env
+      - ./backend/.env
     depends_on:
       - mongodb
       - redis
 
   mongodb:
     image: mongo:7-jammy
-
     ports:
       - '27017:27017'
-
     volumes:
       - mongo_data:/data/db
 
   redis:
     image: redis:7-alpine
-
     ports:
       - '6379:6379'
 
