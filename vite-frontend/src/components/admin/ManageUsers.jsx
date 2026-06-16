@@ -14,8 +14,8 @@ const ManageUsers = () => {
   const [newRole, setNewRole] = useState('');
 
   if (isLoading) return (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">Manage Users</h2>
+    <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-on-surface mb-6">Manage Users</h2>
       <TableSkeleton rows={5} cols={4} />
     </div>
   );
@@ -27,7 +27,7 @@ const ManageUsers = () => {
       await updateUser({ id, role: newRole }).unwrap();
       toast.success('User role updated');
       setEditingId(null);
-    } catch (err) {
+    } catch {
       toast.error('Failed to update role');
     }
   };
@@ -37,7 +37,7 @@ const ManageUsers = () => {
       try {
         await deleteUser(id).unwrap();
         toast.success('User deleted');
-      } catch (err) {
+      } catch {
         toast.error('Failed to delete user');
       }
     }
@@ -46,13 +46,13 @@ const ManageUsers = () => {
   const UserRow = ({ index }) => {
     const user = users[index];
     return (
-      <div className="flex items-center border-b border-white/5 text-slate-300 hover:bg-white/5 px-2 py-4">
+      <div className="flex items-center border-b border-glass-border text-on-surface-variant hover:bg-surface-container px-2 py-4">
         <div className="w-1/4 truncate pr-2">{user.name}</div>
         <div className="w-1/3 truncate pr-2">{user.email}</div>
         <div className="w-1/4 pr-2">
           {editingId === user._id ? (
             <select
-              className="bg-slate-800 text-white rounded p-1 border border-white/20 w-full"
+              className="bg-surface-container-high text-on-surface rounded p-1 border border-glass-border/80 w-full"
               value={newRole}
               onChange={(e) => setNewRole(e.target.value)}
             >
@@ -68,10 +68,10 @@ const ManageUsers = () => {
           {editingId === user._id ? (
             <>
               <button aria-label="Save role" onClick={() => handleUpdateRole(user._id)} className="text-green-400 hover:text-green-300 text-sm">Save</button>
-              <button aria-label="Cancel editing" onClick={() => setEditingId(null)} className="text-slate-400 hover:text-white text-sm">Cancel</button>
+              <button aria-label="Cancel editing" onClick={() => setEditingId(null)} className="text-on-surface-variant hover:text-on-surface text-sm">Cancel</button>
             </>
           ) : (
-            <button aria-label={`Edit role for ${user.name}`} onClick={() => { setEditingId(user._id); setNewRole(user.role); }} className="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg hover:bg-indigo-500/20">
+            <button aria-label={`Edit role for ${user.name}`} onClick={() => { setEditingId(user._id); setNewRole(user.role); }} className="p-2 bg-primary/10 text-warm-gold rounded-lg hover:bg-primary/20">
               <UserCog className="w-4 h-4" />
             </button>
           )}
@@ -84,11 +84,11 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">Manage Users</h2>
+    <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-on-surface mb-6">Manage Users</h2>
 
       <div className="overflow-x-auto min-w-[600px]">
-        <div className="flex items-center border-b border-white/10 text-slate-400 pb-3 px-2 font-medium">
+        <div className="flex items-center border-b border-glass-border text-on-surface-variant pb-3 px-2 font-medium">
           <div className="w-1/4">Name</div>
           <div className="w-1/3">Email</div>
           <div className="w-1/4">Role</div>
@@ -102,7 +102,7 @@ const ManageUsers = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center text-slate-400 py-6">No users found.</div>
+          <div className="text-center text-on-surface-variant py-6">No users found.</div>
         )}
       </div>
     </div>

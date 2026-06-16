@@ -9,68 +9,68 @@ export const HotelCard = memo(({ hotel }) => (
     <Link
       to={`/hotels/${hotel._id}`}
       aria-label={`View details for ${hotel.title}`}
-      className={`group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all duration-300 ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
+      className={`group block bg-surface-container-lowest border border-glass-border rounded-sm overflow-hidden hover:border-warm-gold/40 transition-all duration-300 shadow-sm hover:shadow-warm-gold/5 ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
     >
-      <div className="relative h-48 overflow-hidden bg-slate-800">
+      <div className="relative h-56 overflow-hidden bg-deep-charcoal">
         {hotel.images?.[0]?.url ? (
           <img
-            src={hotel.images[0].url}
+            src={hotel.images[0].url.replace('w=2000', 'w=600').replace('q=80', 'q=60')}
             alt={hotel.title}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-slate-400 text-sm">No image</span>
+            <span className="text-on-surface-variant text-sm font-body">No image</span>
           </div>
         )}
-        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1 flex items-center gap-1">
-          <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-          <span className="text-white text-xs font-medium">{hotel.averageRating || 'New'}</span>
+        <div className="absolute top-3 right-3 bg-surface-dim/80 backdrop-blur-md border border-glass-border rounded px-2.5 py-1 flex items-center gap-1">
+          <Star className="w-3.5 h-3.5 text-warm-gold fill-warm-gold" />
+          <span className="text-on-surface text-xs font-semibold font-body">{hotel.averageRating || 'New'}</span>
         </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="text-white font-semibold text-base truncate group-hover:text-indigo-300 transition-colors">
+      <div className="p-5">
+        <h3 className="text-on-surface font-semibold text-lg truncate group-hover:text-warm-gold transition-colors font-display tracking-wide">
           {hotel.title}
         </h3>
-        <div className="flex items-center gap-1.5 mt-1">
-          <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-          <span className="text-slate-300 text-sm truncate">{hotel.location}</span>
+        <div className="flex items-center gap-1.5 mt-2">
+          <MapPin className="w-3.5 h-3.5 text-warm-gold/70 flex-shrink-0" />
+          <span className="text-on-surface-variant text-sm truncate font-body">{hotel.location}</span>
         </div>
 
         {hotel.amenities?.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-3">
+          <div className="flex flex-wrap gap-1.5 mt-4">
             {hotel.amenities.slice(0, 3).map((a) => (
               <span
                 key={a}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300"
+                className="text-[10px] px-2 py-0.5 rounded border border-glass-border text-on-surface bg-surface-container font-body uppercase tracking-wider"
               >
                 {a}
               </span>
             ))}
             {hotel.amenities.length > 3 && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-400">
+              <span className="text-[10px] px-2 py-0.5 rounded border border-glass-border text-on-surface-variant bg-surface-container font-body">
                 +{hotel.amenities.length - 3}
               </span>
             )}
           </div>
         )}
 
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+        <div className="flex items-center justify-between mt-5 pt-4 border-t border-glass-border">
           <div className="flex items-center gap-0.5">
-            <IndianRupee className="w-4 h-4 text-emerald-400" />
-            <span className="text-emerald-400 font-bold text-lg">
+            <IndianRupee className="w-4 h-4 text-warm-gold" />
+            <span className="text-on-surface font-bold text-xl font-display">
               {hotel.price?.toLocaleString('en-IN')}
             </span>
-            <span className="text-slate-400 text-xs ml-1">/night</span>
+            <span className="text-on-surface-variant text-xs ml-1 font-body">/night</span>
           </div>
           {hotel.isAvailable ? (
-            <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-lg">
+            <span className="text-[10px] font-bold text-on-primary bg-warm-gold hover:bg-primary uppercase tracking-wider px-4 py-2 rounded-sm transition-colors font-body">
               Book Now
             </span>
           ) : (
-            <span className="text-xs font-medium text-slate-300 bg-slate-500/10 border border-slate-500/20 px-3 py-1 rounded-lg">
+            <span className="text-[10px] font-bold text-on-surface-variant bg-surface-container border border-glass-border uppercase tracking-wider px-4 py-2 rounded-sm font-body">
               Unavailable
             </span>
           )}
@@ -83,19 +83,19 @@ export const HotelCard = memo(({ hotel }) => (
 HotelCard.displayName = 'HotelCard';
 
 export const HotelCardSkeleton = memo(() => (
-  <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden animate-pulse">
-    <div className="h-48 bg-white/10" />
-    <div className="p-4 space-y-3">
-      <div className="h-4 bg-white/10 rounded-lg w-3/4" />
-      <div className="h-3 bg-white/10 rounded-lg w-1/2" />
-      <div className="flex gap-2 mt-3">
-        <div className="h-5 w-16 bg-white/10 rounded-full" />
-        <div className="h-5 w-14 bg-white/10 rounded-full" />
+  <div className="bg-surface-container-lowest border border-glass-border rounded-sm overflow-hidden animate-pulse">
+    <div className="h-56 bg-surface-container" />
+    <div className="p-5 space-y-3">
+      <div className="h-5 bg-surface-container rounded w-3/4" />
+      <div className="h-3 bg-surface-container rounded w-1/2" />
+      <div className="flex gap-2 mt-4">
+        <div className="h-5 w-16 bg-surface-container rounded" />
+        <div className="h-5 w-14 bg-surface-container rounded" />
       </div>
-      <div className="h-px bg-white/10 mt-4" />
-      <div className="flex justify-between">
-        <div className="h-5 w-24 bg-white/10 rounded-lg" />
-        <div className="h-6 w-20 bg-white/10 rounded-lg" />
+      <div className="h-px bg-glass-border mt-5" />
+      <div className="flex justify-between mt-4">
+        <div className="h-6 w-24 bg-surface-container rounded" />
+        <div className="h-8 w-24 bg-surface-container rounded" />
       </div>
     </div>
   </div>

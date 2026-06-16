@@ -4,6 +4,7 @@ import MainLayout from './layouts/MainLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
 import Loader from './components/ui/Loader/Loader';
+import ScrollToTop from './components/shared/ScrollToTop';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const SigninPage = lazy(() => import('./pages/auth/SigninPage'));
@@ -18,15 +19,23 @@ const PaymentSuccessPage = lazy(() => import('./pages/checkout/PaymentSuccessPag
 const PaymentCancelPage = lazy(() => import('./pages/checkout/PaymentCancelPage'));
 const MyBookingsPage = lazy(() => import('./pages/bookings/MyBookingsPage'));
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AboutPage = lazy(() => import('./pages/company/AboutPage'));
+const CareersPage = lazy(() => import('./pages/company/CareersPage'));
+const ConciergePage = lazy(() => import('./pages/company/ConciergePage'));
 
 const App = () => {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center"><Loader /></div>}>
-      <Routes>
+    <>
+      <ScrollToTop />
+      <Suspense fallback={<div className="min-h-screen bg-surface-container-lowest flex items-center justify-center"><Loader /></div>}>
+        <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/hotels" element={<HotelsPage />} />
           <Route path="/hotels/:id" element={<HotelDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/concierge" element={<ConciergePage />} />
           <Route
             path="/profile"
             element={
@@ -99,6 +108,7 @@ const App = () => {
         />
       </Routes>
     </Suspense>
+    </>
   );
 };
 

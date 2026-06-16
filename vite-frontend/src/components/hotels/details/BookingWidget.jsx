@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { IndianRupee, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
+import { IndianRupee, Calendar, Users, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ const BookingWidget = ({ pricePerNight }) => {
 
   const handleReserve = async () => {
     if (!user) {
-      toast.error('Please sign in to reserve this hotel');
+      toast.error('Please sign in to reserve this exclusive property');
       navigate('/signin');
       return;
     }
@@ -64,52 +64,55 @@ const BookingWidget = ({ pricePerNight }) => {
   };
 
   return (
-    <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl sticky top-24 shadow-2xl">
-      <div className="flex items-end gap-1 mb-6">
-        <IndianRupee className="w-5 h-5 text-emerald-400 mb-1" />
-        <span className="text-3xl font-bold text-white">{pricePerNight.toLocaleString('en-IN')}</span>
-        <span className="text-slate-500 mb-1">/night</span>
+    <div className="bg-deep-charcoal border border-glass-border p-8 rounded-sm sticky top-28 shadow-sm">
+      <div className="flex items-end gap-1 mb-8">
+        <IndianRupee className="w-5 h-5 text-warm-gold mb-1.5" />
+        <span className="text-4xl font-bold text-on-surface font-display">{pricePerNight.toLocaleString('en-IN')}</span>
+        <span className="text-on-surface-variant font-body mb-1.5 ml-1">/night</span>
       </div>
 
-      <div className="border border-white/10 rounded-2xl overflow-hidden mb-6 bg-slate-950">
-        <div className="flex flex-col sm:flex-row border-b border-white/10">
-          <div className="flex-1 p-3 border-b sm:border-b-0 sm:border-r border-white/10">
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Check-in</label>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-indigo-400" />
+      <div className="border border-glass-border rounded-sm overflow-hidden mb-8 bg-surface-container">
+        <div className="flex flex-col sm:flex-row border-b border-glass-border">
+          <div className="flex-1 p-4 border-b sm:border-b-0 sm:border-r border-glass-border">
+            <label htmlFor="booking-checkin" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-in</label>
+            <div className="flex items-center gap-3">
+              <Calendar className="w-4 h-4 text-warm-gold/80" />
               <input
+                id="booking-checkin"
                 type="date"
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
-                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+                className="bg-transparent border-none outline-none text-on-surface text-sm w-full font-body [color-scheme:dark]"
               />
             </div>
           </div>
-          <div className="flex-1 p-3">
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Check-out</label>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-indigo-400" />
+          <div className="flex-1 p-4">
+            <label htmlFor="booking-checkout" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-out</label>
+            <div className="flex items-center gap-3">
+              <Calendar className="w-4 h-4 text-warm-gold/80" />
               <input
+                id="booking-checkout"
                 type="date"
                 value={checkOut}
                 min={checkIn}
                 onChange={(e) => setCheckOut(e.target.value)}
-                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+                className="bg-transparent border-none outline-none text-on-surface text-sm w-full font-body [color-scheme:dark]"
               />
             </div>
           </div>
         </div>
-        <div className="p-3">
-          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Guests</label>
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-indigo-400" />
+        <div className="p-4">
+          <label htmlFor="booking-guests" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Guests</label>
+          <div className="flex items-center gap-3">
+            <Users className="w-4 h-4 text-warm-gold/80" />
             <input
+              id="booking-guests"
               type="number"
               min="1"
               max="10"
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
-              className="bg-transparent border-none outline-none text-white text-sm w-full"
+              className="bg-transparent border-none outline-none text-on-surface text-sm w-full font-body"
             />
           </div>
         </div>
@@ -118,27 +121,27 @@ const BookingWidget = ({ pricePerNight }) => {
       <button
         onClick={handleReserve}
         disabled={isBooking || isCheckingOut}
-        className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2"
+        className="w-full bg-warm-gold hover:bg-primary text-on-primary font-semibold py-4 rounded-sm transition-colors duration-300 transform active:scale-[0.99] disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2 uppercase tracking-wider text-sm font-body"
       >
         {isBooking || isCheckingOut ? 'Processing...' : 'Reserve'}
       </button>
 
       {nightsCount > 0 && (
-        <div className="mt-6 space-y-4">
-          <div className="flex justify-between text-slate-300">
-            <span className="underline decoration-slate-600 underline-offset-4 decoration-dashed">
+        <div className="mt-8 space-y-4 font-body text-[15px]">
+          <div className="flex justify-between text-on-surface-variant">
+            <span className="underline decoration-glass-border underline-offset-4 decoration-dashed">
               ₹{pricePerNight.toLocaleString('en-IN')} x {nightsCount} nights
             </span>
             <span>₹{totalBeforeTaxes.toLocaleString('en-IN')}</span>
           </div>
-          <div className="flex justify-between text-slate-300">
-            <span className="underline decoration-slate-600 underline-offset-4 decoration-dashed">
-              SpanStay service fee
+          <div className="flex justify-between text-on-surface-variant">
+            <span className="underline decoration-glass-border underline-offset-4 decoration-dashed">
+              SpanStay elite fee
             </span>
             <span>₹{serviceFee.toLocaleString('en-IN')}</span>
           </div>
-          <hr className="border-white/10" />
-          <div className="flex justify-between text-white font-bold text-lg">
+          <hr className="border-glass-border my-4" />
+          <div className="flex justify-between text-on-surface font-bold text-lg font-display tracking-wide">
             <span>Total</span>
             <div className="flex items-center">
               <IndianRupee className="w-4 h-4" />
@@ -148,10 +151,10 @@ const BookingWidget = ({ pricePerNight }) => {
         </div>
       )}
 
-      <div className="mt-6 flex items-start gap-2 p-3 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-        <AlertCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-        <p className="text-xs text-indigo-300 leading-relaxed">
-          You won't be charged yet. This is an early demo reservation system.
+      <div className="mt-8 flex items-start gap-3 p-4 bg-warm-gold/10 rounded-sm border border-warm-gold/20">
+        <AlertCircle className="w-4 h-4 text-warm-gold shrink-0 mt-0.5" />
+        <p className="text-xs text-on-surface font-body leading-relaxed">
+          You won't be charged yet. This is an early luxury demo reservation system.
         </p>
       </div>
     </div>

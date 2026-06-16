@@ -17,14 +17,14 @@ const FeaturedHotels = () => {
 
   return (
     <section className="py-20 px-4 max-w-7xl mx-auto">
-      <div className="flex justify-between items-end mb-10">
+      <div className="flex justify-between items-end mb-10 border-b border-glass-border pb-4">
         <div>
-          <h2 className="text-3xl font-bold text-white mb-2">Featured Stays</h2>
-          <p className="text-slate-400">Discover our most popular and newly added properties.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-on-surface mb-2 font-display">Featured Stays</h2>
+          <p className="text-on-surface-variant font-body text-sm md:text-base">Discover our most popular and newly added properties.</p>
         </div>
         <Link
           to="/hotels"
-          className="hidden sm:flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+          className="hidden sm:flex items-center gap-2 text-warm-gold hover:text-primary font-semibold transition-colors font-body uppercase tracking-wider text-xs"
         >
           View all <ArrowRight className="w-4 h-4" />
         </Link>
@@ -51,7 +51,7 @@ const FeaturedHotels = () => {
       <div className="mt-8 sm:hidden">
         <Link
           to="/hotels"
-          className="flex justify-center items-center gap-2 w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+          className="flex justify-center items-center gap-2 w-full py-4 rounded-sm border border-warm-gold text-warm-gold font-semibold uppercase tracking-wider text-xs hover:bg-warm-gold/10 transition-colors font-body"
         >
           View all properties
         </Link>

@@ -1180,4 +1180,16 @@ SpanStay uses a modern, skeleton-based loading system to ensure smooth transitio
 
 ---
 
+## 20. Recent Features and Optimizations
+
+A series of targeted enhancements and fixes were recently introduced to improve user experience, accessibility, and performance:
+
+- **Role-Based Access Control Refinements:** `Admin` and `Hotel Admin` roles have been explicitly restricted from interacting with `BookingWidget` components and the "My Bookings" section to prevent logical conflicts with actual user workflows.
+- **Global Scroll Restoration:** Integrated a robust `ScrollToTop` mechanism ensuring that all inter-page navigation immediately begins rendering from the top of the viewport.
+- **Support Tickets UI Activation:** Transformed the User Profile's Support Tickets section from a "Coming soon" placeholder into a fully functional view of the user's active tickets.
+- **Lighthouse Accessibility (A11y) Overhaul:** Validated and bound all form `<label>` tags with matching `htmlFor`/`id` pairs, and injected explicit `aria-label` text into all icon-only buttons (mobile menus, password toggles) to ensure seamless screen reader compatibility.
+- **Lighthouse Performance Upgrades:** Drastically improved Largest Contentful Paint (LCP) and network payloads by adding `fetchpriority="high"` to main hero elements, enforcing `loading="lazy"` on all below-the-fold media, and dynamically requesting lower-resolution, heavily compressed images from the Cloudinary/Unsplash CDNs.
+
+---
+
 *Documentation generated for SpanStay v1.0.0 — Last updated: June 2026*

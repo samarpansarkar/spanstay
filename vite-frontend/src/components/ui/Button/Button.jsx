@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 
 const variants = {
-  primary: 'bg-primary text-white hover:bg-indigo-700',
+  primary: 'bg-primary text-on-surface hover:bg-indigo-700',
 
   secondary: 'border border-slate-200 bg-white hover:bg-slate-100',
 

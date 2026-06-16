@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import Hero from '@/components/home/Hero';
 import SearchWidget from '@/components/home/SearchWidget';
 import FeaturedHotels from '@/components/home/FeaturedHotels';

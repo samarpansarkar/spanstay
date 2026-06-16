@@ -6,10 +6,8 @@ import {
   Search,
   SlidersHorizontal,
   X,
-  ChevronDown, 
-  ChevronUp
 } from 'lucide-react';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HotelCard, HotelCardSkeleton } from '@/components/hotels/HotelCard';
 import SEO from '@/components/shared/SEO';
@@ -60,43 +58,40 @@ const HotelsPage = () => {
   const hasFilters = search || location || minPrice || maxPrice;
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">Explore Hotels</h1>
-          <p className="text-slate-400 mt-1">
-            {pagination ? `${pagination.total} properties found` : 'Find your perfect stay'}
+    <div className="min-h-screen bg-midnight-navy">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <SEO title="Explore Stays" description="Discover our curated list of exclusive luxury villas and heritage properties." />
+        
+        <div className="mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-on-surface font-display tracking-tight">Explore Stays</h1>
+          <p className="text-on-surface-variant font-body mt-2 text-lg">
+            {pagination ? `${pagination.total} properties found` : 'Find your perfect luxury experience'}
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gold/70" />
             <input
               aria-label="Search hotels or locations"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              placeholder="Search hotels, locations…"
-              className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+              placeholder="Search properties, locations…"
+              className="w-full bg-deep-charcoal border border-glass-border rounded-md pl-11 pr-4 py-3 text-on-surface placeholder-on-surface-variant/50 text-sm focus:outline-none focus:border-warm-gold/50 transition-all font-body"
             />
           </div>
 
           <button
             onClick={() => setFiltersOpen((v) => !v)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${filtersOpen || hasFilters
-                ? 'border-indigo-500 bg-indigo-500/10 text-indigo-300'
-                : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
+            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-md border text-sm font-semibold uppercase tracking-wider transition-all font-body ${filtersOpen || hasFilters
+                ? 'border-warm-gold bg-warm-gold/10 text-warm-gold'
+                : 'border-glass-border bg-deep-charcoal text-on-surface hover:bg-surface-container'
               }`}
           >
             <SlidersHorizontal className="w-4 h-4" />
             Filters
             {hasFilters && (
-              <span className="w-5 h-5 rounded-full bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center">
+              <span className="w-5 h-5 rounded-full bg-warm-gold text-on-primary text-[10px] font-bold flex items-center justify-center ml-1">
                 {[search, location, minPrice, maxPrice].filter(Boolean).length}
               </span>
             )}
@@ -106,10 +101,10 @@ const HotelsPage = () => {
             aria-label="Sort options"
             value={sortIdx}
             onChange={(e) => setSortIdx(Number(e.target.value))}
-            className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-slate-300 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+            className="bg-deep-charcoal border border-glass-border rounded-md px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-warm-gold/50 transition-all font-body min-w-[200px]"
           >
             {SORT_OPTIONS.map((opt, i) => (
-              <option key={i} value={i} className="bg-slate-800">
+              <option key={i} value={i} className="bg-surface-container">
                 {opt.label}
               </option>
             ))}
@@ -120,49 +115,49 @@ const HotelsPage = () => {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3"
+            className="bg-deep-charcoal border border-glass-border rounded-md p-6 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 shadow-sm"
           >
             <div>
-              <label htmlFor="location-filter" className="text-xs text-slate-400 mb-1.5 block">Location</label>
+              <label htmlFor="location-filter" className="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-2 block font-body">Location</label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gold/70" />
                 <input
                   id="location-filter"
                   value={location}
                   onChange={(e) => { setLocation(e.target.value); setPage(1); }}
-                  placeholder="e.g. Mumbai"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                  placeholder="e.g. Goa"
+                  className="w-full bg-surface-container-lowest border border-glass-border rounded-sm pl-9 pr-3 py-2.5 text-on-surface placeholder-on-surface-variant/50 text-sm focus:outline-none focus:border-warm-gold/50 transition-all font-body"
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="min-price-filter" className="text-xs text-slate-400 mb-1.5 block">Min Price (₹/night)</label>
+              <label htmlFor="min-price-filter" className="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-2 block font-body">Min Price (₹/night)</label>
               <input
                 id="min-price-filter"
                 type="number"
                 value={minPrice}
                 onChange={(e) => { setMinPrice(e.target.value); setPage(1); }}
                 placeholder="0"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                className="w-full bg-surface-container-lowest border border-glass-border rounded-sm px-4 py-2.5 text-on-surface placeholder-on-surface-variant/50 text-sm focus:outline-none focus:border-warm-gold/50 transition-all font-body"
               />
             </div>
             <div>
-              <label htmlFor="max-price-filter" className="text-xs text-slate-400 mb-1.5 block">Max Price (₹/night)</label>
+              <label htmlFor="max-price-filter" className="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-2 block font-body">Max Price (₹/night)</label>
               <input
                 id="max-price-filter"
                 type="number"
                 value={maxPrice}
                 onChange={(e) => { setMaxPrice(e.target.value); setPage(1); }}
                 placeholder="100000"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                className="w-full bg-surface-container-lowest border border-glass-border rounded-sm px-4 py-2.5 text-on-surface placeholder-on-surface-variant/50 text-sm focus:outline-none focus:border-warm-gold/50 transition-all font-body"
               />
             </div>
             {hasFilters && (
               <button
                 onClick={clearFilters}
-                className="sm:col-span-3 flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors w-fit"
+                className="sm:col-span-3 flex items-center gap-1.5 text-sm text-warm-gold/80 hover:text-warm-gold transition-colors w-fit font-body font-semibold uppercase tracking-wider mt-2"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
                 Clear all filters
               </button>
             )}
@@ -170,18 +165,18 @@ const HotelsPage = () => {
         )}
 
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => <HotelCardSkeleton key={i} />)}
           </div>
         ) : hotels.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 gap-3">
-            <Search className="w-10 h-10 text-slate-600" />
-            <p className="text-slate-400 font-medium">No hotels found</p>
-            <p className="text-slate-600 text-sm">Try adjusting your filters</p>
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <Search className="w-12 h-12 text-on-surface-variant/50" />
+            <p className="text-on-surface font-display text-2xl tracking-wide">No properties found</p>
+            <p className="text-on-surface-variant text-sm font-body">Try adjusting your curated filters</p>
             {hasFilters && (
               <button
                 onClick={clearFilters}
-                className="mt-2 text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="mt-4 text-sm text-warm-gold border border-warm-gold hover:bg-warm-gold/10 px-6 py-2 rounded-sm transition-colors uppercase tracking-wider font-semibold font-body"
               >
                 Clear filters
               </button>
@@ -192,7 +187,7 @@ const HotelsPage = () => {
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 ${isFetching ? 'opacity-60 pointer-events-none' : ''} transition-opacity`}
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${isFetching ? 'opacity-60 pointer-events-none' : ''} transition-opacity`}
           >
             {hotels.map((hotel) => (
               <HotelCard key={hotel._id} hotel={hotel} />
@@ -201,21 +196,21 @@ const HotelsPage = () => {
         )}
 
         {pagination && pagination.totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-10">
+          <div className="flex items-center justify-center gap-3 mt-14">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 disabled:opacity-40 disabled:pointer-events-none transition-all"
+              className="px-6 py-2.5 rounded-sm border border-glass-border bg-deep-charcoal text-on-surface text-sm font-semibold uppercase tracking-wider hover:bg-surface-container hover:border-warm-gold/50 disabled:opacity-40 disabled:pointer-events-none transition-all font-body"
             >
               Previous
             </button>
-            <span className="text-slate-500 text-sm px-2">
+            <span className="text-on-surface-variant text-sm px-4 font-body">
               Page {pagination.page} of {pagination.totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page === pagination.totalPages}
-              className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-slate-300 text-sm hover:bg-white/10 disabled:opacity-40 disabled:pointer-events-none transition-all"
+              className="px-6 py-2.5 rounded-sm border border-glass-border bg-deep-charcoal text-on-surface text-sm font-semibold uppercase tracking-wider hover:bg-surface-container hover:border-warm-gold/50 disabled:opacity-40 disabled:pointer-events-none transition-all font-body"
             >
               Next
             </button>

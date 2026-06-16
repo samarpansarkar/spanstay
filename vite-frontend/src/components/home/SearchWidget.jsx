@@ -21,72 +21,77 @@ const SearchWidget = () => {
   };
 
   return (
-    <div className="relative z-20 max-w-4xl mx-auto px-4 -mt-16 sm:-mt-24">
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 p-2 sm:p-4 rounded-3xl shadow-2xl">
+    <div className="relative z-20 max-w-5xl mx-auto px-4 -mt-24 sm:-mt-28">
+      <div className="bg-surface-container/40 backdrop-blur-xl border border-glass-border p-2 sm:p-4 rounded-lg shadow-2xl">
         <form
           onSubmit={handleSearch}
-          className="flex flex-col md:flex-row items-center gap-2 bg-slate-900 rounded-2xl p-2"
+          className="flex flex-col md:flex-row items-center gap-2 bg-deep-charcoal rounded-md p-2"
         >
-          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors cursor-text">
-            <MapPin className="w-5 h-5 text-indigo-400" />
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-text">
+            <MapPin className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Location</label>
+              <label htmlFor="search-location" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Location</label>
               <input
+                id="search-location"
                 type="text"
                 placeholder="Where are you going?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="bg-transparent border-none outline-none text-white placeholder-slate-600 text-sm w-full"
+                className="bg-transparent border-none outline-none text-on-surface placeholder-on-surface-variant/50 text-sm w-full font-body"
               />
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-white/10"></div>
-          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors cursor-pointer">
-            <Calendar className="w-5 h-5 text-indigo-400" />
+          <div className="hidden md:block w-px h-10 bg-glass-border"></div>
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
+            <Calendar className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Check in</label>
+              <label htmlFor="search-checkin" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check in</label>
               <input
+                id="search-checkin"
                 type="date"
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
-                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+                className="bg-transparent border-none outline-none text-on-surface text-sm w-full [color-scheme:dark] font-body"
               />
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-white/10"></div>
-          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors cursor-pointer">
-            <Calendar className="w-5 h-5 text-indigo-400" />
+          <div className="hidden md:block w-px h-10 bg-glass-border"></div>
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
+            <Calendar className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Check out</label>
+              <label htmlFor="search-checkout" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check out</label>
               <input
+                id="search-checkout"
                 type="date"
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
-                className="bg-transparent border-none outline-none text-white text-sm w-full [color-scheme:dark]"
+                className="bg-transparent border-none outline-none text-on-surface text-sm w-full [color-scheme:dark] font-body"
               />
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-10 bg-white/10"></div>
-          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl transition-colors cursor-pointer">
-            <Users className="w-5 h-5 text-indigo-400" />
+          <div className="hidden md:block w-px h-10 bg-glass-border"></div>
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
+            <Users className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guests</label>
+              <label htmlFor="search-guests" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Guests</label>
               <input
+                id="search-guests"
                 type="number"
                 min="1"
                 placeholder="Add guests"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
-                className="bg-transparent border-none outline-none text-white placeholder-slate-600 text-sm w-full"
+                className="bg-transparent border-none outline-none text-on-surface placeholder-on-surface-variant/50 text-sm w-full font-body"
               />
             </div>
           </div>
           <button
             type="submit"
-            className="w-full md:w-auto mt-2 md:mt-0 bg-indigo-600 hover:bg-indigo-500 text-white p-4 md:px-8 rounded-xl flex items-center justify-center gap-2 font-semibold transition-colors"
+            aria-label="Search Hotels"
+            className="w-full md:w-auto mt-2 md:mt-0 bg-warm-gold hover:bg-primary text-on-primary py-4 px-8 rounded-sm flex items-center justify-center gap-2 font-semibold transition-colors font-body"
           >
             <Search className="w-5 h-5" />
             <span className="md:hidden">Search</span>

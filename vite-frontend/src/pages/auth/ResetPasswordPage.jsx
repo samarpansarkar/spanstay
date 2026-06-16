@@ -44,10 +44,10 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-surface-container-lowest flex items-center justify-center p-4">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-warm-gold/10 rounded-full blur-3xl" />
       </div>
 
       <motion.div
@@ -56,29 +56,29 @@ const ResetPasswordPage = () => {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="relative w-full max-w-md"
       >
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+        <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border rounded-sm p-8 shadow-2xl">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 border border-indigo-500/30 rounded-2xl mb-4">
-              <CheckCircle2 className="w-8 h-8 text-indigo-400" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 border border-warm-gold/30 rounded-sm mb-4">
+              <CheckCircle2 className="w-8 h-8 text-warm-gold" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Reset Password</h1>
-            <p className="text-slate-400 mt-1 text-sm">Please choose your new password</p>
+            <h1 className="text-2xl font-bold text-on-surface">Reset Password</h1>
+            <p className="text-on-surface-variant mt-1 text-sm">Please choose your new password</p>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300">New Password</label>
+              <label className="text-sm font-medium text-on-surface-variant">New Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-11 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200"
+                  className="w-full bg-surface-container/40 backdrop-blur-3xl border border-glass-border rounded-sm pl-10 pr-11 py-3 text-on-surface placeholder-slate-500 text-sm focus:outline-none focus:border-warm-gold focus:ring-1 focus:ring-warm-gold transition-all duration-200"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface-variant transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -94,7 +94,7 @@ const ResetPasswordPage = () => {
               whileTap={{ scale: 0.97 }}
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.15 }}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 disabled:pointer-events-none text-white font-semibold py-3 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2"
+              className="w-full bg-primary text-on-primary hover:brightness-110 disabled:opacity-60 disabled:pointer-events-none font-semibold py-3 rounded-sm transition-colors duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

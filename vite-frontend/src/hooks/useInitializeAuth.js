@@ -33,7 +33,8 @@ const useInitializeAuth = () => {
             accessToken,
           })
         );
-      } catch {
+      } catch (error) {
+        console.error('Auth initialization failed:', error);
       } finally {
         setIsInitializing(false);
       }
