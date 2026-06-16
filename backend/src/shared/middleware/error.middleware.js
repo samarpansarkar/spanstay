@@ -12,6 +12,16 @@ const errorHandler = (err, req, res, next) => {
       .join(', ');
   }
 
+  if (err.name === 'ZodError') {
+    statusCode = 400;
+    try {
+      const parsedErrors = JSON.parse(err.message);
+      message = parsedErrors.map(e => e.message).join(', ');
+    } catch(e) {
+      message = err.message;
+    }
+  }
+
   if (err.code === 11000) {
     statusCode = 400;
 

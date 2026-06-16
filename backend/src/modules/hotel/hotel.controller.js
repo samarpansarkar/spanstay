@@ -21,7 +21,7 @@ export const getMyApprovalsController = asyncHandler(async (req, res) => {
 });
 
 export const registerHotelController = asyncHandler(async (req, res) => {
-  const imageUrls = req.files.map((file) => ({
+  const imageUrls = (req.files || []).map((file) => ({
     url: file.path,
     publicId: file.filename,
   }));

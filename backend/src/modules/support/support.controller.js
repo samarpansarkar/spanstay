@@ -44,6 +44,8 @@ export const getAllTicketsController = asyncHandler(async (req, res) => {
 
 export const resolveTicketController = asyncHandler(async (req, res) => {
   const { adminResponse } = req.body;
+  if (!adminResponse) throw new AppError('Admin response is required', 400);
+
   const ticket = await SupportTicket.findById(req.params.id);
 
   if (!ticket) throw new AppError('Support ticket not found', 404);

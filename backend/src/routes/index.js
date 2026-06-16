@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
+import path from 'path';
 import authRouter from '../modules/auth/auth.routes.js';
 import bookingRouter from '../modules/booking/booking.routes.js';
 import hotelRouter from '../modules/hotel/hotel.routes.js';
