@@ -15,7 +15,8 @@ import {
 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '@/redux/features/authSlice';
+import { clearCredential } from '@/redux/features/auth/authSlice';
+import { useLogoutMutation } from '@/redux/api/authApi';
 import { toast } from 'sonner';
 
 export const USER_LINKS = [
@@ -61,10 +62,17 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
     subtitle = 'Managing luxury properties';
   }
 
-  const handleLogout = () => {
-    dispatch(logout());
-    toast.success('Logged out successfully');
-    navigate('/');
+  const [logoutApi] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+      dispatch(clearCredential());
+      toast.success('Logged out successfully');
+      navigate('/');
+    } catch (error) {
+      toast.error('Failed to logout');
+    }
   };
 
   return (
