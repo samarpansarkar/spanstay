@@ -74,18 +74,18 @@ export const BookingReviewSection = ({ booking }) => {
   };
 
   if (isReviewLoading) {
-    return <div className="mt-4 pt-4 border-t border-white/10 text-slate-400 text-sm">Loading review data...</div>;
+    return <div className="mt-6 pt-6 border-t border-glass-border text-on-surface-variant text-sm font-body">Loading review data...</div>;
   }
 
   if (review && !isEditing) {
     return (
-      <div className="mt-4 pt-4 border-t border-white/10">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-semibold text-white">Your Review</h4>
+      <div className="mt-6 pt-6 border-t border-glass-border">
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-on-surface font-body">Your Review</h4>
           <div className="flex gap-2">
             <button
               onClick={handleEditClick}
-              className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-colors"
+              className="p-2 text-on-surface-variant hover:text-warm-gold hover:bg-surface-container rounded-sm transition-colors"
               title="Edit Review"
             >
               <Edit2 className="w-4 h-4" />
@@ -93,48 +93,48 @@ export const BookingReviewSection = ({ booking }) => {
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-md transition-colors"
+              className="p-2 text-on-surface-variant hover:text-red-400 hover:bg-red-400/10 rounded-sm transition-colors"
               title="Delete Review"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
         </div>
-        <div className="bg-slate-900/50 rounded-xl p-4">
-          <div className="flex gap-1 mb-2">
+        <div className="bg-surface-container rounded-sm p-5 border border-glass-border shadow-sm">
+          <div className="flex gap-1 mb-3">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
-                className={`w-4 h-4 ${star <= review.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-700'}`}
+                className={`w-4 h-4 ${star <= review.rating ? 'fill-warm-gold text-warm-gold' : 'text-surface-container-high'}`}
               />
             ))}
           </div>
-          <p className="text-slate-300 text-sm">{review.comment}</p>
+          <p className="text-on-surface-variant text-sm font-body leading-relaxed">{review.comment}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mt-4 pt-4 border-t border-white/10">
-      <div className="flex items-center justify-between mb-4">
-        <h4 className="text-sm font-semibold text-white">
+    <div className="mt-6 pt-6 border-t border-glass-border">
+      <div className="flex items-center justify-between mb-5">
+        <h4 className="text-sm font-semibold text-on-surface font-body uppercase tracking-wider">
           {review ? 'Edit Review' : 'Leave a Review'}
         </h4>
         {review && isEditing && (
           <button
             onClick={handleCancelEdit}
-            className="p-1 text-slate-400 hover:text-slate-200 transition-colors"
+            className="p-1 text-on-surface-variant hover:text-on-surface transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-900/50 rounded-xl p-4">
-        <div className="mb-4">
-          <label className="block text-xs text-slate-400 mb-2">Rating</label>
-          <div className="flex gap-1">
+      <form onSubmit={handleSubmit} className="bg-surface-container rounded-sm p-5 border border-glass-border shadow-sm">
+        <div className="mb-5">
+          <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 font-body">Rating</label>
+          <div className="flex gap-1.5">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
@@ -146,28 +146,28 @@ export const BookingReviewSection = ({ booking }) => {
               >
                 <Star
                   className={`w-6 h-6 transition-colors ${star <= (hoverRating || rating)
-                    ? 'fill-amber-400 text-amber-400'
-                    : 'text-slate-700 hover:text-amber-400/50'
+                    ? 'fill-warm-gold text-warm-gold'
+                    : 'text-surface-container-high hover:text-warm-gold/50'
                     }`}
                 />
               </button>
             ))}
           </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-xs text-slate-400 mb-2">Comment</label>
+        <div className="mb-5">
+          <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 font-body">Comment</label>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             rows="3"
-            className="w-full bg-slate-950 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder-slate-600 resize-none"
+            className="w-full bg-deep-charcoal border border-glass-border rounded-sm p-4 text-sm text-on-surface focus:outline-none focus:border-warm-gold/50 placeholder-on-surface-variant/50 resize-none font-body"
             placeholder="Share details of your experience..."
           />
         </div>
         <button
           type="submit"
           disabled={isCreating || isUpdating}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-2 px-6 rounded-lg transition-all disabled:opacity-50"
+          className="bg-warm-gold hover:bg-primary text-on-primary text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-sm transition-colors disabled:opacity-50 font-body"
         >
           {isCreating || isUpdating ? 'Saving...' : review ? 'Update Review' : 'Post Review'}
         </button>
