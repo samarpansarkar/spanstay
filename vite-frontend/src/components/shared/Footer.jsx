@@ -28,9 +28,9 @@ const Footer = () => {
           <div>
             <h4 className="text-on-surface font-display text-lg mb-5">Company</h4>
             <ul className="space-y-3">
-              <li><Link to="#" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">About Us</Link></li>
-              <li><Link to="#" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">Careers</Link></li>
-              <li><Link to="#" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">Concierge</Link></li>
+              <li><Link to="/about" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">About Us</Link></li>
+              <li><Link to="/careers" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">Careers</Link></li>
+              <li><Link to="/concierge" className="text-on-surface-variant hover:text-warm-gold transition-colors text-sm font-body">Concierge</Link></li>
             </ul>
           </div>
 

@@ -11,6 +11,7 @@ import {
   Menu,
   User,
   X,
+  Headphones,
 } from 'lucide-react';
 import { NotificationBell } from '../notifications/NotificationBell';
 import { useEffect, useRef, useState } from 'react';
@@ -21,6 +22,7 @@ import { toast } from 'sonner';
 const NAV_ITEMS = [
   { label: 'Properties', path: '/hotels', icon: Hotel },
   { label: 'My Reservations', path: '/my-bookings', icon: CalendarDays },
+  { label: 'Concierge', path: '/concierge', icon: Headphones },
 ];
 
 const ADMIN_ITEMS = [

@@ -18,15 +18,21 @@ const PaymentSuccessPage = lazy(() => import('./pages/checkout/PaymentSuccessPag
 const PaymentCancelPage = lazy(() => import('./pages/checkout/PaymentCancelPage'));
 const MyBookingsPage = lazy(() => import('./pages/bookings/MyBookingsPage'));
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AboutPage = lazy(() => import('./pages/company/AboutPage'));
+const CareersPage = lazy(() => import('./pages/company/CareersPage'));
+const ConciergePage = lazy(() => import('./pages/company/ConciergePage'));
 
 const App = () => {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center"><Loader /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-surface-container-lowest flex items-center justify-center"><Loader /></div>}>
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/hotels" element={<HotelsPage />} />
           <Route path="/hotels/:id" element={<HotelDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/concierge" element={<ConciergePage />} />
           <Route
             path="/profile"
             element={
