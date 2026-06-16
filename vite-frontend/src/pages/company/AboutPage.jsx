@@ -11,6 +11,7 @@ const AboutPage = () => {
           <div className="absolute inset-0 z-0">
             <img
               alt="Luxury Villa Sunset"
+              fetchpriority="high"
               className="w-full h-full object-cover"
               src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=2000&auto=format&fit=crop"
             />
@@ -70,8 +71,9 @@ const AboutPage = () => {
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
                   <img
                     alt="Julian Vance"
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=60&w=400&auto=format&fit=crop"
                   />
                 </div>
                 <h4 className="font-display text-2xl text-warm-gold mb-1">Julian Vance</h4>
@@ -83,8 +85,9 @@ const AboutPage = () => {
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
                   <img
                     alt="Elena Moretti"
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop"
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=60&w=400&auto=format&fit=crop"
                   />
                 </div>
                 <h4 className="font-display text-2xl text-warm-gold mb-1">Elena Moretti</h4>
@@ -96,8 +99,9 @@ const AboutPage = () => {
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
                   <img
                     alt="Marcus Thorne"
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=60&w=400&auto=format&fit=crop"
                   />
                 </div>
                 <h4 className="font-display text-2xl text-warm-gold mb-1">Marcus Thorne</h4>

@@ -30,8 +30,9 @@ const SearchWidget = () => {
           <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-text">
             <MapPin className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Location</label>
+              <label htmlFor="search-location" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Location</label>
               <input
+                id="search-location"
                 type="text"
                 placeholder="Where are you going?"
                 value={location}
@@ -45,8 +46,9 @@ const SearchWidget = () => {
           <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
             <Calendar className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check in</label>
+              <label htmlFor="search-checkin" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check in</label>
               <input
+                id="search-checkin"
                 type="date"
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
@@ -59,8 +61,9 @@ const SearchWidget = () => {
           <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
             <Calendar className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check out</label>
+              <label htmlFor="search-checkout" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Check out</label>
               <input
+                id="search-checkout"
                 type="date"
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
@@ -73,8 +76,9 @@ const SearchWidget = () => {
           <div className="flex-1 w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container-high/50 rounded-sm transition-colors cursor-pointer">
             <Users className="w-5 h-5 text-warm-gold" />
             <div className="flex flex-col w-full">
-              <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Guests</label>
+              <label htmlFor="search-guests" className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-body">Guests</label>
               <input
+                id="search-guests"
                 type="number"
                 min="1"
                 placeholder="Add guests"
@@ -86,6 +90,7 @@ const SearchWidget = () => {
           </div>
           <button
             type="submit"
+            aria-label="Search Hotels"
             className="w-full md:w-auto mt-2 md:mt-0 bg-warm-gold hover:bg-primary text-on-primary py-4 px-8 rounded-sm flex items-center justify-center gap-2 font-semibold transition-colors font-body"
           >
             <Search className="w-5 h-5" />

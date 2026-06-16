@@ -87,8 +87,9 @@ const MyBookingsPage = () => {
                 <div className="w-full md:w-64 h-52 rounded-sm overflow-hidden shrink-0 bg-deep-charcoal border border-glass-border">
                   {booking.hotel?.images?.[0]?.url ? (
                     <img
-                      src={booking.hotel.images[0].url}
+                      src={booking.hotel.images[0].url.replace('w=2000', 'w=600').replace('q=80', 'q=60')}
                       alt={booking.hotel.title}
+                      loading="lazy"
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   ) : (

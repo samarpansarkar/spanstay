@@ -17,6 +17,7 @@ const CareersPage = () => {
             <img
               className="w-full h-full object-cover"
               alt="Grand luxury hotel lobby"
+              fetchpriority="high"
               src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000&auto=format&fit=crop"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent"></div>
@@ -73,7 +74,8 @@ const CareersPage = () => {
                 <img
                   className="w-full h-full object-cover"
                   alt="Luxury office desk"
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
+                  loading="lazy"
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=60&w=800&auto=format&fit=crop"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
                 <div className="absolute bottom-0 p-8 w-full bg-gradient-to-t from-surface-container-lowest">

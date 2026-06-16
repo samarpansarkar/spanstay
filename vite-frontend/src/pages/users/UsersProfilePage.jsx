@@ -50,8 +50,9 @@ const UsersProfilePage = () => {
               <div className="absolute inset-0 z-0">
                 <img
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
                   alt={upcomingBooking.hotel?.title}
-                  src={upcomingBooking.hotel?.images?.[0]?.url || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80"}
+                  src={upcomingBooking.hotel?.images?.[0]?.url.replace('w=1600', 'w=800').replace('q=80', 'q=60') || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=60"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
               </div>

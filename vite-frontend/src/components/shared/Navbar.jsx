@@ -188,6 +188,7 @@ const Navbar = () => {
               )}
 
               <button
+                aria-label="Toggle navigation menu"
                 onClick={() => setMobileOpen((v) => !v)}
                 className="md:hidden p-2 text-on-surface-variant hover:text-on-surface transition-colors"
               >
@@ -219,7 +220,7 @@ const Navbar = () => {
                 <span className="text-2xl font-bold text-on-surface font-display">
                   Span<span className="text-warm-gold">Stay</span>
                 </span>
-                <button onClick={() => setMobileOpen(false)} className="text-on-surface-variant hover:text-on-surface">
+                <button aria-label="Close navigation menu" onClick={() => setMobileOpen(false)} className="text-on-surface-variant hover:text-on-surface">
                   <X className="w-5 h-5" />
                 </button>
               </div>

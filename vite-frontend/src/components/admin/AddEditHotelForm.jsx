@@ -100,8 +100,9 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-on-surface-variant">Title</label>
+            <label htmlFor="hotel-title" className="text-sm font-medium text-on-surface-variant">Title</label>
             <input
+              id="hotel-title"
               type="text"
               name="title"
               value={formData.title}
@@ -112,8 +113,9 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-on-surface-variant">Location</label>
+            <label htmlFor="hotel-location" className="text-sm font-medium text-on-surface-variant">Location</label>
             <input
+              id="hotel-location"
               type="text"
               name="location"
               value={formData.location}
@@ -126,8 +128,9 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-on-surface-variant">Description</label>
+          <label htmlFor="hotel-description" className="text-sm font-medium text-on-surface-variant">Description</label>
           <textarea
+            id="hotel-description"
             name="description"
             value={formData.description}
             onChange={handleChange}
@@ -140,8 +143,9 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-on-surface-variant">Price per night (INR)</label>
+            <label htmlFor="hotel-price" className="text-sm font-medium text-on-surface-variant">Price per night (INR)</label>
             <input
+              id="hotel-price"
               type="number"
               name="price"
               value={formData.price}
@@ -153,8 +157,9 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-on-surface-variant">Amenities (comma-separated)</label>
+            <label htmlFor="hotel-amenities" className="text-sm font-medium text-on-surface-variant">Amenities (comma-separated)</label>
             <input
+              id="hotel-amenities"
               type="text"
               name="amenities"
               value={formData.amenities}
@@ -167,9 +172,10 @@ const AddEditHotelForm = ({ hotel, onClose }) => {
 
         {!isEditing && (
           <div className="space-y-2">
-            <label className="text-sm font-medium text-on-surface-variant">Images</label>
+            <label htmlFor="hotel-images" className="text-sm font-medium text-on-surface-variant">Images</label>
             <div className="relative border-2 border-dashed border-glass-border rounded-xl p-8 hover:border-indigo-500/50 transition-colors bg-deep-charcoal/50">
               <input
+                id="hotel-images"
                 type="file"
                 multiple
                 accept="image/*"

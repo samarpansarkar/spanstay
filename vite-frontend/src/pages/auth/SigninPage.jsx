@@ -66,10 +66,11 @@ const SigninPage = () => {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface-variant">Email</label>
+              <label htmlFor="signin-email" className="text-sm font-medium text-on-surface-variant">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="signin-email"
                   {...register('email')}
                   type="email"
                   placeholder="you@example.com"
@@ -83,7 +84,7 @@ const SigninPage = () => {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-on-surface-variant">Password</label>
+                <label htmlFor="signin-password" className="text-sm font-medium text-on-surface-variant">Password</label>
                 <Link
                   to="/forgot-password"
                   className="text-xs font-medium text-warm-gold hover:text-warm-gold/60 transition-colors"
@@ -94,6 +95,7 @@ const SigninPage = () => {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="signin-password"
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
@@ -101,6 +103,7 @@ const SigninPage = () => {
                 />
                 <button
                   type="button"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface-variant transition-colors"
                 >

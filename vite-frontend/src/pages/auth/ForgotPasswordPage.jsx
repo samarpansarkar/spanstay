@@ -53,10 +53,11 @@ const ForgotPasswordPage = () => {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface-variant">Email</label>
+              <label htmlFor="forgot-email" className="text-sm font-medium text-on-surface-variant">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="forgot-email"
                   {...register('email')}
                   type="email"
                   placeholder="you@example.com"

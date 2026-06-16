@@ -14,7 +14,7 @@ export const HotelCard = memo(({ hotel }) => (
       <div className="relative h-56 overflow-hidden bg-deep-charcoal">
         {hotel.images?.[0]?.url ? (
           <img
-            src={hotel.images[0].url}
+            src={hotel.images[0].url.replace('w=2000', 'w=600').replace('q=80', 'q=60')}
             alt={hotel.title}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

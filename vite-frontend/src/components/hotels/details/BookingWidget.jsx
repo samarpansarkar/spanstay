@@ -74,10 +74,11 @@ const BookingWidget = ({ pricePerNight }) => {
       <div className="border border-glass-border rounded-sm overflow-hidden mb-8 bg-surface-container">
         <div className="flex flex-col sm:flex-row border-b border-glass-border">
           <div className="flex-1 p-4 border-b sm:border-b-0 sm:border-r border-glass-border">
-            <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-in</label>
+            <label htmlFor="booking-checkin" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-in</label>
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-warm-gold/80" />
               <input
+                id="booking-checkin"
                 type="date"
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
@@ -86,10 +87,11 @@ const BookingWidget = ({ pricePerNight }) => {
             </div>
           </div>
           <div className="flex-1 p-4">
-            <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-out</label>
+            <label htmlFor="booking-checkout" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Check-out</label>
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-warm-gold/80" />
               <input
+                id="booking-checkout"
                 type="date"
                 value={checkOut}
                 min={checkIn}
@@ -100,10 +102,11 @@ const BookingWidget = ({ pricePerNight }) => {
           </div>
         </div>
         <div className="p-4">
-          <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Guests</label>
+          <label htmlFor="booking-guests" className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 font-body">Guests</label>
           <div className="flex items-center gap-3">
             <Users className="w-4 h-4 text-warm-gold/80" />
             <input
+              id="booking-guests"
               type="number"
               min="1"
               max="10"

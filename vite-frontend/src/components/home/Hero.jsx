@@ -9,6 +9,7 @@ const Hero = () => {
         <img
           src={heroBg}
           alt="Luxury Villa"
+          fetchpriority="high"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-surface-dim/70 via-surface-dim/40 to-surface-dim"></div>

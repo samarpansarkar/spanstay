@@ -60,10 +60,11 @@ const SignupPage = () => {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface-variant">Full Name</label>
+              <label htmlFor="signup-name" className="text-sm font-medium text-on-surface-variant">Full Name</label>
               <div className="relative">
                 <UserRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="signup-name"
                   {...register('name')}
                   type="text"
                   placeholder="Samarpan Sarkar"
@@ -76,10 +77,11 @@ const SignupPage = () => {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface-variant">Email</label>
+              <label htmlFor="signup-email" className="text-sm font-medium text-on-surface-variant">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="signup-email"
                   {...register('email')}
                   type="email"
                   placeholder="you@example.com"
@@ -91,10 +93,11 @@ const SignupPage = () => {
               )}
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface-variant">Password</label>
+              <label htmlFor="signup-password" className="text-sm font-medium text-on-surface-variant">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
                 <input
+                  id="signup-password"
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
@@ -102,6 +105,7 @@ const SignupPage = () => {
                 />
                 <button
                   type="button"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface-variant transition-colors"
                 >

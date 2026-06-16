@@ -18,6 +18,7 @@ const ConciergePage = () => {
           <div className="absolute inset-0 z-0">
             <img
               alt="Luxury Private Jet"
+              fetchpriority="high"
               className="w-full h-full object-cover"
               src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop"
             />
@@ -85,8 +86,9 @@ const ConciergePage = () => {
               <div className="w-32 h-32 rounded-full border-2 border-warm-gold p-1 mb-8">
                 <img
                   alt="Julian Vance"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-full"
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=60&w=400&auto=format&fit=crop"
                 />
               </div>
               <h5 className="font-display text-3xl text-on-surface mb-2">Julian Vance</h5>
