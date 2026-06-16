@@ -18,19 +18,19 @@ const features = [
   },
   {
     icon: Headphones,
-    title: '24/7 Support',
-    description: 'Our customer support team is always here to help you with your journey.'
+    title: 'Exclusive Concierge',
+    description: 'Our personalized support team is always here to help you with your journey.'
   }
 ];
 
 const WhyChooseUs = () => {
   return (
-    <section className="py-20 border-t border-white/5 bg-slate-900/30">
+    <section className="py-24 border-t border-glass-border bg-deep-charcoal">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-white mb-4">Why Choose SpanStay</h2>
-          <p className="text-slate-400">
-            We provide a seamless experience from booking to check-out, ensuring your stay is perfect.
+          <h2 className="text-4xl font-bold text-on-surface mb-4 font-display">Curated Excellence</h2>
+          <p className="text-on-surface-variant font-body text-lg">
+            We provide a seamless experience from booking to check-out, ensuring your luxury stay is perfect.
           </p>
         </div>
 
@@ -38,12 +38,12 @@ const WhyChooseUs = () => {
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
-              <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
-                <div className="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center mb-6">
-                  <Icon className="w-6 h-6 text-indigo-400" />
+              <div key={idx} className="bg-surface-container-lowest border border-glass-border rounded-md p-8 hover:border-warm-gold/30 transition-colors shadow-sm hover:shadow-warm-gold/5">
+                <div className="w-14 h-14 bg-warm-gold/10 border border-warm-gold/20 rounded-full flex items-center justify-center mb-6">
+                  <Icon className="w-6 h-6 text-warm-gold" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <h3 className="text-xl font-semibold text-on-surface mb-3 font-display tracking-wide">{feature.title}</h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed font-body">
                   {feature.description}
                 </p>
               </div>
