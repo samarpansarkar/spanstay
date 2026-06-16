@@ -40,6 +40,8 @@ app.use('/api/v1', systemLogger, routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/tests/results', express.static(path.resolve('tests/results')));
 app.use('/tests/coverage', express.static(path.resolve('coverage/lcov-report')));
+app.get('/', (req, res) => res.status(200).json({ status: 'success', message: 'API is running' }));
+app.head('/', (req, res) => res.status(200).end());
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {
   next(new AppError(`Cannot ${req.method} ${req.originalUrl}`, 404));
