@@ -1,304 +1,148 @@
-import { useGetProfileQuery, useLogoutMutation } from '@/redux/api/authApi';
-import { clearCredential } from '@/redux/features/auth/authSlice';
-import UserSupportTickets from '@/components/users/UserSupportTickets';
+import { useGetProfileQuery } from '@/redux/api/authApi';
+import { useGetMyBookingsQuery } from '@/redux/api/bookingApi';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
-import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
 import SEO from '@/components/shared/SEO';
-import {
-  Building2,
-  CalendarDays,
-  CreditCard,
-  Hotel,
-  LogOut,
-  Mail,
-  Settings,
-  Shield,
-  ShieldCheck,
-  Star,
-  User,
-} from 'lucide-react';
-import { format } from 'date-fns';
-import { useDispatch } from 'react-redux';
+import DashboardSidebar from '@/components/shared/DashboardSidebar';
+import UserSupportTickets from '@/components/users/UserSupportTickets';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-
-const ROLE_META = {
-  user: {
-    label: 'Guest',
-    icon: User,
-    color: 'text-warm-gold',
-    bg: 'bg-warm-gold/10 border-warm-gold/20',
-  },
-  hotelAdmin: {
-    label: 'Concierge',
-    icon: Building2,
-    color: 'text-warm-gold',
-    bg: 'bg-warm-gold/10 border-warm-gold/20',
-  },
-  admin: {
-    label: 'Platform Admin',
-    icon: ShieldCheck,
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/10 border-emerald-500/20',
-  },
-};
-
-const StatCard = ({ icon: Icon, label, value, color }) => (
-  <div className="bg-surface-container border border-glass-border rounded-sm p-5 flex items-center gap-4 shadow-sm">
-    <div className={`p-2.5 rounded-sm ${color} bg-deep-charcoal border border-glass-border`}>
-      <Icon className="w-5 h-5" />
-    </div>
-    <div>
-      <p className="text-on-surface-variant text-[10px] uppercase font-bold tracking-widest font-body">{label}</p>
-      <p className="text-on-surface font-display text-lg">{value}</p>
-    </div>
-  </div>
-);
-
-const FeatureRow = ({ icon: Icon, title, description, badge, available }) => (
-  <div className={`flex items-start gap-4 p-5 rounded-sm border transition-all duration-200 ${available ? 'bg-surface-container border-glass-border shadow-sm' : 'bg-surface-container/50 border-glass-border/50 opacity-60'}`}>
-    <div className={`p-2 rounded-sm mt-0.5 ${available ? 'bg-warm-gold/10 text-warm-gold border border-warm-gold/20' : 'bg-deep-charcoal border border-glass-border text-on-surface-variant'}`}>
-      <Icon className="w-4 h-4" />
-    </div>
-    <div className="flex-1 min-w-0">
-      <div className="flex items-center gap-2 flex-wrap">
-        <p className={`font-semibold text-sm font-body tracking-wide ${available ? 'text-on-surface' : 'text-on-surface-variant'}`}>{title}</p>
-        {badge && (
-          <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm border ${available ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-surface-container-high border-glass-border text-on-surface-variant'}`}>
-            {badge}
-          </span>
-        )}
-      </div>
-      <p className="text-on-surface-variant text-xs mt-1 font-body">{description}</p>
-    </div>
-  </div>
-);
+import { format } from 'date-fns';
+import { ProfileSkeleton } from '@/components/ui/Skeleton/Skeleton';
 
 const UsersProfilePage = () => {
-  const dispatch = useDispatch();
+  const { data: profileData, isLoading: isLoadingProfile, isError } = useGetProfileQuery();
+  const { data: bookingsData } = useGetMyBookingsQuery();
   const navigate = useNavigate();
-  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
-  const { data, isLoading, isError } = useGetProfileQuery();
 
-  const user = data?.data;
+  const user = profileData?.data;
+  const bookings = bookingsData?.data || [];
+  const upcomingBooking = bookings.find(b => new Date(b.checkInDate) > new Date() && b.status === 'CONFIRMED');
 
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      dispatch(clearCredential());
-      toast.success('Logged out successfully');
-      navigate('/signin');
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    }
-  };
-
-  if (isLoading) {
-    return <ProfileSkeleton />;
-  }
-
-  if (isError || !user) {
-    return (
-      <div className="min-h-screen bg-surface-container-lowest flex items-center justify-center">
-        <p className="text-on-surface-variant font-body">Failed to load profile.</p>
-      </div>
-    );
-  }
-
-  const roleMeta = ROLE_META[user.role] ?? ROLE_META.user;
-  const RoleIcon = roleMeta.icon;
-  const initials = user.name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
-
-  const isHotelAdmin = user.role === 'hotelAdmin' || user.role === 'admin';
+  if (isLoadingProfile) return <ProfileSkeleton />;
+  if (isError || !user) return <div className="min-h-screen flex items-center justify-center text-on-surface-variant">Failed to load profile.</div>;
 
   return (
-    <div className="min-h-screen bg-surface-container-lowest">
-      <SEO title="My Profile" noindex={true} />
+    <div className="flex min-h-screen pt-[72px] bg-surface-container-lowest">
+      <SEO title="Elite Dashboard" noindex={true} />
+      
+      <DashboardSidebar activeTab="profile" onTabChange={() => {}} />
 
-      <div className="relative max-w-4xl mx-auto px-4 pt-28 pb-16 space-y-6">
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="bg-surface-container border border-glass-border rounded-sm p-8 shadow-sm"
-        >
-          <div className="flex items-start justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-sm bg-warm-gold/20 border border-warm-gold/30 flex items-center justify-center text-2xl font-bold font-display text-warm-gold flex-shrink-0">
-                {initials}
+      <main className="flex-1 px-6 md:px-margin-desktop py-12 max-w-container-max mx-auto overflow-x-hidden">
+        {/* Hero Section Dashboard */}
+        <section className="mb-12 transition-all duration-700 ease-out opacity-100 translate-y-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <span className="font-label-caps text-warm-gold mb-2 block tracking-[0.2em] uppercase">WELCOME BACK, {user.name.split(' ')[0]}</span>
+              <h1 className="font-display-lg text-headline-lg md:text-display-lg leading-tight">Your upcoming <span className="italic text-warm-gold">Elite Journey</span></h1>
+            </div>
+            <div className="flex gap-4">
+              <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border px-6 py-4 rounded-lg shadow-sm">
+                <span className="block text-xs font-label-caps text-on-surface-variant mb-1">MEMBERSHIP STATUS</span>
+                <span className="text-warm-gold font-bold flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm">diamond</span> {user.role === 'admin' ? 'PLATINUM ELITE' : 'GOLD ELITE'}
+                </span>
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-on-surface font-display tracking-wide">{user.name}</h1>
-                <div className="flex items-center gap-2 mt-2">
-                  <Mail className="w-4 h-4 text-on-surface-variant" />
-                  <span className="text-on-surface-variant text-sm font-body">{user.email}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Upcoming Trip Focus Card */}
+        {upcomingBooking ? (
+          <section className="mb-16 transition-all duration-700 ease-out opacity-100 translate-y-0">
+            <div className="relative group overflow-hidden rounded-xl h-[450px] flex items-end">
+              <div className="absolute inset-0 z-0">
+                <img 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  alt={upcomingBooking.hotel?.title} 
+                  src={upcomingBooking.hotel?.images?.[0]?.url || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80"}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+              </div>
+              <div className="relative z-10 bg-surface-container/40 backdrop-blur-3xl m-6 md:m-12 p-8 w-full max-w-3xl flex flex-col md:flex-row gap-8 items-center border-l-4 border-l-warm-gold shadow-sm">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 text-warm-gold mb-3">
+                    <span className="material-symbols-outlined text-sm">calendar_today</span>
+                    <span className="font-label-caps uppercase">{format(new Date(upcomingBooking.checkInDate), 'MMMM dd')} - {format(new Date(upcomingBooking.checkOutDate), 'MMMM dd')}</span>
+                  </div>
+                  <h2 className="font-display-lg text-headline-lg mb-2">{upcomingBooking.hotel?.title}</h2>
+                  <p className="text-on-surface-variant line-clamp-2">Exclusive access to your reserved suites with premium dedicated concierge service.</p>
                 </div>
-                <div className={`inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest ${roleMeta.bg} ${roleMeta.color}`}>
-                  <RoleIcon className="w-3.5 h-3.5" />
-                  {roleMeta.label}
+                <div className="flex flex-col gap-3 w-full md:w-auto">
+                  <button onClick={() => navigate(`/hotel/${upcomingBooking.hotel?._id}`)} className="bg-primary text-on-primary px-8 py-3 font-bold whitespace-nowrap hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all rounded-sm">View Details</button>
+                  <button onClick={() => navigate('/my-bookings')} className="text-on-surface border border-glass-border px-8 py-3 font-bold hover:bg-white/5 transition-all rounded-sm">Manage Trip</button>
                 </div>
               </div>
             </div>
+          </section>
+        ) : (
+          <section className="mb-16 transition-all duration-700 ease-out opacity-100 translate-y-0">
+             <div className="bg-surface-container/40 border border-glass-border rounded-xl p-12 text-center flex flex-col items-center justify-center">
+                <span className="material-symbols-outlined text-warm-gold text-4xl mb-4">luggage</span>
+                <h3 className="font-display-lg text-headline-md mb-2">No Upcoming Journeys</h3>
+                <p className="text-on-surface-variant mb-6">Discover your next luxury escape.</p>
+                <button onClick={() => navigate('/hotels')} className="bg-primary text-on-primary px-8 py-3 font-bold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all rounded-sm">Explore Villas</button>
+             </div>
+          </section>
+        )}
 
-            <motion.button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.15 }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-sm bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors text-xs uppercase tracking-wider font-bold disabled:opacity-50 disabled:pointer-events-none font-body mt-2 sm:mt-0"
-            >
-              {isLoggingOut ? (
-                <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
-              ) : (
-                <LogOut className="w-4 h-4" />
-              )}
-              {isLoggingOut ? 'Logging out…' : 'Logout'}
-            </motion.button>
+        {/* Grid: Saved & Quick Actions */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          
+          {/* User Support Tickets (mapped to Concierge Services layout) */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+             <h3 className="font-display-lg text-headline-md">Concierge Services</h3>
+             <UserSupportTickets />
           </div>
 
-          {user.createdAt && (
-            <div className="flex items-center gap-2 mt-8 pt-6 border-t border-glass-border">
-              <CalendarDays className="w-4 h-4 text-on-surface-variant" />
-              <span className="text-on-surface-variant text-xs font-body uppercase tracking-wider font-semibold">
-                Member since {format(new Date(user.createdAt), 'MMMM yyyy')}
-              </span>
-            </div>
-          )}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.08 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4"
-        >
-          <StatCard icon={CalendarDays} label="Bookings" value="—" color="text-warm-gold" />
-          <StatCard icon={Star} label="Reviews" value="—" color="text-emerald-400" />
-          <StatCard icon={CreditCard} label="Payments" value="—" color="text-violet-400" />
-          {isHotelAdmin && (
-            <StatCard icon={Hotel} label="Properties" value="—" color="text-indigo-400" />
-          )}
-          {!isHotelAdmin && (
-            <StatCard icon={Shield} label="Role" value={roleMeta.label} color="text-on-surface-variant" />
-          )}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.14 }}
-          className="bg-surface-container border border-glass-border rounded-sm p-8 shadow-sm"
-        >
-          <h2 className="text-on-surface font-display text-xl mb-6 flex items-center gap-3">
-            <User className="w-5 h-5 text-warm-gold" />
-            Account Details
-          </h2>
-          <div className="space-y-4">
-            {[
-              { label: 'Full Name', value: user.name },
-              { label: 'Email Address', value: user.email },
-              { label: 'Role', value: roleMeta.label },
-              { label: 'Account ID', value: user._id ?? user.id },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex justify-between items-center pb-4 border-b border-glass-border last:border-0 last:pb-0">
-                <span className="text-on-surface-variant text-xs font-bold uppercase tracking-wider font-body">{label}</span>
-                <span className="text-on-surface text-sm font-medium font-body truncate max-w-[60%] text-right">{value}</span>
+          <div className="flex flex-col gap-6">
+            {/* Quick Contacts */}
+            <div className="bg-surface-container-high p-8 flex flex-col gap-6 border-t-2 border-warm-gold shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-warm-gold">verified_user</span>
+                </div>
+                <div>
+                  <p className="font-bold text-soft-cream">Personal Curator</p>
+                  <p className="text-xs text-on-surface-variant">Available 24/7 for requests</p>
+                </div>
               </div>
-            ))}
+              <div className="space-y-4">
+                <button className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm">
+                  <span className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-warm-gold">flight_takeoff</span>
+                    <span className="font-medium text-sm">Private Jet Booking</span>
+                  </span>
+                  <span className="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                </button>
+                <button className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm">
+                  <span className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-warm-gold">restaurant</span>
+                    <span className="font-medium text-sm">Michelin Reservations</span>
+                  </span>
+                  <span className="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                </button>
+              </div>
+              <div className="mt-4 p-4 border border-warm-gold/20 bg-warm-gold/5 rounded-sm">
+                <p className="text-xs text-on-surface-variant leading-relaxed italic">
+                  "Our mission is to curate the impossible. From last-minute villa upgrades to exclusive cultural access, your curator is one message away."
+                </p>
+              </div>
+            </div>
+
+            {/* Rewards Card */}
+            <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border p-6 overflow-hidden relative shadow-sm rounded-sm">
+              <div className="relative z-10">
+                <h4 className="font-label-caps text-warm-gold mb-2">ELITE REWARDS</h4>
+                <p className="text-xl font-display-lg mb-4">42,500 <span className="text-sm font-body-md text-on-surface-variant">POINTS</span></p>
+                <div className="w-full bg-white/10 h-1 rounded-full mb-4">
+                  <div className="bg-warm-gold h-full w-3/4 rounded-full"></div>
+                </div>
+                <p className="text-xs text-on-surface-variant">7,500 points until Platinum tier</p>
+              </div>
+            </div>
           </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.2 }}
-          className="bg-surface-container border border-glass-border rounded-sm p-8 shadow-sm"
-        >
-          <h2 className="text-on-surface font-display text-xl mb-6 flex items-center gap-3">
-            <Settings className="w-5 h-5 text-warm-gold" />
-            Features & Capabilities
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FeatureRow
-              icon={Hotel}
-              title="Browse Properties"
-              description="Search and filter hotels by location, price, and amenities"
-              badge="Live"
-              available
-            />
-            <FeatureRow
-              icon={CalendarDays}
-              title="Make Reservations"
-              description="Book hotels with automatic conflict detection and pricing"
-              badge="Live"
-              available
-            />
-            <FeatureRow
-              icon={CreditCard}
-              title="Secure Payments"
-              description="Secure checkout via Stripe with webhook confirmation"
-              badge="Live"
-              available
-            />
-            <FeatureRow
-              icon={CalendarDays}
-              title="My Reservations"
-              description="View and cancel your active and past reservations"
-              badge="Live"
-              available
-            />
-            <FeatureRow
-              icon={Star}
-              title="Reviews & Ratings"
-              description="Leave reviews and star ratings for properties you've visited"
-              badge="Live"
-              available
-            />
-            <FeatureRow
-              icon={Settings}
-              title="Edit Profile"
-              description="Update your name, email, and profile picture"
-              badge="Coming Soon"
-              available={false}
-            />
-            {isHotelAdmin && (
-              <>
-                <FeatureRow
-                  icon={Building2}
-                  title="Register Property"
-                  description="List your property with images, amenities, and pricing"
-                  badge="Live"
-                  available
-                />
-                <FeatureRow
-                  icon={Shield}
-                  title="Manage Reservations"
-                  description="Confirm or cancel bookings for your properties"
-                  badge="Live"
-                  available
-                />
-              </>
-            )}
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.25 }}
-        >
-          <UserSupportTickets />
-        </motion.div>
-
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

@@ -39,8 +39,8 @@ const ManageHotels = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">My Hotels</h1>
-            <p className="text-slate-400">Manage your properties and their availability</p>
+            <h1 className="text-2xl font-bold text-on-surface">My Hotels</h1>
+            <p className="text-on-surface-variant">Manage your properties and their availability</p>
           </div>
         </div>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -68,15 +68,15 @@ const ManageHotels = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">My Hotels</h1>
-          <p className="text-slate-400">Manage your properties and their availability</p>
+          <h1 className="text-2xl font-bold text-on-surface">My Hotels</h1>
+          <p className="text-on-surface-variant">Manage your properties and their availability</p>
         </div>
         <button
           onClick={() => {
             setEditingHotel(null);
             setIsFormOpen(true);
           }}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-semibold flex items-center gap-2 transition-colors"
+          className="bg-warm-gold hover:bg-primary text-on-surface px-4 py-2 rounded-xl font-semibold flex items-center gap-2 transition-colors"
         >
           <Plus className="w-5 h-5" />
           Add Hotel
@@ -84,8 +84,8 @@ const ManageHotels = () => {
       </div>
 
       {hotels.length === 0 ? (
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-12 text-center">
-          <p className="text-slate-400 mb-4">You haven't added any hotels yet.</p>
+        <div className="bg-surface-container border border-glass-border rounded-3xl p-12 text-center">
+          <p className="text-on-surface-variant mb-4">You haven't added any hotels yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -94,7 +94,7 @@ const ManageHotels = () => {
               key={hotel._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row gap-5 transition-all ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
+              className={`bg-surface-container border border-glass-border rounded-2xl p-5 flex flex-col sm:flex-row gap-5 transition-all ${!hotel.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
             >
               <div className="w-full sm:w-40 h-32 rounded-xl overflow-hidden shrink-0">
                 <img 
@@ -107,7 +107,7 @@ const ManageHotels = () => {
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start gap-4">
-                    <h3 className="text-lg font-semibold text-white line-clamp-1">{hotel.title}</h3>
+                    <h3 className="text-lg font-semibold text-on-surface line-clamp-1">{hotel.title}</h3>
                     <div className="flex gap-2 shrink-0">
                       <button
                         disabled={hotel.approvalStatus === 'PENDING'}
@@ -123,7 +123,7 @@ const ManageHotels = () => {
                           setEditingHotel(hotel);
                           setIsFormOpen(true);
                         }}
-                        className="p-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="p-2 bg-primary/10 text-warm-gold hover:bg-primary/20 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                         title={hotel.approvalStatus === 'PENDING' ? "Pending admin approval" : "Edit Hotel"}
                       >
                         <Edit2 className="w-4 h-4" />
@@ -139,26 +139,26 @@ const ManageHotels = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-1 text-slate-400 mt-1 mb-3">
+                  <div className="flex items-center gap-1 text-on-surface-variant mt-1 mb-3">
                     <MapPin className="w-3.5 h-3.5" />
                     <span className="text-sm">{hotel.location}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-glass-border">
                   <div className="flex items-center text-emerald-400 font-semibold">
                     <IndianRupee className="w-4 h-4 mr-0.5" />
-                    {hotel.price.toLocaleString('en-IN')} <span className="text-slate-500 text-xs font-normal ml-1">/ night</span>
+                    {hotel.price.toLocaleString('en-IN')} <span className="text-on-surface-variant text-xs font-normal ml-1">/ night</span>
                   </div>
                   <div className="flex flex-wrap items-center justify-end gap-2 shrink-0 max-w-[50%]">
                     <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${
                       hotel.approvalStatus === 'PENDING' ? 'bg-amber-500/20 text-amber-400' :
                       hotel.approvalStatus === 'REJECTED' ? 'bg-rose-500/20 text-rose-400' :
-                      'bg-indigo-500/20 text-indigo-400'
+                      'bg-primary/20 text-warm-gold'
                     }`}>
                       {hotel.approvalStatus}
                     </span>
-                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'}`}>
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${hotel.isAvailable ? 'bg-emerald-500/20 text-emerald-400' : 'bg-surface-container-high text-on-surface-variant'}`}>
                       {hotel.isAvailable ? 'Active' : 'Offline'}
                     </span>
                   </div>

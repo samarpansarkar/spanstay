@@ -11,8 +11,8 @@ const ManageLogs = () => {
   const { data: logsData, isLoading } = useGetLogsQuery({ page, limit });
 
   if (isLoading) return (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">System Logs</h2>
+    <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-on-surface mb-6">System Logs</h2>
       <TableSkeleton rows={10} cols={5} />
     </div>
   );
@@ -22,7 +22,7 @@ const ManageLogs = () => {
   const Row = ({ index, style }) => {
     const log = logs[index];
     return (
-      <div style={style} className="flex items-center border-b border-white/5 text-slate-300 hover:bg-white/5 text-sm px-2">
+      <div style={style} className="flex items-center border-b border-glass-border text-on-surface-variant hover:bg-surface-container text-sm px-2">
         <div className="w-1/5 truncate pr-2">{format(new Date(log.createdAt), 'MMM d, HH:mm:ss')}</div>
         <div className="w-1/6 truncate pr-2">
           <span className={`px-2 py-1 rounded text-xs font-medium ${log.level === 'ERROR' ? 'bg-rose-500/10 text-rose-400' :
@@ -35,7 +35,7 @@ const ManageLogs = () => {
         <div className="w-1/5 truncate font-medium pr-2">{log.action}</div>
         <div className="w-1/6 truncate pr-2">{log.user?.name || 'System'}</div>
         <div className="flex-1 truncate">
-          <span className="font-mono text-xs text-slate-400">
+          <span className="font-mono text-xs text-on-surface-variant">
             {log.details?.method} {log.details?.url} {log.details?.status && `(${log.details.status})`}
           </span>
         </div>
@@ -44,11 +44,11 @@ const ManageLogs = () => {
   };
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">System Logs</h2>
+    <div className="bg-surface-container border border-glass-border rounded-3xl p-6">
+      <h2 className="text-2xl font-bold text-on-surface mb-6">System Logs</h2>
 
       <div className="overflow-x-auto min-w-[800px]">
-        <div className="flex items-center border-b border-white/10 text-slate-400 pb-3 px-2 font-medium">
+        <div className="flex items-center border-b border-glass-border text-on-surface-variant pb-3 px-2 font-medium">
           <div className="w-1/5">Timestamp</div>
           <div className="w-1/6">Level</div>
           <div className="w-1/5">Action</div>
@@ -66,7 +66,7 @@ const ManageLogs = () => {
             rowComponent={Row}
           />
         ) : (
-          <div className="text-center text-slate-400 py-6">No logs found.</div>
+          <div className="text-center text-on-surface-variant py-6">No logs found.</div>
         )}
       </div>
     </div>
