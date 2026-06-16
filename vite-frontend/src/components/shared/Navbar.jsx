@@ -83,7 +83,7 @@ const Navbar = () => {
   };
 
   const visibleItems = [
-    ...NAV_ITEMS,
+    ...NAV_ITEMS.filter(item => !isAdmin || item.path !== '/my-bookings'),
     ...(isAdmin ? ADMIN_ITEMS : []),
   ];
 
@@ -142,14 +142,16 @@ const Navbar = () => {
                             <User className="w-4 h-4" />
                             My Profile
                           </Link>
-                          <Link
-                            to="/my-bookings"
-                            onClick={() => setDropdownOpen(false)}
-                            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-sm text-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body"
-                          >
-                            <CalendarDays className="w-4 h-4" />
-                            My Reservations
-                          </Link>
+                          {!isAdmin && (
+                            <Link
+                              to="/my-bookings"
+                              onClick={() => setDropdownOpen(false)}
+                              className="flex items-center gap-3 w-full px-3 py-2.5 rounded-sm text-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body"
+                            >
+                              <CalendarDays className="w-4 h-4" />
+                              My Reservations
+                            </Link>
+                          )}
                           <button
                             onClick={handleLogout}
                             disabled={isLoading}
@@ -238,14 +240,16 @@ const Navbar = () => {
                     <User className="w-4 h-4" />
                     My Profile
                   </Link>
-                  <Link
-                    to="/my-bookings"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-3 rounded-sm text-sm text-on-surface-variant hover:bg-surface-container font-body transition-colors"
-                  >
-                    <CalendarDays className="w-4 h-4" />
-                    My Reservations
-                  </Link>
+                  {!isAdmin && (
+                    <Link
+                      to="/my-bookings"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-3 px-3 py-3 rounded-sm text-sm text-on-surface-variant hover:bg-surface-container font-body transition-colors"
+                    >
+                      <CalendarDays className="w-4 h-4" />
+                      My Reservations
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     disabled={isLoading}

@@ -4,6 +4,7 @@ import { ChevronLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { HotelDetailSkeleton } from '@/components/ui/Skeleton/Skeleton';
 import SEO from '@/components/shared/SEO';
+import useAuth from '@/hooks/useAuth';
 
 import HotelGallery from '@/components/hotels/details/HotelGallery';
 import HotelInfo from '@/components/hotels/details/HotelInfo';
@@ -14,6 +15,8 @@ const HotelDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetHotelByIdQuery(id);
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'admin' || user?.role === 'hotelAdmin';
 
   if (isLoading) {
     return <HotelDetailSkeleton />;
@@ -68,7 +71,17 @@ const HotelDetailPage = () => {
             </div>
 
             <div className="lg:w-1/3">
-              {hotel.isAvailable ? (
+              {isAdmin ? (
+                <div className="bg-deep-charcoal border border-glass-border p-8 rounded-sm sticky top-28 shadow-sm flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-6 border border-glass-border">
+                    <span className="material-symbols-outlined text-warm-gold text-3xl">admin_panel_settings</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-on-surface mb-3 font-display">Administrator View</h3>
+                  <p className="text-on-surface-variant text-sm font-body leading-relaxed">
+                    You are viewing this property as an administrator. Reservations are restricted to guest accounts.
+                  </p>
+                </div>
+              ) : hotel.isAvailable ? (
                 <BookingWidget pricePerNight={hotel.price} />
               ) : (
                 <div className="bg-deep-charcoal border border-glass-border p-8 rounded-sm sticky top-28 shadow-sm flex flex-col items-center text-center">
