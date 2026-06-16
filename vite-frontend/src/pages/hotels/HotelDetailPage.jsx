@@ -21,14 +21,14 @@ const HotelDetailPage = () => {
 
   if (error || !data?.data) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white px-4">
-        <h2 className="text-2xl font-bold mb-2">Hotel Not Found</h2>
-        <p className="text-slate-400 mb-6">The property you're looking for doesn't exist or has been removed.</p>
+      <div className="min-h-screen bg-midnight-navy flex flex-col items-center justify-center text-on-surface px-4">
+        <h2 className="text-3xl font-bold mb-3 font-display">Property Not Found</h2>
+        <p className="text-on-surface-variant mb-8 font-body">The luxury property you're looking for doesn't exist or has been removed.</p>
         <button
           onClick={() => navigate('/hotels')}
-          className="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-xl transition-colors"
+          className="bg-warm-gold hover:bg-primary text-on-primary px-8 py-3 rounded-sm font-semibold uppercase tracking-wider text-sm transition-colors font-body"
         >
-          Back to Hotels
+          Explore Stays
         </button>
       </div>
     );
@@ -37,7 +37,7 @@ const HotelDetailPage = () => {
   const hotel = data.data;
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-20">
+    <div className="min-h-screen bg-midnight-navy pb-24">
       <SEO 
         title={hotel.title} 
         description={hotel.description} 
@@ -47,7 +47,7 @@ const HotelDetailPage = () => {
 
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 group w-fit"
+          className="flex items-center gap-2 text-on-surface-variant hover:text-warm-gold transition-colors mb-8 group w-fit font-body uppercase tracking-wider text-sm font-semibold"
         >
           <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
           <span>Back</span>
@@ -56,12 +56,12 @@ const HotelDetailPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-8"
+          className="space-y-12"
         >
 
           <HotelGallery images={hotel.images} />
 
-          <div className="flex flex-col lg:flex-row gap-12 mt-10">
+          <div className="flex flex-col lg:flex-row gap-16 mt-12">
 
             <div className="lg:w-2/3">
               <HotelInfo hotel={hotel} />
@@ -71,19 +71,19 @@ const HotelDetailPage = () => {
               {hotel.isAvailable ? (
                 <BookingWidget pricePerNight={hotel.price} />
               ) : (
-                <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl sticky top-24 shadow-2xl flex flex-col items-center text-center">
-                  <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                    <span className="text-2xl">🏨</span>
+                <div className="bg-deep-charcoal border border-glass-border p-8 rounded-sm sticky top-28 shadow-sm flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-6">
+                    <span className="text-2xl opacity-50">✨</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Currently Offline</h3>
-                  <p className="text-slate-400 text-sm">
-                    This property is currently not accepting new reservations. Please check back later or explore other amazing stays.
+                  <h3 className="text-2xl font-bold text-on-surface mb-3 font-display">Currently Unavailable</h3>
+                  <p className="text-on-surface-variant text-sm font-body leading-relaxed">
+                    This exclusive property is currently not accepting new reservations. Please explore other amazing stays.
                   </p>
                   <button
                     onClick={() => navigate('/hotels')}
-                    className="mt-6 w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition-colors"
+                    className="mt-8 w-full bg-surface-container hover:bg-surface-container-high border border-glass-border text-on-surface font-semibold py-4 rounded-sm transition-colors uppercase tracking-wider text-xs font-body"
                   >
-                    Find Other Hotels
+                    Find Other Properties
                   </button>
                 </div>
               )}

@@ -42,7 +42,7 @@ const HotelReviews = ({ hotelId }) => {
 
   if (isLoading) {
     return (
-      <div className="mt-16 pt-10 border-t border-white/10">
+      <div className="mt-16 pt-10 border-t border-glass-border">
         <div className="flex items-center gap-3 mb-8">
           <Skeleton className="w-8 h-8 rounded-full shrink-0" />
           <Skeleton className="h-8 w-40 rounded-lg" />
@@ -58,29 +58,29 @@ const HotelReviews = ({ hotelId }) => {
   const reviews = reviewsData?.reviews || [];
 
   return (
-    <div className="mt-16 pt-10 border-t border-white/10">
-      <div className="flex items-center gap-3 mb-8">
-        <Star className="w-8 h-8 fill-amber-400 text-amber-400" />
-        <h2 className="text-3xl font-bold text-white">
+    <div className="mt-16 pt-12 border-t border-glass-border">
+      <div className="flex items-center gap-4 mb-10">
+        <Star className="w-8 h-8 fill-warm-gold text-warm-gold" />
+        <h2 className="text-3xl font-bold text-on-surface font-display tracking-wide">
           {reviewsData?.averageRating || 'No'} reviews
         </h2>
         {reviews.length > 0 && (
-          <span className="text-slate-400 mt-2">({reviewsData?.totalReviews} total)</span>
+          <span className="text-on-surface-variant mt-2 font-body">({reviewsData?.totalReviews} total)</span>
         )}
       </div>
 
       {user ? (
         isEligibilityLoading ? (
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-10">
-            <h3 className="text-xl font-semibold text-white mb-4">Checking eligibility...</h3>
+          <div className="bg-surface-container border border-glass-border rounded-sm p-8 mb-10">
+            <h3 className="text-xl font-semibold text-on-surface mb-4 font-display">Checking eligibility...</h3>
           </div>
         ) : eligibilityData?.data?.canReview ? (
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-10">
-            <h3 className="text-xl font-semibold text-white mb-4">Leave a review</h3>
+          <div className="bg-surface-container-lowest border border-glass-border rounded-sm p-8 mb-12 shadow-sm">
+            <h3 className="text-xl font-semibold text-on-surface mb-6 font-display tracking-wide">Leave a review</h3>
             <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-sm text-slate-400 mb-2">Rating</label>
-              <div className="flex gap-1">
+            <div className="mb-6">
+              <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3 font-body">Rating</label>
+              <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -92,80 +92,80 @@ const HotelReviews = ({ hotelId }) => {
                   >
                     <Star
                       className={`w-8 h-8 transition-colors ${star <= (hoverRating || rating)
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'text-slate-600'
+                          ? 'fill-warm-gold text-warm-gold'
+                          : 'text-surface-container-high'
                         }`}
                     />
                   </button>
                 ))}
               </div>
             </div>
-            <div className="mb-4">
-              <label className="block text-sm text-slate-400 mb-2">Your review</label>
+            <div className="mb-8">
+              <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3 font-body">Your review</label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Share your experience..."
                 rows={4}
-                className="w-full bg-slate-900 border border-white/10 rounded-xl p-4 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                className="w-full bg-deep-charcoal border border-glass-border rounded-sm p-4 text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:border-warm-gold/50 transition-colors resize-none font-body text-sm"
               ></textarea>
             </div>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-8 rounded-xl transition-all disabled:opacity-50"
+              className="bg-warm-gold hover:bg-primary text-on-primary font-semibold py-3 px-8 rounded-sm transition-colors disabled:opacity-50 uppercase tracking-wider text-xs font-body"
             >
               {isSubmitting ? 'Submitting...' : 'Post Review'}
             </button>
           </form>
         </div>
         ) : (
-          <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-6 mb-10 text-center">
-            <MessageSquare className="w-8 h-8 text-indigo-400 mx-auto mb-3" />
-            <p className="text-indigo-200">
-              {eligibilityData?.data?.message || 'You are not eligible to review this hotel.'}
+          <div className="bg-surface-container border border-glass-border rounded-sm p-8 mb-12 text-center shadow-sm">
+            <MessageSquare className="w-8 h-8 text-on-surface-variant mx-auto mb-4" />
+            <p className="text-on-surface-variant font-body">
+              {eligibilityData?.data?.message || 'You are not eligible to review this property.'}
             </p>
           </div>
         )
       ) : (
-        <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-6 mb-10 text-center">
-          <MessageSquare className="w-8 h-8 text-indigo-400 mx-auto mb-3" />
-          <p className="text-indigo-200">Log in to leave a review for this hotel.</p>
+        <div className="bg-surface-container border border-glass-border rounded-sm p-8 mb-12 text-center shadow-sm">
+          <MessageSquare className="w-8 h-8 text-on-surface-variant mx-auto mb-4" />
+          <p className="text-on-surface-variant font-body">Log in to leave a review for this exclusive property.</p>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <div key={review._id} className="bg-white/5 border border-white/10 rounded-3xl p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center overflow-hidden">
+            <div key={review._id} className="bg-surface-container-lowest border border-glass-border rounded-sm p-8 shadow-sm">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-12 h-12 bg-surface-container border border-glass-border rounded-full flex items-center justify-center overflow-hidden">
                   {review.user?.avatar ? (
                     <img src={review.user.avatar} alt={review.user.name} className="w-full h-full object-cover" />
                   ) : (
-                    <User className="w-6 h-6 text-slate-400" />
+                    <User className="w-5 h-5 text-on-surface-variant" />
                   )}
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">{review.user?.name || 'Unknown User'}</h4>
-                  <p className="text-sm text-slate-400">
+                  <h4 className="font-semibold text-on-surface font-display">{review.user?.name || 'Unknown User'}</h4>
+                  <p className="text-xs text-on-surface-variant font-body uppercase tracking-wider mt-1">
                     {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </p>
                 </div>
               </div>
-              <div className="flex mb-3">
+              <div className="flex mb-4 gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-4 h-4 ${i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-700'}`}
+                    className={`w-4 h-4 ${i < review.rating ? 'fill-warm-gold text-warm-gold' : 'text-surface-container-high'}`}
                   />
                 ))}
               </div>
-              <p className="text-slate-300 leading-relaxed">{review.comment}</p>
+              <p className="text-on-surface-variant leading-relaxed font-body text-sm">{review.comment}</p>
             </div>
           ))
         ) : (
-          <div className="col-span-1 md:col-span-2 text-center text-slate-500 py-10">
+          <div className="col-span-1 md:col-span-2 text-center text-on-surface-variant py-12 font-body">
             No reviews yet. Be the first to review this property!
           </div>
         )}
