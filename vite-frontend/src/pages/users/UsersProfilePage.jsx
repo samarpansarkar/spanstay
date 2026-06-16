@@ -3,6 +3,7 @@ import { useGetMyBookingsQuery } from '@/redux/api/bookingApi';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { motion } from 'framer-motion';
 import SEO from '@/components/shared/SEO';
+import { toast } from 'sonner';
 import DashboardSidebar from '@/components/shared/DashboardSidebar';
 import UserSupportTickets from '@/components/users/UserSupportTickets';
 import { useNavigate } from 'react-router-dom';
@@ -107,14 +108,20 @@ const UsersProfilePage = () => {
                 </div>
               </div>
               <div className="space-y-4">
-                <button className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm">
+                <button 
+                  onClick={() => toast.info('Private Jet Booking feature is coming soon!')}
+                  className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm"
+                >
                   <span className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-warm-gold">flight_takeoff</span>
                     <span className="font-medium text-sm">Private Jet Booking</span>
                   </span>
                   <span className="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </button>
-                <button className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm">
+                <button 
+                  onClick={() => toast.info('Michelin Reservations feature is coming soon!')}
+                  className="w-full flex items-center justify-between p-4 bg-surface-container-highest hover:bg-surface-variant transition-colors group rounded-sm"
+                >
                   <span className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-warm-gold">restaurant</span>
                     <span className="font-medium text-sm">Michelin Reservations</span>

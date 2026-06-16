@@ -23,9 +23,9 @@ export const USER_LINKS = [
   { id: 'profile', label: 'My Profile', icon: UserCog },
   { id: 'trips', label: 'My Trips', icon: Luggage, href: '/my-bookings' },
   { id: 'saved', label: 'Saved Villas', icon: Heart, href: '/hotels' },
-  { id: 'preferences', label: 'Preferences', icon: Settings2 },
-  { id: 'payment', label: 'Payment Methods', icon: CreditCard },
-  { id: 'support', label: 'Support Tickets', icon: LifeBuoy },
+  { id: 'preferences', label: 'Preferences', icon: Settings2, isComingSoon: true },
+  { id: 'payment', label: 'Payment Methods', icon: CreditCard, isComingSoon: true },
+  { id: 'support', label: 'Support Tickets', icon: LifeBuoy, isComingSoon: true },
 ];
 
 export const HOTEL_ADMIN_LINKS = [
@@ -75,7 +75,12 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
     }
   };
 
-  const handleTabChange = (id) => {
+  const handleTabChange = (link) => {
+    if (link.isComingSoon) {
+      toast.info(`${link.label} feature is coming soon!`);
+      return;
+    }
+    const id = link.id;
     if (window.location.pathname !== '/dashboard') {
       navigate('/dashboard', { state: { tab: id } });
     } else if (onTabChange) {
@@ -103,7 +108,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
           ) : (
             <button
               key={link.id}
-              onClick={() => handleTabChange(link.id)}
+              onClick={() => handleTabChange(link)}
               className={`flex items-center gap-4 px-4 py-3 rounded-sm transition-colors w-full text-left ${
                 activeTab === link.id
                   ? 'text-primary font-bold bg-surface-container-high border-l-2 border-primary'
@@ -117,7 +122,10 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
         ))}
       </nav>
       <div className="mt-auto pt-6 border-t border-glass-border flex flex-col gap-3">
-        <button className="w-full flex items-center justify-center gap-2 border border-warm-gold text-warm-gold py-3 hover:bg-warm-gold/10 transition-all font-label-caps tracking-[0.1em]">
+        <button 
+          onClick={() => navigate('/concierge')}
+          className="w-full flex items-center justify-center gap-2 border border-warm-gold text-warm-gold py-3 hover:bg-warm-gold/10 transition-all font-label-caps tracking-[0.1em]"
+        >
           <Headphones className="w-4 h-4" />
           <span>Contact Concierge</span>
         </button>
