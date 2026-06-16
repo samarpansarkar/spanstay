@@ -1,9 +1,9 @@
-import { 
-  Luggage, 
-  Heart, 
-  Settings2, 
-  CreditCard, 
-  UserCog, 
+import {
+  Luggage,
+  Heart,
+  Settings2,
+  CreditCard,
+  UserCog,
   Headphones,
   Building2,
   CalendarDays,
@@ -25,7 +25,6 @@ export const USER_LINKS = [
   { id: 'saved', label: 'Saved Villas', icon: Heart, href: '/hotels' },
   { id: 'preferences', label: 'Preferences', icon: Settings2, isComingSoon: true },
   { id: 'payment', label: 'Payment Methods', icon: CreditCard, isComingSoon: true },
-  { id: 'support', label: 'Support Tickets', icon: LifeBuoy, isComingSoon: true },
 ];
 
 export const HOTEL_ADMIN_LINKS = [
@@ -47,7 +46,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   let links = USER_LINKS;
   let title = 'Elite Member';
   let subtitle = 'Managing your luxury escapes';
@@ -109,11 +108,10 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
             <button
               key={link.id}
               onClick={() => handleTabChange(link)}
-              className={`flex items-center gap-4 px-4 py-3 rounded-sm transition-colors w-full text-left ${
-                activeTab === link.id
-                  ? 'text-primary font-bold bg-surface-container-high border-l-2 border-primary'
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'
-              }`}
+              className={`flex items-center gap-4 px-4 py-3 rounded-sm transition-colors w-full text-left ${activeTab === link.id
+                ? 'text-primary font-bold bg-surface-container-high border-l-2 border-primary'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'
+                }`}
             >
               <link.icon className="w-5 h-5" />
               <span className="font-body-md text-sm font-medium">{link.label}</span>
@@ -122,7 +120,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
         ))}
       </nav>
       <div className="mt-auto pt-6 border-t border-glass-border flex flex-col gap-3">
-        <button 
+        <button
           onClick={() => navigate('/concierge')}
           className="w-full flex items-center justify-center gap-2 border border-warm-gold text-warm-gold py-3 hover:bg-warm-gold/10 transition-all font-label-caps tracking-[0.1em]"
         >
