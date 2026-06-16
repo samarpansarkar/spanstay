@@ -3,7 +3,7 @@ export const refreshTokenCookieOptions = {
 
   secure: process.env.NODE_ENV === 'production',
 
-  sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
 };
 
 export const refreshTokenCookieConfig = {

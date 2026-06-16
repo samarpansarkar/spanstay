@@ -16,7 +16,12 @@ const app = express();
 app.use(morgan('dev'));
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL, 'http://127.0.0.1:5173'],
+    origin: [
+      process.env.CLIENT_URL,
+      'https://spanstay.vercel.app',
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+    ],
     credentials: true,
   })
 );
@@ -45,6 +50,10 @@ app.head('/', (req, res) => res.status(200).end());
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use((req, res, next) => {
   next(new AppError(`Cannot ${req.method} ${req.originalUrl}`, 404));
+});
+app.use((req, res, next) => {
+  console.log('Origin:', req.headers.origin);
+  next();
 });
 
 app.use(errorHandler);
