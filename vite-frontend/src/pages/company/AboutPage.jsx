@@ -5,15 +5,14 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-surface-container-lowest overflow-x-hidden">
       <SEO title="About Us" />
-      
+
       <main className="pb-24">
-        {/* Hero Section */}
         <section className="relative min-h-[60vh] md:min-h-[70vh] w-full flex items-end justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
-              alt="Luxury Villa Sunset" 
-              className="w-full h-full object-cover" 
-              src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=2000&auto=format&fit=crop" 
+            <img
+              alt="Luxury Villa Sunset"
+              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=2000&auto=format&fit=crop"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
           </div>
@@ -26,11 +25,10 @@ const AboutPage = () => {
         </section>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          {/* History Section */}
           <section className="py-20">
             <h3 className="font-display text-3xl md:text-4xl text-warm-gold mb-12 text-center">Our Odyssey</h3>
             <div className="max-w-3xl mx-auto relative border-l border-warm-gold/30 ml-4 md:ml-auto space-y-16">
-              
+
               <div className="relative pl-8">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-warm-gold shadow-[0_0_12px_rgba(212,175,55,0.6)]"></div>
                 <span className="text-xs tracking-[0.2em] uppercase font-bold text-warm-gold mb-2 block">2008</span>
@@ -53,8 +51,6 @@ const AboutPage = () => {
               </div>
             </div>
           </section>
-
-          {/* Mission Section */}
           <section className="py-24 text-center relative overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-warm-gold/10 blur-[100px] pointer-events-none"></div>
             <div className="relative z-10 flex flex-col items-center">
@@ -66,17 +62,15 @@ const AboutPage = () => {
               </p>
             </div>
           </section>
-
-          {/* Leadership Team */}
           <section className="py-20">
             <h3 className="font-display text-3xl md:text-4xl text-on-surface mb-12 text-center">The Curators</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
+
               <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border rounded-sm overflow-hidden p-6 hover:border-warm-gold/30 transition-colors">
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
-                  <img 
-                    alt="Julian Vance" 
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                  <img
+                    alt="Julian Vance"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                     src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
                   />
                 </div>
@@ -87,9 +81,9 @@ const AboutPage = () => {
 
               <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border rounded-sm overflow-hidden p-6 hover:border-warm-gold/30 transition-colors">
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
-                  <img 
-                    alt="Elena Moretti" 
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                  <img
+                    alt="Elena Moretti"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop"
                   />
                 </div>
@@ -100,9 +94,9 @@ const AboutPage = () => {
 
               <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border rounded-sm overflow-hidden p-6 hover:border-warm-gold/30 transition-colors">
                 <div className="w-full aspect-[4/5] rounded-sm overflow-hidden mb-6">
-                  <img 
-                    alt="Marcus Thorne" 
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" 
+                  <img
+                    alt="Marcus Thorne"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
                   />
                 </div>
