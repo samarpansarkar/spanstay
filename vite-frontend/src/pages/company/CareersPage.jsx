@@ -18,7 +18,7 @@ const CareersPage = () => {
             <img 
               className="w-full h-full object-cover" 
               alt="Grand luxury hotel lobby" 
-              src="https://images.unsplash.com/photo-1542314831-c6a4d14b4df3?q=80&w=2000&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000&auto=format&fit=crop"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent"></div>
           </div>

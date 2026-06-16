@@ -9,19 +9,20 @@ const AboutPage = () => {
       <main className="pb-24">
         {/* Hero Section */}
         <section className="relative min-h-[60vh] md:min-h-[70vh] w-full flex items-end justify-center overflow-hidden">
-          <img 
-            alt="Luxury Villa Sunset" 
-            className="absolute inset-0 w-full h-full object-cover" 
-            src="https://images.unsplash.com/photo-1613490908578-f2fb2ceb0a68?q=80&w=2000&auto=format&fit=crop" 
-          />
+          <div className="absolute inset-0 z-0">
+            <img 
+              alt="Luxury Villa Sunset" 
+              className="w-full h-full object-cover" 
+              src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=2000&auto=format&fit=crop" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
+          </div>
           <div className="relative z-10 w-full px-6 md:px-12 pb-20 text-center">
             <div className="bg-surface-container/40 backdrop-blur-3xl border border-glass-border p-8 rounded-sm max-w-lg mx-auto shadow-sm">
               <h2 className="font-display text-4xl md:text-5xl text-on-surface mb-4">Defining Heritage &amp; Grandeur</h2>
               <p className="font-body text-on-surface-variant md:text-lg">Since our inception, SpanStay Elite has been the silent custodian of the world's most prestigious residences, offering a bridge between timeless tradition and contemporary luxury.</p>
             </div>
           </div>
-          {/* Decorative gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
         </section>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12">
