@@ -89,7 +89,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-glass-border bg-midnight-navy/90 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-glass-border bg-surface-container-lowest/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
 
@@ -211,7 +211,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-              className="fixed right-0 top-0 z-50 h-full w-72 bg-midnight-navy border-l border-glass-border p-6 md:hidden shadow-lg"
+              className="fixed right-0 top-0 z-50 h-full w-72 bg-surface-container-low border-l border-glass-border p-6 md:hidden shadow-lg"
             >
               <div className="flex items-center justify-between mb-10">
                 <span className="text-2xl font-bold text-on-surface font-display">
