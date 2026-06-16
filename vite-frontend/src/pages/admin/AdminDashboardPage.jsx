@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ManageHotels from '@/components/admin/ManageHotels';
 import ManageBookings from '@/components/admin/ManageBookings';
@@ -13,10 +14,17 @@ import SEO from '@/components/shared/SEO';
 
 const AdminDashboardPage = () => {
   const { user } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   const isSuperAdmin = user?.role === 'admin';
   const defaultTab = isSuperAdmin ? 'approvals' : 'hotels';
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [activeTab, setActiveTab] = useState(location.state?.tab || defaultTab);
+
+  useEffect(() => {
+    if (location.state?.tab) {
+      setActiveTab(location.state.tab);
+    }
+  }, [location.state?.tab]);
 
   return (
     <div className="flex min-h-screen bg-surface-container-lowest">

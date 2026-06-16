@@ -75,6 +75,14 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
     }
   };
 
+  const handleTabChange = (id) => {
+    if (window.location.pathname !== '/dashboard') {
+      navigate('/dashboard', { state: { tab: id } });
+    } else if (onTabChange) {
+      onTabChange(id);
+    }
+  };
+
   return (
     <aside className="hidden md:flex flex-col h-[calc(100vh-72px)] w-80 py-8 px-6 gap-y-6 bg-surface-container-low border-r border-glass-border sticky top-[72px] shrink-0">
       <div>
@@ -95,7 +103,7 @@ const DashboardSidebar = ({ activeTab, onTabChange }) => {
           ) : (
             <button
               key={link.id}
-              onClick={() => onTabChange(link.id)}
+              onClick={() => handleTabChange(link.id)}
               className={`flex items-center gap-4 px-4 py-3 rounded-sm transition-colors w-full text-left ${
                 activeTab === link.id
                   ? 'text-primary font-bold bg-surface-container-high border-l-2 border-primary'
